@@ -1,0 +1,769 @@
+===============================================================================
+                  GUIDE: AFFICHAGE TEXTE EN MODE HGR
+                        Apple II - cc65 C Compiler
+===============================================================================
+
+DATE: 1er octobre 2024
+AUTEUR: Guide technique pour SPACETRIP
+
+===============================================================================
+TABLE DES MATIERES
+===============================================================================
+
+I.   INTRODUCTION
+II.  METHODE 1: MODE MIXTE (HGR + TEXTE BAS)
+III. METHODE 2: ROUTINES ROM APPLE II
+IV.  METHODE 3: DESSINER DES CARACTERES PERSONNALISES
+V.   METHODE 4: BIBLIOTHEQUES EXTERNES
+VI.  COMPARAISON DES METHODES
+VII. EXEMPLES PRATIQUES
+
+===============================================================================
+I. INTRODUCTION
+===============================================================================
+
+Le mode HGR (High-Resolution Graphics) de l'Apple II est un mode purement
+graphique 280x192 pixels. Il n'a pas de support natif pour l'affichage de
+texte comme le mode texte 40 ou 80 colonnes.
+
+Cependant, il existe plusieurs methodes pour afficher du texte en HGR:
+
+1. Mode mixte (mixed mode) - Le plus simple
+2. Routines ROM Apple II - Acces direct aux fonctions ROM
+3. Dessiner caracteres pixel par pixel - Controle total
+4. Bibliotheques externes - Solutions pre-faites
+
+===============================================================================
+II. METHODE 1: MODE MIXTE (HGR + TEXTE BAS) - LA PLUS SIMPLE
+===============================================================================
+
+2.1 PRINCIPE
+------------
+Le mode mixte affiche:
+  - 160 lignes HGR graphiques en haut (280x160)
+  - 4 lignes de texte 40 colonnes en bas (32 lignes de pixels)
+
+C'est la methode LA PLUS SIMPLE et LA PLUS RAPIDE.
+
+2.2 ACTIVATION DU MODE MIXTE
+-----------------------------
+
+Methode A: Via soft switches (recommandee)
+-------------------------------------------
+
+#include <stdint.h>
+
+/* Soft switches Apple II */
+#define TXTPAGE1   (*(volatile uint8_t*)0xC054)  /* Page 1 texte */
+#define TXTPAGE2   (*(volatile uint8_t*)0xC055)  /* Page 2 texte */
+#define LORES      (*(volatile uint8_t*)0xC056)  /* Low-res graphics */
+#define HIRES      (*(volatile uint8_t*)0xC057)  /* Hi-res graphics */
+#define MIXEDOFF   (*(volatile uint8_t*)0xC052)  /* Mixed mode OFF */
+#define MIXEDON    (*(volatile uint8_t*)0xC053)  /* Mixed mode ON */
+
+void enable_hgr_mixed_mode(void) {
+    /* Activer HGR */
+    HIRES = 0;
+    
+    /* Activer mode mixte */
+    MIXEDON = 0;
+    
+    /* Page 1 */
+    TXTPAGE1 = 0;
+}
+
+Methode B: Via conio.h (plus haut niveau)
+------------------------------------------
+
+#include <conio.h>
+
+void enable_hgr_mixed_mode(void) {
+    /* Active HGR (valeur 2 = HGR mixte) */
+    videomode(VIDEOMODE_80x25);  /* D'abord mode texte */
+    
+    /* Puis basculer en HGR */
+    __asm__("bit $C057");  /* HIRES on */
+    __asm__("bit $C053");  /* MIXED on */
+}
+
+2.3 AFFICHAGE TEXTE EN BAS D'ECRAN
+-----------------------------------
+
+#include <conio.h>
+
+void display_text_bottom(const char* line1, const char* line2) {
+    /* Les 4 lignes texte sont aux positions Y: 20, 21, 22, 23 */
+    
+    /* Ligne 1 (Y=20) */
+    gotoxy(0, 20);
+    cprintf("%s", line1);
+    
+    /* Ligne 2 (Y=21) */
+    gotoxy(0, 21);
+    cprintf("%s", line2);
+}
+
+2.4 EXEMPLE COMPLET MODE MIXTE
+-------------------------------
+
+#include <stdio.h>
+#include <conio.h>
+#include <stdint.h>
+#include <string.h>
+
+#define HGR_PAGE1 ((unsigned char*)0x2000)
+#define HGR_SIZE  8192
+
+#define HIRES     (*(volatile uint8_t*)0xC057)
+#define MIXEDON   (*(volatile uint8_t*)0xC053)
+#define TXTPAGE1  (*(volatile uint8_t*)0xC054)
+
+void load_hgr_image(const char* filename) {
+    FILE* fp = fopen(filename, "rb");
+    if (fp) {
+        fread(HGR_PAGE1, 1, HGR_SIZE, fp);
+        fclose(fp);
+    }
+}
+
+void enable_mixed_mode(void) {
+    HIRES = 0;     /* Active HGR */
+    MIXEDON = 0;   /* Active mode mixte */
+    TXTPAGE1 = 0;  /* Page 1 */
+}
+
+void display_combat_screen(const char* monster_name, int monster_hp,
+                           int player_hp) {
+    /* Charger image du monstre */
+    load_hgr_image("IMG/MONSTERS/ALIEN01.HGR");
+    
+    /* Activer mode mixte */
+    enable_mixed_mode();
+    
+    /* Afficher texte en bas */
+    clrscr();  /* Efface la zone texte */
+    
+    gotoxy(0, 20);
+    cprintf("%s - HP: %d", monster_name, monster_hp);
+    
+    gotoxy(0, 21);
+    cprintf("Vous - HP: %d", player_hp);
+    
+    gotoxy(0, 23);
+    cprintf("[A]ttaque [D]efense [F]uir ?");
+}
+
+int main(void) {
+    display_combat_screen("Alien Vortex", 18, 20);
+    cgetc();  /* Attendre touche */
+    return 0;
+}
+
+AVANTAGES:
+  + Tres simple a implementer
+  + Performance excellente
+  + Compatible avec conio.h
+  + 4 lignes = 160 caracteres (suffisant pour UI)
+
+INCONVENIENTS:
+  - Seulement 4 lignes de texte
+  - Texte en bas uniquement
+  - Caracteres 40 colonnes (gros)
+
+===============================================================================
+III. METHODE 2: ROUTINES ROM APPLE II
+===============================================================================
+
+3.1 PRINCIPE
+------------
+Utiliser les routines de la ROM Apple II pour dessiner des caracteres
+directement sur l'ecran HGR.
+
+3.2 ROUTINES ROM UTILES
+------------------------
+
+Adresse  Nom      Description
+-------  -------  --------------------------------------------------
+$F800    PLOT     Trace un point aux coordonnees X,Y
+$F856    HLINE    Trace une ligne horizontale
+$FB2F    DRAW     Dessine un caractere en HGR
+$FDED    COUT     Affiche un caractere (utilise par DRAW)
+
+3.3 EXEMPLE: DESSINER UN CARACTERE
+-----------------------------------
+
+#include <stdint.h>
+#include <peekpoke.h>
+
+/* Zero page addresses pour parametres ROM */
+#define HPOS   0x20    /* Position horizontale (0-279) */
+#define VPOS   0x21    /* Position verticale (0-191) */
+#define CH     0x24    /* Caractere a afficher */
+
+/* Adresses ROM */
+#define ROM_DRAW  0xFB2F  /* Routine dessin caractere */
+
+void hgr_putchar(unsigned char c, unsigned int x, unsigned int y) {
+    /* Positionner coordonnees */
+    POKE(HPOS, x);
+    POKE(VPOS, y);
+    
+    /* Caractere a afficher */
+    POKE(CH, c);
+    
+    /* Appeler routine ROM */
+    __asm__("jsr $FB2F");  /* ROM_DRAW */
+}
+
+void hgr_print(const char* str, unsigned int x, unsigned int y) {
+    unsigned int pos_x = x;
+    
+    while (*str) {
+        hgr_putchar(*str, pos_x, y);
+        pos_x += 7;  /* Largeur caractere = 7 pixels */
+        str++;
+    }
+}
+
+3.4 EXEMPLE COMPLET AVEC ROM
+-----------------------------
+
+#include <stdio.h>
+#include <stdint.h>
+#include <peekpoke.h>
+
+#define HIRES     (*(volatile uint8_t*)0xC057)
+#define MIXEDOFF  (*(volatile uint8_t*)0xC052)
+#define TXTPAGE1  (*(volatile uint8_t*)0xC054)
+
+void enable_full_hgr(void) {
+    HIRES = 0;       /* Active HGR */
+    MIXEDOFF = 0;    /* Desactive mode mixte */
+    TXTPAGE1 = 0;    /* Page 1 */
+}
+
+void hgr_clear(void) {
+    /* Effacer ecran HGR */
+    unsigned char* hgr = (unsigned char*)0x2000;
+    unsigned int i;
+    for (i = 0; i < 8192; i++) {
+        hgr[i] = 0;
+    }
+}
+
+void hgr_putchar_rom(unsigned char c, unsigned int x, unsigned int y) {
+    POKE(0x20, x);
+    POKE(0x21, y);
+    POKE(0x24, c);
+    __asm__("jsr $FB2F");
+}
+
+void hgr_print_rom(const char* str, unsigned int x, unsigned int y) {
+    unsigned int pos = x;
+    while (*str) {
+        hgr_putchar_rom(*str++, pos, y);
+        pos += 7;
+    }
+}
+
+int main(void) {
+    enable_full_hgr();
+    hgr_clear();
+    
+    /* Afficher texte en HGR */
+    hgr_print_rom("HELLO WORLD", 50, 50);
+    hgr_print_rom("Score: 1234", 50, 70);
+    
+    cgetc();
+    return 0;
+}
+
+AVANTAGES:
+  + Utilise routines testees Apple
+  + Petite taille code
+  + Police Apple II standard
+
+INCONVENIENTS:
+  - Documentation limitee
+  - Zero page conflicts possibles
+  - Police fixe (pas personnalisable)
+  - Performance moyenne
+
+===============================================================================
+IV. METHODE 3: DESSINER DES CARACTERES PERSONNALISES
+===============================================================================
+
+4.1 PRINCIPE
+------------
+Dessiner chaque caractere pixel par pixel en utilisant une police
+bitmap personnalisee.
+
+4.2 FORMAT DE POLICE BITMAP
+----------------------------
+
+Chaque caractere = 7 pixels large x 8 pixels haut = 7 octets
+
+Exemple: Lettre 'A'
+
+  01110    0x0E
+  10001    0x11
+  10001    0x11
+  11111    0x1F
+  10001    0x11
+  10001    0x11
+  10001    0x11
+  00000    0x00
+
+const unsigned char font_A[8] = {
+    0x0E, 0x11, 0x11, 0x1F, 0x11, 0x11, 0x11, 0x00
+};
+
+4.3 TABLE DE POLICE COMPLETE
+-----------------------------
+
+/* Police 7x8 pixels pour caracteres A-Z, 0-9 */
+const unsigned char font_data[96][8] = {
+    /* Space (32) */
+    {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00},
+    
+    /* ! (33) */
+    {0x04, 0x04, 0x04, 0x04, 0x04, 0x00, 0x04, 0x00},
+    
+    /* A (65) */
+    {0x0E, 0x11, 0x11, 0x1F, 0x11, 0x11, 0x11, 0x00},
+    
+    /* ... (definir tous les caracteres) */
+};
+
+4.4 FONCTION DE DESSIN
+----------------------
+
+/* Dessiner un pixel en HGR */
+void hgr_plot(unsigned int x, unsigned int y, unsigned char color) {
+    /* Calcul adresse memoire HGR */
+    unsigned int base = 0x2000;
+    unsigned int row_offset;
+    unsigned int byte_offset;
+    unsigned char* addr;
+    unsigned char mask;
+    unsigned char byte_val;
+    
+    /* HGR a un adressage complexe (interleaved) */
+    /* Voir documentation HGR pour formule complete */
+    
+    row_offset = ((y & 0x07) << 10) |
+                 ((y & 0x38) << 4) |
+                 ((y & 0xC0) << 2);
+    
+    byte_offset = x / 7;
+    
+    addr = (unsigned char*)(base + row_offset + byte_offset);
+    
+    /* Definir le bit */
+    mask = 1 << (x % 7);
+    byte_val = *addr;
+    
+    if (color) {
+        *addr = byte_val | mask;
+    } else {
+        *addr = byte_val & ~mask;
+    }
+}
+
+/* Dessiner un caractere depuis la police */
+void hgr_draw_char(char c, unsigned int x, unsigned int y) {
+    unsigned char i, j;
+    unsigned char byte;
+    unsigned char index = c - 32;  /* Offset dans font_data */
+    
+    if (index >= 96) return;  /* Hors limites */
+    
+    /* Dessiner chaque ligne du caractere */
+    for (i = 0; i < 8; i++) {
+        byte = font_data[index][i];
+        
+        /* Dessiner chaque pixel de la ligne */
+        for (j = 0; j < 7; j++) {
+            if (byte & (1 << (6 - j))) {
+                hgr_plot(x + j, y + i, 1);
+            }
+        }
+    }
+}
+
+/* Afficher une chaine */
+void hgr_print_custom(const char* str, unsigned int x, unsigned int y) {
+    unsigned int pos = x;
+    
+    while (*str) {
+        hgr_draw_char(*str, pos, y);
+        pos += 8;  /* Espacement caracteres */
+        str++;
+    }
+}
+
+4.5 OPTIMISATION: LOOKUP TABLE HGR
+-----------------------------------
+
+/* Table pre-calculee des offsets de lignes HGR */
+const unsigned int hgr_line_offset[192] = {
+    0x0000, 0x0400, 0x0800, 0x0C00, 0x1000, 0x1400, 0x1800, 0x1C00,
+    0x0080, 0x0480, 0x0880, 0x0C80, 0x1080, 0x1480, 0x1880, 0x1C80,
+    /* ... continuer pour les 192 lignes */
+};
+
+void hgr_plot_fast(unsigned int x, unsigned int y, unsigned char color) {
+    unsigned char* addr = (unsigned char*)(0x2000 + 
+                          hgr_line_offset[y] + (x / 7));
+    unsigned char mask = 1 << (x % 7);
+    
+    if (color) {
+        *addr |= mask;
+    } else {
+        *addr &= ~mask;
+    }
+}
+
+AVANTAGES:
+  + Controle total police et style
+  + Peut faire polices personnalisees
+  + Taille caracteres ajustable
+  + Couleurs personnalisables
+
+INCONVENIENTS:
+  - Complexe a implementer
+  - Performance moyenne/faible
+  - Table police = ~768 octets memoire
+  - Adressage HGR complexe
+
+===============================================================================
+V. METHODE 4: BIBLIOTHEQUES EXTERNES
+===============================================================================
+
+5.1 OPTIONS DISPONIBLES
+------------------------
+
+A) DHGR Library (si disponible)
+   Bibliotheque pour Double Hi-Res avec support texte
+
+B) cc65 contrib libraries
+   Chercher dans cc65/samples/ pour exemples HGR
+
+C) Routines assembleur personnalisees
+   Creer .s files avec routines optimisees
+
+5.2 EXEMPLE: UTILISER ROUTINE ASM
+----------------------------------
+
+Fichier: hgr_text.s
+-----------------------
+; Routine assembleur pour affichage texte HGR rapide
+
+.export _hgr_putchar_asm
+
+.proc _hgr_putchar_asm
+    ; Parametres en pile
+    ; A = caractere
+    ; X = pos_x (low)
+    ; Y = pos_x (high)
+    
+    ; Implementation optimisee...
+    
+    rts
+.endproc
+
+Fichier: hgr_text.h
+-----------------------
+#ifndef HGR_TEXT_H
+#define HGR_TEXT_H
+
+/* Fonction assembleur externe */
+extern void __fastcall__ hgr_putchar_asm(char c, unsigned int x,
+                                          unsigned int y);
+
+#endif
+
+Fichier: main.c
+---------------
+#include "hgr_text.h"
+
+int main(void) {
+    hgr_putchar_asm('A', 50, 50);
+    return 0;
+}
+
+Makefile
+--------
+spacetrip.bin: spacetrip.o hgr_text.o
+    cl65 -t apple2enh -o $@ $^
+
+hgr_text.o: hgr_text.s
+    ca65 -t apple2enh -o $@ $<
+
+AVANTAGES:
+  + Performance optimale (assembleur)
+  + Reutilisable
+  + Taille code reduite
+
+INCONVENIENTS:
+  - Necessite connaissance assembleur
+  - Maintenance plus complexe
+  - Portabilite limitee
+
+===============================================================================
+VI. COMPARAISON DES METHODES
+===============================================================================
+
++---------------+------------+-----------+----------+----------+-----------+
+| METHODE       | SIMPLICITE | PERFS     | MEMOIRE  | FLEXIBLE | QUALITE   |
++---------------+------------+-----------+----------+----------+-----------+
+| Mode mixte    | *****      | *****     | Minimal  | **       | ****      |
+| ROM Apple II  | ***        | ***       | Petit    | **       | ***       |
+| Caracteres    | **         | **        | ~1 KB    | *****    | *****     |
+| Biblio ASM    | ***        | *****     | Moyen    | ****     | *****     |
++---------------+------------+-----------+----------+----------+-----------+
+
+RECOMMANDATIONS:
+----------------
+
+Pour SPACETRIP (combat, inventaire, stats):
+  >>> MODE MIXTE <<<
+  - Interface combat: image monstre HGR + stats texte bas
+  - Interface inventaire: graphiques HGR + liste texte bas
+  - Simple, rapide, efficace
+
+Pour affichage dans zone HGR (scores, titres):
+  >>> ROM APPLE II <<<
+  - Texte occasionnel sur graphiques
+  - Implementation rapide
+  - Suffisant pour besoins basiques
+
+Pour jeu avec HUD complexe:
+  >>> CARACTERES PERSONNALISES ou ASM <<<
+  - Barres de vie graphiques
+  - Polices stylisees
+  - Texte partout sur ecran
+
+===============================================================================
+VII. EXEMPLES PRATIQUES POUR SPACETRIP
+===============================================================================
+
+7.1 INTERFACE COMBAT (MODE MIXTE)
+----------------------------------
+
+void display_combat(Monster* monster, Player* player) {
+    char hp_bar[41];
+    int i;
+    
+    /* Charger image monstre en HGR */
+    sprintf(g_imgPath, "IMG/MONSTERS/%s.HGR", monster->img_file);
+    load_hgr_image(g_imgPath);
+    
+    /* Activer mode mixte */
+    __asm__("bit $C057");  /* HIRES */
+    __asm__("bit $C053");  /* MIXED */
+    
+    /* Effacer zone texte */
+    clrscr();
+    
+    /* Ligne 1: Nom et HP monstre */
+    gotoxy(0, 20);
+    cprintf("%-20s HP:", monster->name);
+    
+    /* Barre HP monstre */
+    for (i = 0; i < (monster->hp * 10 / monster->max_hp); i++) {
+        hp_bar[i] = 0xDB;  /* Caractere bloc plein */
+    }
+    hp_bar[i] = '\0';
+    cprintf("%s %d/%d", hp_bar, monster->hp, monster->max_hp);
+    
+    /* Ligne 2: Stats joueur */
+    gotoxy(0, 21);
+    cprintf("Vous HP:%d/%d  LVL:%d  XP:%d",
+            player->hp, player->max_hp, player->level, player->xp);
+    
+    /* Ligne 3: Vide */
+    
+    /* Ligne 4: Menu combat */
+    gotoxy(0, 23);
+    cprintf("[A]ttaque [D]efense [O]bjet [F]uir ?");
+}
+
+7.2 ECRAN INVENTAIRE (MODE MIXTE)
+----------------------------------
+
+void display_inventory(Player* player, Item items[], int item_count) {
+    int i;
+    char key;
+    
+    /* Afficher image de fond (vaisseau, equipement) */
+    load_hgr_image("IMG/INVENTORY.HGR");
+    
+    /* Mode mixte */
+    __asm__("bit $C057");
+    __asm__("bit $C053");
+    
+    /* Liste objets en bas */
+    clrscr();
+    
+    gotoxy(0, 20);
+    cprintf("=== INVENTAIRE ===");
+    
+    for (i = 0; i < 3 && i < item_count; i++) {
+        gotoxy(0, 21 + i);
+        cprintf("%d. %-30s", i + 1, items[i].name);
+        
+        if (items[i].equipped) {
+            cprintf("[OK]");
+        }
+    }
+    
+    gotoxy(0, 23);
+    cprintf("[1-9] Utiliser [ESC] Retour");
+    
+    key = cgetc();
+    /* Traiter choix... */
+}
+
+7.3 BARRE DE VIE EN HGR (CARACTERES PERSONNALISES)
+---------------------------------------------------
+
+void draw_hp_bar_hgr(unsigned int x, unsigned int y, 
+                     unsigned char hp, unsigned char max_hp) {
+    unsigned int bar_width = 100;  /* 100 pixels */
+    unsigned int filled = (hp * bar_width) / max_hp;
+    unsigned int i, j;
+    
+    /* Contour */
+    for (i = 0; i < bar_width + 2; i++) {
+        hgr_plot(x + i, y, 1);
+        hgr_plot(x + i, y + 8, 1);
+    }
+    for (j = 0; j < 9; j++) {
+        hgr_plot(x, y + j, 1);
+        hgr_plot(x + bar_width + 1, y + j, 1);
+    }
+    
+    /* Remplissage */
+    for (i = 0; i < filled; i++) {
+        for (j = 1; j < 8; j++) {
+            hgr_plot(x + 1 + i, y + j, 1);
+        }
+    }
+}
+
+void display_combat_full_hgr(Monster* monster, Player* player) {
+    /* Mode HGR complet (pas de mixte) */
+    __asm__("bit $C057");  /* HIRES */
+    __asm__("bit $C052");  /* MIXED OFF */
+    
+    /* Image monstre */
+    load_hgr_image("IMG/MONSTERS/ALIEN01.HGR");
+    
+    /* Barres HP en bas */
+    draw_hp_bar_hgr(10, 170, monster->hp, monster->max_hp);
+    draw_hp_bar_hgr(10, 182, player->hp, player->max_hp);
+    
+    /* Texte avec ROM */
+    hgr_print_rom("ALIEN VORTEX", 120, 170);
+    hgr_print_rom("VOUS", 120, 182);
+    
+    cgetc();
+}
+
+7.4 ECRAN TITRE AVEC TEXTE HGR
+-------------------------------
+
+void display_title_screen(void) {
+    /* Charger image titre */
+    load_hgr_image("IMG/TITLE.HGR");
+    
+    /* Mode HGR complet */
+    __asm__("bit $C057");
+    __asm__("bit $C052");
+    
+    /* Titre avec routines ROM */
+    hgr_print_rom("S P A C E T R I P", 70, 20);
+    hgr_print_rom("Version 3.0", 100, 40);
+    
+    hgr_print_rom("Appuyez sur une touche", 60, 160);
+    
+    cgetc();
+}
+
+===============================================================================
+VIII. CONCLUSION ET RECOMMANDATIONS
+===============================================================================
+
+POUR SPACETRIP, LA MEILLEURE APPROCHE EST:
+-------------------------------------------
+
+1. MODE MIXTE pour:
+   - Ecrans de combat
+   - Interface inventaire
+   - Menus en jeu
+   - Stats et HUD
+   
+   >>> Simple, rapide, efficace <<<
+
+2. ROUTINES ROM pour:
+   - Ecran titre (texte sur image)
+   - Messages occasionnels sur graphiques
+   - Noms de lieux sur images
+   
+   >>> Complement du mode mixte <<<
+
+3. NE PAS UTILISER (sauf besoin specifique):
+   - Caracteres personnalises: trop complexe pour SPACETRIP
+   - Bibliotheques externes: overhead inutile
+   
+STRATEGIE RECOMMANDEE:
+----------------------
+
+Phase 1: Utiliser MODE MIXTE partout
+  - Implemente le systeme combat
+  - Valide gameplay
+  - Performance optimale
+
+Phase 2 (optionnel): Ajouter routines ROM
+  - Si besoin texte sur images completes
+  - Polish visuel
+  - Ecran titre ameliore
+
+CETTE APPROCHE:
+  + Minimise la complexite
+  + Maximise la compatibilite
+  + Optimise les performances
+  + Permet iteration rapide
+
+===============================================================================
+IX. RESSOURCES ET REFERENCES
+===============================================================================
+
+Documentation cc65 Apple II:
+  https://cc65.github.io/doc/apple2enh.html
+
+HGR Format et adressage:
+  https://www.kreativekorp.com/miscpages/a2info/hgr.shtml
+
+Apple II Reference Manual:
+  Routines ROM et soft switches
+
+cc65 samples:
+  https://github.com/cc65/cc65/tree/master/samples
+
+Outils graphiques:
+  - Paintworks Gold (Apple II)
+  - bmp2dhr (conversion moderne)
+  - A2B (Apple II Builder)
+
+===============================================================================
+FIN DU GUIDE
+===============================================================================
+
+Ce guide couvre toutes les methodes d'affichage texte en HGR.
+Pour SPACETRIP, privilegier le MODE MIXTE (methode 1).
+
+Questions: gist974@gmail.com
+Derniere mise a jour: 1er octobre 2024
+

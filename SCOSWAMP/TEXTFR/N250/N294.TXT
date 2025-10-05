@@ -1,0 +1,20 @@
+294 : La Pierre d'Amitie
+------------------------
+
+Vous lancez votre Pierre Magique d'Amitie vers le Maitre des
+Loups et observez anxieusement le resultat. La pierre jette
+une lueur douce qui flotte un instant dans l'air humide.
+L'homme reste immobile, puis un eclat de rire surprenant
+eclate sur ses levres. « Venez donc, venez », dit-il en vous
+invitant d'un geste ample. Les loups, etranges, se tiennent
+sages et reculent pour vous laisser passer; leurs yeux
+restent pourtant vigilants comme si la meute attendait un signal.
+Il vous conduit a l'interieur de sa maison en rondins. L'odeur
+de bois et de cuir emplit la piece, et la lumiere des braises
+jette des ombres dansantes sur les murs. Vous sentez que
+la tension a baisse, mais vous ne devez pas baisser votre garde.
+Voulez-vous profiter de ce moment pour l'attaquer par surprise,
+ou preferez-vous le suivre et engager la conversation ?
+
+C 271 L'attaquer par surprise
+C 172 Le suivre et bavarder avec lui

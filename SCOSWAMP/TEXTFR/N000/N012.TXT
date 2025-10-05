@@ -1,0 +1,11 @@
+012 : Combat contre le geant
+------------------------------
+Le GEANT se met a combattre en poussant des cris de fureur.
+Sa force est extraordinaire, mais il est maladroit dans ses gestes.
+Quand sa massue atteint sa cible, vous subissez 4 points de degat
+au lieu de 2: la puissance du coup double la perte d'endurance.
+Le combat est brutal; mesurez vos coups et gardez votre souffle.
+GEANT HABILETE: 9 ENDURANCE: 12
+
+C 061 Si vous reduisez l'ENDURANCE du GEANT a 6
+C 161 Prendre la fuite en pleine bataille

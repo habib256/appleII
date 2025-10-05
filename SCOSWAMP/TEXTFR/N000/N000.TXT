@@ -1,0 +1,23 @@
+000 : LE MARAIS AUX SCORPIONS
+=============================
+
+Un Livre dont Vous etes le Heros
+
+Vous etes un(e) aventurier(e) aguerri(e) en quete de gloire !
+
+Le Marais aux Scorpions est un lieu maudit que nul n'ose explorer.
+Monstres, pieges et sorciers malfaisants vous y attendent. Mais la
+legende parle d'un tresor fabuleux cache en ses profondeurs...
+
+Saurez-vous survivre aux perils du Marais et decouvrir ses secrets ?
+Vos choix determineront votre destin !
+
+Commandes :
+  [ESPACE] - Basculer entre mode texte et graphique
+  [A-Z]    - Faire un choix
+  [Q]      - Quitter l'aventure
+
+Un jeu de VERHILLE Arnaud - gist974@gmail.com
+
+C 1 Commencer l'aventure
+

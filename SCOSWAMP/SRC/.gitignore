@@ -1,0 +1,12 @@
+# Fichiers intermédiaires de compilation cc65
+*.o
+*.s
+*.lst
+
+# Fichiers de backup
+*~
+*.bak
+*.swp
+
+# Fichiers macOS
+.DS_Store

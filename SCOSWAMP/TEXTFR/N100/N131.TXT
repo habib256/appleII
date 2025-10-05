@@ -1,0 +1,17 @@
+131 : La Maitresse des Oiseaux
+------------------------------
+
+Le Perroquet vous fixe d un oeil rond.  
+"Approchez-vous, dit-il, elle sait que vous venez."  
+
+Vous franchissez un rideau de palmiers et decouvrez une
+clairiere splendide, peuplee de milliers d oiseaux aux plumes
+chatoyantes. Aigles et Herons se promennent librement.  
+
+Au centre, une femme magnifique est assise sur un pedestal.  
+C est la Maitresse des Oiseaux. Elle vous salue et vous appelle  
+par votre nom. "Quel sorcier servez-vous ?" demande-t-elle.  
+
+C 023 Pompatarte  
+C 164 Gayolard  
+C 288 Stratagus

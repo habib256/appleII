@@ -1,0 +1,880 @@
+===============================================================================
+                     SPACETRIP - AMELIORATIONS PROPOSEES
+                          Plan de developpement v2.5
+===============================================================================
+
+DATE: 1er octobre 2024
+AUTEUR: VERHILLE Arnaud
+EMAIL: gist974@gmail.com
+
+===============================================================================
+TABLE DES MATIERES
+===============================================================================
+
+I.   AMELIORATIONS QUALITE DE VIE (Priorite 1)
+II.  AMELIORATIONS GAMEPLAY (Priorite 2)
+III. TRANSFORMATION EN RPG SPATIAL (Priorite 3)
+IV.  SYSTEME DE COMBAT
+V.   SYSTEME D'OBJETS ET INVENTAIRE
+VI.  SYSTEME DE PROGRESSION
+VII. CONSIDERATIONS TECHNIQUES
+VIII.PLAN D'IMPLEMENTATION
+
+===============================================================================
+I. AMELIORATIONS QUALITE DE VIE (Priorite 1 - Facile)
+===============================================================================
+
+1.1 COMPTEUR DE SCENES VISITEES
+--------------------------------
+Description:
+  Afficher le nombre de scenes decouvertes par le joueur.
+  Exemple: "Scenes decouvertes: 5/13"
+
+Implementation:
+  - Variable globale: unsigned int visited_scenes (bitmap)
+  - Marquer bit a chaque visite: visited_scenes |= (1 << scene_id)
+  - Compter les bits pour affichage
+  
+Cout memoire: 2 octets
+Temps estime: 15 minutes
+Impact utilisateur: *****
+
+1.2 INDICATEUR NOUVEAU/DEJA VISITE
+-----------------------------------
+Description:
+  Afficher [NOUVEAU] ou [DEJA VISITE] sur chaque choix de destination.
+  
+Affichage:
+  A) Voyager a Paris [NOUVEAU]
+  B) Retour a la base [DEJA VISITE]
+
+Implementation:
+  - Utilise le meme bitmap que 1.1
+  - Verification: if (!(visited_scenes & (1 << choice_id)))
+  
+Cout memoire: 0 octets (reutilise bitmap)
+Temps estime: 10 minutes
+Impact utilisateur: *****
+
+1.3 COMMANDE [M]AP / CARTE
+---------------------------
+Description:
+  Liste textuelle des lieux visites avec numeros et noms.
+  
+Affichage exemple:
+  === LIEUX DECOUVERTS ===
+  001 - Base de Lancement
+  002 - Forets de Sylvaria
+  004 - Comete au perihelie
+  ...
+  
+  Appuyez sur une touche pour continuer
+
+Implementation:
+  - Nouvelle fonction: void display_map()
+  - Parcourt bitmap visited_scenes
+  - Affiche nom de chaque scene visitee
+  - Mode texte 80 colonnes
+  
+Cout memoire: ~200 octets (noms des scenes)
+Temps estime: 30 minutes
+Impact utilisateur: ****
+
+1.4 MESSAGES D'ENCOURAGEMENT
+-----------------------------
+Description:
+  Messages de feedback positif pour le joueur.
+  
+Exemples:
+  - "Premiere visite !" lors d'une nouvelle scene
+  - "Bravo ! Toutes les scenes decouvertes !"
+  - "Vous avez explore la moitie de la galaxie !"
+
+Implementation:
+  - Verification a chaque changement de scene
+  - Messages conditionnels selon progression
+  
+Cout memoire: ~100 octets (chaines)
+Temps estime: 15 minutes
+Impact utilisateur: ***
+
+1.5 COMMANDE [H]ELP
+--------------------
+Description:
+  Afficher l'aide contextuelle avec toutes les commandes.
+  
+Contenu:
+  === COMMANDES ===
+  [SPACE]  - Basculer mode texte/graphique
+  [A-Z]    - Choisir une destination
+  [Q]      - Quitter le jeu
+  [M]      - Afficher la carte
+  [H]      - Afficher cette aide
+  ...
+
+Implementation:
+  - Nouvelle fonction: void display_help()
+  - Affichage texte 80 colonnes
+  
+Cout memoire: ~150 octets
+Temps estime: 10 minutes
+Impact utilisateur: ****
+
+===============================================================================
+II. AMELIORATIONS GAMEPLAY (Priorite 2 - Moyen)
+===============================================================================
+
+2.1 SYSTEME DE COLLECTION DE SELFIES
+-------------------------------------
+Description:
+  Collecter un "selfie" a chaque visite d'une nouvelle scene.
+  Mini-challenge: "Collecte les 13 selfies cosmiques !"
+  
+Affichage:
+  Selfies: 7/13
+
+Implementation:
+  - Variable: unsigned char selfies_collected (bitmap)
+  - Collecter automatiquement a premiere visite
+  - Message: "Selfie pris ! (+1)"
+  
+Cout memoire: 1 octet
+Temps estime: 20 minutes
+Impact utilisateur: *****
+
+2.2 SYSTEME DE SCORE
+--------------------
+Description:
+  Attribution de points selon actions du joueur.
+  
+Regles de scoring:
+  - Nouvelle scene decouverte: +100 points
+  - Toutes scenes trouvees: +1000 points bonus
+  - Retour a une scene deja visitee: -10 points
+
+Variables:
+  unsigned int score;
+  unsigned char revisit_count[13];
+
+Affichage:
+  Score: 850
+
+Cout memoire: ~20 octets
+Temps estime: 45 minutes
+Impact utilisateur: ****
+
+2.3 COMPTEUR DE MOUVEMENTS
+---------------------------
+Description:
+  Compter le nombre de deplacements effectues.
+  Challenge: "Trouve tous les lieux en < 30 mouvements"
+  
+Affichage:
+  Mouvements: 23
+
+Implementation:
+  - Variable: unsigned int move_count;
+  - Incrementation a chaque changement de scene
+  
+Cout memoire: 2 octets
+Temps estime: 5 minutes
+Impact utilisateur: ***
+
+2.4 SYSTEME DE SAUVEGARDE/REPRISE
+----------------------------------
+Description:
+  Sauvegarder et charger la progression du joueur.
+  
+Fichier: SAVEGAME (~20 octets)
+Contenu:
+  - current_scene (1 octet)
+  - visited_scenes (2 octets)
+  - selfies_collected (2 octets)
+  - language (2 octets)
+  - score (2 octets)
+  - move_count (2 octets)
+
+Commandes:
+  [S] - Save game
+  [L] - Load game
+
+Implementation:
+  - Fonctions: save_game(), load_game()
+  - API ProDOS (fopen, fwrite, fread, fclose)
+  - Validation de la sauvegarde (checksum)
+  
+Cout memoire: ~500 octets (code)
+Temps estime: 2 heures
+Impact utilisateur: *****
+
+2.5 EFFETS SONORES BASIQUES
+----------------------------
+Description:
+  Sons simples pour feedback auditif.
+  
+Evenements sonores:
+  - Changement de scene: bip simple
+  - Nouvelle decouverte: melodie courte
+  - Erreur: son grave
+  
+Implementation:
+  - Utilisation du haut-parleur Apple II
+  - Code: __asm__("sta $C030");
+  - Fonctions: void beep(), void success_sound()
+  
+Cout memoire: ~100 octets
+Temps estime: 30 minutes
+Impact utilisateur: ***
+
+===============================================================================
+III. TRANSFORMATION EN RPG SPATIAL (Priorite 3 - Complexe)
+===============================================================================
+
+3.1 VISION GLOBALE
+------------------
+SPACETRIP deviendrait un RPG d'exploration spatiale complet avec:
+  - Combat contre creatures cosmiques
+  - Points de vie et gestion de ressources
+  - Objets a collecter pour debloquer zones
+  - Inventaire et equipement
+  - Progression par niveaux
+  - Systeme de portes verrouillees
+
+3.2 NOUVELLES STRUCTURES DE DONNEES
+------------------------------------
+
+typedef struct {
+    unsigned char hp;           /* Points de vie actuels */
+    unsigned char max_hp;       /* PV maximum */
+    unsigned char attack;       /* Force d'attaque */
+    unsigned char defense;      /* Defense */
+    unsigned char level;        /* Niveau du joueur */
+    unsigned int experience;    /* Points d'experience */
+} Player;
+
+typedef struct {
+    char name[20];              /* Nom du monstre */
+    unsigned char hp;           /* PV du monstre */
+    unsigned char max_hp;       /* PV max */
+    unsigned char attack;       /* Attaque */
+    unsigned char defense;      /* Defense */
+    unsigned char xp_reward;    /* XP donnes a la mort */
+    unsigned char scene_id;     /* Scene ou il apparait */
+} Monster;
+
+typedef struct {
+    char name[20];              /* Nom de l'objet */
+    unsigned char type;         /* 0=cle, 1=arme, 2=armure, 3=soin */
+    unsigned char value;        /* Valeur (degats, PV, etc.) */
+    unsigned char scene_id;     /* Ou le trouver */
+    unsigned char collected;    /* 0=non trouve, 1=trouve */
+} Item;
+
+typedef struct {
+    unsigned char scene_from;   /* Scene d'origine */
+    unsigned char scene_to;     /* Scene de destination */
+    unsigned char item_needed;  /* ID objet requis (0=aucun) */
+    unsigned char locked;       /* 0=ouvert, 1=verrouille */
+} Door;
+
+3.3 MEMOIRE GLOBALE NECESSAIRE
+-------------------------------
+Player player;                  /* 8 octets */
+Monster monsters[10];           /* 30 octets * 10 = 300 octets */
+Item items[15];                 /* 25 octets * 15 = 375 octets */
+Door doors[10];                 /* 4 octets * 10 = 40 octets */
+unsigned char inventory[10];    /* 10 octets */
+
+TOTAL: ~750 octets (acceptable)
+
+===============================================================================
+IV. SYSTEME DE COMBAT
+===============================================================================
+
+4.1 DEROULEMENT DU COMBAT
+--------------------------
+1. Arrivee sur une scene
+2. Chance de rencontre aleatoire (30-50%)
+3. Affichage image HGR du monstre (si disponible)
+4. Combat au tour par tour
+5. Options: [A]ttaquer, [D]efendre, [O]bjet, [F]uir
+6. Calculs de degats
+7. Victoire: XP + drop possible d'objet
+8. Defaite: Retour a la base avec perte d'XP
+
+4.2 AFFICHAGE COMBAT
+--------------------
+Mode HGR + Texte (4 lignes en bas):
+
+┌─────────────────────────────────────────────────┐
+│                                                 │
+│          [IMAGE HGR DU MONSTRE]                 │  280x160
+│                                                 │
+│                                                 │
+└─────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────┐
+│ ALIEN VORTEX               HP: ████░░░  8/10    │  Texte
+│ Vous: HP ███████░░  14/20  XP: 125  LVL: 2     │  4 lignes
+│                                                 │
+│ [A]ttaque [D]efense [O]bjet [F]uir ?            │
+└─────────────────────────────────────────────────┘
+
+4.3 FORMULES DE COMBAT
+----------------------
+Degats de base:
+  Degats = (Attaque - Defense/2) + random(0-3)
+  Minimum: 1 degat
+
+Defense active (1 tour):
+  Defense effective = Defense * 2
+
+Chance de fuite:
+  Base: 50%
+  Bonus: +5% par niveau
+  Formule: 50 + (Level * 5)
+
+Coup critique (10% de chance):
+  Degats * 2
+
+4.4 SYSTEME D'EXPERIENCE
+------------------------
+Gain XP:
+  - Victoire combat: XP du monstre
+  - Defaite: Perte de 20% XP actuels
+  
+Montee de niveau:
+  Level 1:   0 XP    (HP:20, ATK:5, DEF:3)
+  Level 2:  50 XP    (HP:25, ATK:6, DEF:4)
+  Level 3: 120 XP    (HP:30, ATK:8, DEF:5)
+  Level 4: 220 XP    (HP:35, ATK:10, DEF:6)
+  Level 5: 350 XP    (HP:40, ATK:12, DEF:8)
+
+Formule generale:
+  XP_requis(n) = 50 * n * (n-1) / 2
+
+Message montee niveau:
+  "*** NIVEAU SUPERIEUR ! ***"
+  "Niveau 3 atteint !"
+  "HP max +5, ATK +2, DEF +1"
+
+4.5 LISTE DES MONSTRES
+----------------------
+FACILES (Niveau 1-2):
+  01. Spore Cosmique      HP:8   ATK:3  DEF:1  XP:10
+  02. Drone Eclaireur     HP:12  ATK:4  DEF:2  XP:15
+  03. Meduse Stellaire    HP:10  ATK:5  DEF:1  XP:12
+
+MOYENS (Niveau 2-3):
+  04. Alien Vortex        HP:18  ATK:6  DEF:3  XP:25
+  05. Robot Sentinel      HP:22  ATK:7  DEF:5  XP:30
+  06. Creature Cristal    HP:20  ATK:8  DEF:4  XP:28
+
+DIFFICILES (Niveau 3-4):
+  07. Baleine Celeste     HP:30  ATK:10 DEF:6  XP:50
+  08. Drone de Combat     HP:28  ATK:12 DEF:7  XP:55
+
+BOSS (Niveau 4-5):
+  09. Guardian Magnetar   HP:50  ATK:15 DEF:10 XP:100
+  10. Gardien Trou Noir   HP:80  ATK:20 DEF:15 XP:200
+
+4.6 IMAGES DE MONSTRES
+----------------------
+Stockage: /IMG/MONSTERS/
+  ALIEN01.HGR    (Alien Vortex)
+  ALIEN02.HGR    (Nebula Beast)
+  ROBOT01.HGR    (Drone de combat)
+  ROBOT02.HGR    (Sentinel Dyson)
+  SPACE01.HGR    (Creature cristal)
+  SPACE02.HGR    (Baleine celeste hostile)
+  BOSS01.HGR     (Guardian Magnetar)
+  BOSS02.HGR     (Gardien du trou noir)
+
+Format: HGR standard 8192 octets
+Resolution: 280x192 ou 280x160 (texte en bas)
+
+Options creation:
+  1. Dessiner avec outil Apple II (Paintworks)
+  2. Convertir images modernes (bmp2dhr)
+  3. Sprites de jeux retro existants
+  4. ASCII art converti en HGR
+
+===============================================================================
+V. SYSTEME D'OBJETS ET INVENTAIRE
+===============================================================================
+
+5.1 TYPES D'OBJETS
+------------------
+
+CLES (debloquent portes):
+  - Cle Cristalline       -> Ouvre Canyons de Cristal
+  - Code d'acces Dyson    -> Ouvre Petale Dyson
+  - Carte Magnetar        -> Ouvre Dome Magnetar
+  - Cristal de Kalyx      -> Active porte trou de ver
+
+ARMES (augmentent attaque):
+  - Pistolet laser        +3 ATK
+  - Epee photonique       +5 ATK
+  - Canon plasma          +8 ATK
+
+ARMURES (augmentent defense):
+  - Combinaison renforcee +3 DEF
+  - Bouclier energetique  +5 DEF
+  - Armure nanotech       +8 DEF
+
+SOINS (restaurent PV):
+  - Medikit               +20 HP
+  - Nano-reparateur       +50 HP
+  - Capsule regeneration  Full HP
+
+SPECIAUX:
+  - Scanner de vie        Detecte monstres avant combat
+  - Teleporteur           Retour base gratuit
+  - Carte stellaire       Revele toutes scenes
+
+5.2 PLACEMENT DES OBJETS
+------------------------
+Objets caches dans les scenes:
+  - Ramassage automatique ou via commande [F]ouiller
+  - Message: "Vous avez trouve: Pistolet laser !"
+  - Ajout a l'inventaire (max 10 objets)
+
+Exemple placement:
+  Scene 002 (Forets):     Medikit
+  Scene 004 (Comete):     Pistolet laser
+  Scene 006 (Magnetar):   Bouclier energetique
+  Scene 007 (Cristal):    Cle Cristalline
+  Scene 012 (Dyson):      Code d'acces Dyson
+
+5.3 INTERFACE INVENTAIRE
+------------------------
+Commande: [I]
+
+Affichage:
+  === INVENTAIRE ===
+  1. Pistolet laser (ATK +3) [EQUIPE]
+  2. Medikit (+20 HP)
+  3. Cle Cristalline
+  4. Scanner de vie
+  5. Bouclier energetique (DEF +5)
+  ...
+  
+  [1-9] Utiliser  [E] Equiper  [ESC] Retour
+
+Fonctionnalites:
+  - Utiliser objet de soin: restaure HP immediatement
+  - Equiper arme/armure: applique bonus stats
+  - Un seul equipement par type actif
+
+5.4 PORTES VERROUILLEES
+-----------------------
+Modification format fichiers TXT:
+
+Ligne de choix avec verrou:
+  C 005 Montagnes de Myria [LOCK:3]
+  
+  Ou 3 = ID de l'objet requis (Cle Cristalline)
+
+Verification au choix:
+  Si joueur n'a pas l'objet:
+    "Cette zone est inaccessible."
+    "Il vous faut: Cle Cristalline"
+  
+  Si joueur a l'objet:
+    "Vous utilisez la Cle Cristalline."
+    "La voie est ouverte !"
+    -> Deverrouillage permanent (sauvegarde)
+
+===============================================================================
+VI. SYSTEME DE PROGRESSION
+===============================================================================
+
+6.1 BARRE DE STATUT
+-------------------
+Affichage permanent en mode texte (ligne du haut):
+
+┌────────────────────────────────────────────────────────────────────────┐
+│ HP: ████████░░ 16/20  LVL:3  XP:145/220  ATK:8  DEF:5  Objets:7/10     │
+└────────────────────────────────────────────────────────────────────────┘
+
+Mise a jour:
+  - Apres chaque combat
+  - Apres utilisation objet
+  - Apres montee niveau
+  - A chaque changement de scene
+
+6.2 ECRANS SPECIAUX
+-------------------
+
+GAME OVER:
+  *** GAME OVER ***
+  
+  Vous avez ete vaincu par: Alien Vortex
+  
+  Score final: 850
+  Scenes decouvertes: 7/13
+  Niveau atteint: 3
+  
+  [R] Reessayer  [Q] Quitter
+
+VICTOIRE FINALE:
+  *** VICTOIRE ! ***
+  
+  Vous avez explore toute la galaxie et vaincu tous les monstres !
+  
+  Score final: 2340
+  Mouvements: 45
+  Niveau final: 5
+  
+  Felicitations, explorateur !
+  
+  [Q] Quitter
+
+6.3 COMMANDES ETENDUES
+----------------------
+[SPACE]  - Toggle graphics/text mode
+[A-Z]    - Choose destination
+[Q]      - Quit game
+[I]      - Inventory
+[S]      - Save game
+[L]      - Load game
+[H]      - Help
+[F]      - Search area (fouiller)
+[M]      - Map (carte des lieux visites)
+
+En combat:
+[A]      - Attack
+[D]      - Defend (defense x2 pour 1 tour)
+[O]      - Use object
+[F]      - Flee (fuir)
+
+6.4 SAUVEGARDE ETENDUE
+----------------------
+Fichier: SAVEGAME (~50 octets)
+
+Structure SaveGame:
+  // Joueur
+  unsigned char hp;
+  unsigned char max_hp;
+  unsigned char attack;
+  unsigned char defense;
+  unsigned char level;
+  unsigned int experience;
+  
+  // Progression
+  unsigned char current_scene;
+  unsigned int visited_scenes;     /* bitmap */
+  unsigned char inventory[10];     /* IDs objets */
+  unsigned char doors_unlocked;    /* bitmap portes */
+  unsigned char monsters_killed;   /* bitmap monstres */
+  
+  // Meta
+  unsigned int score;
+  unsigned int moves;
+  char language[3];
+
+Auto-sauvegarde:
+  - Tous les 5 mouvements
+  - Apres chaque victoire combat
+  - Sur commande [S]
+
+===============================================================================
+VII. CONSIDERATIONS TECHNIQUES
+===============================================================================
+
+7.1 ANALYSE MEMOIRE
+-------------------
+Programme actuel:              ~13 KB
+Code combat + objets:          ~8-10 KB
+Donnees (monsters, items):     ~1 KB
+Images monstres (disque):      ~80 KB (10 x 8 KB)
+---------------------------------------------------
+TOTAL programme:               ~23 KB
+Espace disponible:             ~38 KB (jusqu'a $9600)
+MARGE:                         ~15 KB --> OK !
+
+7.2 PERFORMANCE
+---------------
+Chargement image monstre:      ~0.5 seconde (acceptable)
+Calculs combat:                Instantanes
+Sauvegarde disque:             ~0.3 seconde
+Affichage inventaire:          Instantane
+Verification portes:           Instantane
+
+7.3 LIMITATIONS IDENTIFIEES
+----------------------------
+- Maximum 10 types de monstres (extensible)
+- Maximum 15 objets differents (extensible)
+- Inventaire limite a 10 slots (extensible)
+- Sauvegarde unique (pas de slots multiples)
+- Pas de musique (seulement effets sonores)
+
+7.4 COMPATIBILITE
+-----------------
+Requis:
+  - Apple IIe Enhanced ou ulterieur
+  - 64 KB RAM
+  - ProDOS
+  - 80-column card
+  - Lecteur de disquette ou emulateur
+
+Recommande:
+  - Virtual ][ pour developpement
+  - cc65 compiler
+  - Editeur texte compatible ProDOS
+
+===============================================================================
+VIII. PLAN D'IMPLEMENTATION
+===============================================================================
+
+8.1 APPROCHE INCREMENTALE
+--------------------------
+Implementation par phases testables independamment.
+Chaque phase ajoute des fonctionnalites sans casser l'existant.
+
+8.2 PHASE 1: FONDATIONS RPG (2-3 heures)
+-----------------------------------------
+Objectifs:
+  - Structures de donnees (Player, Monster, Item, Door)
+  - Variables globales
+  - Initialisation joueur (HP:20, ATK:5, DEF:3, Level:1)
+  - Barre de statut HP/Level/XP
+  - Affichage stats en mode texte
+
+Fichiers modifies:
+  - spacetrip.c (ajout structures et variables)
+  
+Tests:
+  - Affichage barre de statut
+  - Verification valeurs initiales
+
+8.3 PHASE 2: SYSTEME DE COMBAT (4-5 heures)
+--------------------------------------------
+Objectifs:
+  - Fonction combat_encounter()
+  - Rencontres aleatoires (30-50%)
+  - Calculs de degats
+  - Options: Attaque, Defense, Fuite
+  - Affichage combat (texte seulement)
+  - Systeme XP et montee niveau
+  - Messages victoire/defaite
+
+Fichiers modifies:
+  - spacetrip.c (ajout fonctions combat)
+  
+Tests:
+  - Combat contre 1-2 monstres test
+  - Verification calculs degats
+  - Test montee niveau
+  - Test game over
+
+8.4 PHASE 3: IMAGES MONSTRES (2-3 heures)
+------------------------------------------
+Objectifs:
+  - Creation/recherche 5-10 images HGR
+  - Fonction load_monster_image()
+  - Affichage HGR pendant combat
+  - Mode mixte HGR + texte (4 lignes)
+
+Nouveaux fichiers:
+  - IMG/MONSTERS/*.HGR (images)
+  
+Fichiers modifies:
+  - spacetrip.c (chargement images)
+  
+Tests:
+  - Affichage images monstres
+  - Transition texte/graphique
+  - Verification mode mixte
+
+8.5 PHASE 4: OBJETS ET INVENTAIRE (3-4 heures)
+-----------------------------------------------
+Objectifs:
+  - Structures Item completes
+  - Systeme d'inventaire (10 slots)
+  - Commande [I]nventaire
+  - Utilisation objets (soins)
+  - Equipement (armes/armures)
+  - Application bonus stats
+  - Placement objets dans scenes
+  - Commande [F]ouiller
+
+Fichiers modifies:
+  - spacetrip.c (inventaire)
+  - Tous fichiers N*.TXT (ajout objets)
+  
+Tests:
+  - Ramassage objets
+  - Utilisation soins
+  - Equipement arme/armure
+  - Verification bonus stats
+
+8.6 PHASE 5: PORTES ET CLES (2-3 heures)
+-----------------------------------------
+Objectifs:
+  - Structure Door
+  - Parsing balise [LOCK:id]
+  - Verification objets requis
+  - Messages de blocage
+  - Deverrouillage permanent
+  - Sauvegarde etat portes
+
+Fichiers modifies:
+  - spacetrip.c (verification portes)
+  - Fichiers TXT choisis (ajout [LOCK:id])
+  
+Tests:
+  - Tentative acces zone verrouillee
+  - Deverrouillage avec cle
+  - Persistance etat apres sauvegarde
+
+8.7 PHASE 6: SAUVEGARDE COMPLETE (1-2 heures)
+----------------------------------------------
+Objectifs:
+  - Extension structure SaveGame
+  - Sauvegarde etat complet
+  - Chargement avec validation
+  - Auto-sauvegarde tous les 5 mouvements
+  - Commandes [S]ave et [L]oad
+
+Fichiers modifies:
+  - spacetrip.c (save/load etendus)
+  
+Tests:
+  - Sauvegarde partie
+  - Chargement partie
+  - Validation donnees
+  - Auto-sauvegarde
+
+8.8 PHASE 7: POLISH ET EQUILIBRAGE (2-3 heures)
+------------------------------------------------
+Objectifs:
+  - Effets sonores (combat, victoire, defaite)
+  - Animations texte
+  - Ecran game over detaille
+  - Ecran victoire finale
+  - Balance gameplay (difficulte)
+  - Ajustement stats monstres
+  - Ajustement XP/Levels
+  - Playtesting complet
+
+Fichiers modifies:
+  - spacetrip.c (polish)
+  - Tous fichiers TXT (ajustements)
+  
+Tests:
+  - Partie complete
+  - Verification equilibrage
+  - Tests utilisateurs
+
+8.9 DUREE TOTALE ESTIMEE
+-------------------------
+Phase 1: 2-3 heures
+Phase 2: 4-5 heures
+Phase 3: 2-3 heures
+Phase 4: 3-4 heures
+Phase 5: 2-3 heures
+Phase 6: 1-2 heures
+Phase 7: 2-3 heures
+-----------------------
+TOTAL:   16-23 heures
+
+8.10 JALONS (MILESTONES)
+------------------------
+M1: Combat basique fonctionnel (Phase 1+2)
+M2: Combat avec graphismes (Phase 3)
+M3: Systeme complet items/portes (Phase 4+5)
+M4: Version jouable complete (Phase 6+7)
+
+===============================================================================
+IX. ANNEXES
+===============================================================================
+
+9.1 FORMULES TECHNIQUES
+-----------------------
+
+Calcul bucket (repertoires):
+  bucket = scene_id / 100
+  
+Chemin image scene:
+  sprintf(path, "IMG/N%03u.HGR", scene_id);
+  
+Chemin texte scene:
+  sprintf(path, "TXT%s/N%03u", lang, scene_id);
+  
+Chemin image monstre:
+  sprintf(path, "IMG/MONSTERS/%s.HGR", monster_name);
+
+XP requis pour niveau n:
+  xp_required = 50 * n * (n - 1) / 2
+
+Degats combat:
+  damage = max(1, attacker_atk - (defender_def / 2) + rand(0, 3))
+
+Chance fuite:
+  flee_chance = min(95, 50 + (player_level * 5))
+
+9.2 RESSOURCES EXTERNES
+-----------------------
+cc65 documentation:
+  https://cc65.github.io/doc/apple2enh.html
+
+HGR format info:
+  https://www.kreativekorp.com/miscpages/a2info/hgr.shtml
+
+bmp2dhr (conversion images):
+  https://github.com/digarok/bmp2dhr
+
+Virtual ][ emulator:
+  https://www.virtualii.com/
+
+AppleCommander (gestion disques):
+  https://applecommander.github.io/
+
+9.3 NOTES DE VERSION
+--------------------
+Version actuelle: 2.1
+  - Structure plate IMG/, TXTFR/, TXTEN/
+  - 13 scenes completes (FR + EN)
+  - Navigation non-lineaire
+  - Chemins ProDOS corriges
+
+Version cible: 3.0 (avec RPG)
+  - Toutes ameliorations QoL (Priorite 1)
+  - Systeme combat complet
+  - Objets et inventaire
+  - Portes verrouillees
+  - Sauvegarde etendue
+
+===============================================================================
+X. CONCLUSION
+===============================================================================
+
+Ce document presente un plan complet et realiste pour transformer SPACETRIP
+d'un jeu d'exploration simple en un RPG spatial complet.
+
+L'implementation est divisee en phases incrementales et testables.
+Chaque phase ajoute de la valeur sans compromettre la stabilite.
+
+Priorites recommandees:
+  1. Ameliorations QoL (rapide, grand impact)
+  2. Systeme combat basique (coeur du RPG)
+  3. Objets et portes (profondeur gameplay)
+
+Toutes les fonctionnalites proposees sont techniquement realisables sur
+Apple II avec les contraintes memoire et performance identifiees.
+
+Le temps de developpement total estime est de 16-23 heures pour la
+transformation complete en RPG.
+
+Une approche incrementale permet de valider chaque etape et d'ajuster
+le plan selon les retours et contraintes rencontrees.
+
+===============================================================================
+FIN DU DOCUMENT
+===============================================================================
+
+Pour toute question ou suggestion:
+Email: gist974@gmail.com
+
+Derniere mise a jour: 1er octobre 2024
+

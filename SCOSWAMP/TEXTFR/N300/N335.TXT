@@ -1,0 +1,20 @@
+335 : La demeure de Gayolard
+-----------------------------
+
+Vous quittez la taverne. Dehors, le soleil brille et vous clignez
+des yeux le temps de vous habituer. Vous vous mettez en route,
+mais vous ignorez comment trouver la demeure du sorcier. Vous
+interrogez un vieil homme appuye contre une vitrine. D'abord
+soupconneux, il devient amical et vous indique la direction. Plus
+loin, vous vous egarez, et une grosse femme vous renseigne. Il
+semble que tout le monde connaisse le logis de Gayolard.
+Finalement, vous arrivez devant une petite maison a la lisiere du
+village. Dans son jardin, un petit homme replet, vetu d'une
+tunique blanche, modele de l'argile. Vous l'abordez et lui exposez
+votre histoire. Il vous ecoute avec bienveillance, puis esquisse
+un sourire. « Comment comptez-vous traverser le Marais, alors
+qu'aucun n'en a jamais trace la carte ? » demande-t-il. La
+decision vous revient : devoiler votre secret ou le garder.
+
+C 371 Reveler a Gayolard l'existence de votre Anneau magique
+C 096 Garder le secret et taire l'existence de l'Anneau

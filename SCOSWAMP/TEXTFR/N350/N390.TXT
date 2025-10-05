@@ -1,0 +1,13 @@
+390 : Trois sentiers marecageux
+------------------------------
+Vous vous trouvez a un carrefour dans des terres tres humides.
+Trois sentiers s'offrent a vous; tous paraissent marecageux et
+peu surs: boue, eaux stagnantes et racines glissantes rendent
+la progression penible et risquee.
+Choisissez avec soin: chaque voie peut cacher des embuches ou,
+au contraire, offrir une sortie rapide selon le terrain.
+Que faites-vous?
+
+C 144 Prendre le sentier du nord
+C 209 Prendre le sentier de l'est
+C 195 Prendre le sentier de l'ouest

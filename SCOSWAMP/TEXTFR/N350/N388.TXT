@@ -1,0 +1,12 @@
+388 : Herbe a pinces
+------------------------------
+Vous entrez dans une agreable clairiere envahie d'herbes hautes.
+Vous restez immobile et observez: l'herbe pousse a une vitesse
+anormale; on la voit presque bouger sous vos yeux.
+Des pinces apparaissent aux extremites des tiges; elles tentent
+de vous saisir. Vous etes au coeur d'une etendue d'HERBE A PINCES.
+Vous etes dans la Clairiere n 24.
+Que faites-vous?
+
+C 134 Vous vous defendez avec votre epee
+C 167 Vous recourez a la magie

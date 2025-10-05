@@ -1,0 +1,9 @@
+308 : Bijou du bassin
+------------------------------
+La BETE DU BASSIN est enfin morte; vous l'achevez a l'epee.
+Vous entaillez la chair de son front et en detachez le gros
+Bijou Violet.
+Vous notez immediatement votre trouvaille sur votre Feuille d'Aventure.
+Le seul chemin qui quitte la clairiere ramene vers l'ouest.
+
+C 330 Revenir vers l'ouest

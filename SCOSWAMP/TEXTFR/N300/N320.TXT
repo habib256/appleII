@@ -1,0 +1,18 @@
+320 : La clairiere de la Licorne
+-------------------------------
+
+Le chemin suit une legere pente descendante et aboutit a une
+clairiere envahie d'herbes. C'est la Clairiere n 29. Si vous y
+etes deja venu, rendez-vous au 265. Sinon, lisez ce qui suit.
+Un animal blanc est couche au centre de la clairiere. D'abord,
+vous croyez a un cheval, mais lorsqu'il tourne la tete vers
+vous, vous reconnaissez aussitot une LICORNE. Elle semble
+blessee : des traces de griffes marquent son flanc. Elle se
+releve, baisse sa corne vers vous et pousse un grognement
+qui prend des allures de defis. Le coeur vous bat : que faire ?
+Vous pouvez tenter de fuir, l'attaquer a l'epee, ou recourir
+a la magie pour la calmer. Choisissez vite.
+
+C 368 Tenter de fuir la clairiere
+C 221 L'attaquer a l'epee
+C 119 Recourir a la magie pour la calmer

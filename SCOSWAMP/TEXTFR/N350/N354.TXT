@@ -1,0 +1,12 @@
+354 : Amulette incendiaire
+------------------------------
+Vous retirez votre epee du cadavre du repugnant adversaire.
+Autour de vous, les araignees s'attroupent et s'approchent.
+Vous penchez sur le corps et saisissez l'Amulette en forme d'araignee.
+A l'instant ou vous l'otez, une etincelle jaillit du bijou.
+Le cadavre prend feu instantanement; les flammes se propagent.
+Vous vous hateuritez et emportez l'Amulette tandis que le brasier
+devient un mur de feu derriere vous. Il faut vous depecher.
+Que faites-vous?
+
+C 165 Partir immediatement pour echapper aux flammes

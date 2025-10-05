@@ -1,0 +1,51 @@
+===============================================================================
+FICHIERS TEXTE OPTIMISES - Liste rapide
+===============================================================================
+
+Les fichiers suivants ont ete optimises pour respecter la limite de
+18 lignes de texte (hors choix) :
+
+N000/N001.TXT - Le chemin vers le Marais
+  Avant : 27 lignes → Apres : 16 lignes (-11 lignes, -41%)
+
+N000/N009.TXT - L'entree du Marais
+  Avant : 22 lignes → Apres : 16 lignes (-6 lignes, -27%)
+
+N000/N048.TXT - Le defi aux villageois
+  Avant : 25 lignes → Apres : 15 lignes (-10 lignes, -40%)
+
+N050/N058.TXT - Le passage prudent
+  Avant : 19 lignes → Apres : 13 lignes (-6 lignes, -32%)
+
+N050/N095.TXT - La rencontre avec Grognard
+  Avant : 25 lignes → Apres : 16 lignes (-9 lignes, -36%)
+
+N150/N155.TXT - La benediction de Grognard
+  Avant : 21 lignes → Apres : 16 lignes (-5 lignes, -24%)
+
+N200/N240.TXT - La proposition de Grognard
+  Avant : 24 lignes → Apres : 16 lignes (-8 lignes, -33%)
+
+N300/N335.TXT - La demeure de Gayolard
+  Avant : 23 lignes → Apres : 17 lignes (-6 lignes, -26%)
+
+N350/N371.TXT - La quete de l'Antherique
+  Avant : 22 lignes → Apres : 18 lignes (-4 lignes, -18%)
+
+===============================================================================
+TOTAL : 9 fichiers optimises
+Lignes supprimees : 65 lignes
+Reduction moyenne : 30% par fichier
+===============================================================================
+
+NOTES :
+- Les informations de jeu (tests CHANCE, ENDURANCE, etc.) ont ete
+  preservees dans tous les fichiers
+- L'histoire principale et les choix n'ont pas ete modifies
+- Seules les descriptions atmospheriques et les repetitions ont ete
+  condensees ou supprimees
+- Tous les 178 fichiers respectent maintenant la limite de 18 lignes
+
+Date : 5 octobre 2025
+===============================================================================
+

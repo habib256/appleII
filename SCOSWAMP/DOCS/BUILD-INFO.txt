@@ -1,0 +1,122 @@
+===============================================================================
+LE MARAIS AUX SCORPIONS - Informations de compilation
+===============================================================================
+
+FICHIER BINAIRE GENERE
+-----------------------
+Nom      : SCOSWAMP.BIN
+Taille   : 11 KB (optimisé)
+Format   : Binaire brut ProDOS (pas d'en-tête AppleSingle)
+Adresse  : $4000 (16384 décimal)
+Cible    : Apple IIe Enhanced (65C02, 80 colonnes)
+
+SCENE INITIALE
+--------------
+Scene    : N000 (scène 0 = écran titre)
+Mode     : HGR plein écran (l'image s'affiche dès le chargement)
+Fichiers : IMG/N000/N000.HGR.BIN + TEXTFR/N000/N000.TXT (ou TEXTEN)
+Action   : Appuyer sur [ESPACE] pour voir le texte du titre
+
+CARTOGRAPHIE MEMOIRE
+--------------------
+$0000-$1FFF : Système ProDOS, page texte, vecteurs
+$2000-$3FFF : HGR Page 1 (8 KB) - RESERVE POUR LES IMAGES
+$4000-$BFFF : SCOSWAMP.BIN (programme + données)
+$C000-$FFFF : ROM et I/O
+
+POURQUOI DEMARRER A $4000 ?
+---------------------------
+La page HGR 1 occupe $2000-$3FFF (8192 octets). Sans l'option -S,0x4000,
+le programme démarrerait à l'adresse par défaut (~$0803) et ECRASERAIT
+la zone graphique lors de son exécution !
+
+En démarrant à $4000, on préserve toute la zone HGR pour les images
+chargées depuis les fichiers .HGR.BIN.
+
+FLAGS DE COMPILATION UTILISES
+------------------------------
+-t apple2enh         : Cible Apple IIe Enhanced (65C02)
+-O -Oirs             : Optimisations (inline, registres, taille)
+-Wl -S,0x4000        : Adresse de démarrage à $4000
+-Wl -D,__EXEHDR__=0  : Binaire brut ProDOS (SANS en-tête AppleSingle)
+
+VERIFICATION DU BINAIRE
+-----------------------
+✓ Taille     : 12 KB (raisonnable)
+✓ Type       : Binaire brut (pas d'en-tête AppleSingle)
+✓ Démarrage  : $4000 (zone HGR préservée)
+✓ Compatible : ProDOS 8, Apple IIe Enhanced
+
+STRUCTURE DU PROJET
+-------------------
+SCOSWAMP/
+  ├── SCOSWAMP.BIN        ← Binaire compilé
+  ├── BASIC.SYSTEM.SYS    ← ProDOS BASIC.SYSTEM
+  ├── PRODOS.SYS          ← Noyau ProDOS
+  ├── STARTUP.BAS         ← Script de démarrage
+  ├── SRC/                ← Sources C
+  │   ├── scoswamp.c      ← Programme principal
+  │   ├── paths.c         ← Gestion chemins ProDOS
+  │   ├── paths.h         ← En-têtes
+  │   ├── Makefile        ← Compilation avec Make
+  │   ├── build.sh        ← Script de compilation rapide
+  │   └── README.md       ← Documentation
+  ├── IMG/                ← Images HGR
+  │   ├── N000/           ← Scènes 0-49
+  │   │   └── N*.HGR.BIN  (8192 octets/fichier)
+  │   ├── N050/           ← Scènes 50-99
+  │   └── ...
+  ├── TEXTFR/             ← Textes français
+  │   ├── N000/           ← Scènes 0-49
+  │   │   └── N*          (sans extension)
+  │   └── ...
+  └── TEXTEN/             ← Textes anglais
+      └── ...
+
+COMPILATION
+-----------
+cd SRC
+
+# Avec Make
+make              # Compile
+make clean        # Nettoie fichiers intermédiaires
+make rebuild      # Recompile tout
+make info         # Affiche configuration
+
+# Avec le script
+./build.sh        # Compile
+./build.sh clean  # Nettoie
+./build.sh info   # Affiche configuration
+
+CONFORMITE PRODOS
+-----------------
+✓ Chemins relatifs (pas de / initial)
+✓ Séparateur / (ProDOS)
+✓ Longueur max 64 caractères (FILENAME_MAX)
+✓ Composants ≤ 15 caractères
+✓ Structure hiérarchique : IMG/N050/N075.HGR.BIN
+✓ Buffer I/O 1 Ko par fichier (géré par libc)
+
+FONCTIONNALITES
+---------------
+✓ Démarrage en mode HGR plein écran avec l'image N000
+✓ Bascule texte 80 colonnes / graphique HGR (touche ESPACE)
+✓ Navigation par choix (touches A-Z)
+✓ Support français/anglais (sélection au démarrage)
+✓ Chargement dynamique des images HGR (8 KB par scène)
+✓ Parser de fichiers texte avec choix multiples
+✓ Écran titre interactif (scène 000)
+
+REFERENCES
+----------
+- Documentation ProDOS MLI : DOCS/PRODOS-MLI.md
+- Documentation Apple II HGR : DOCS/APPLE2-HGR-TEXT.txt
+- cc65 documentation : ../DOCS/cc65/
+
+AUTEUR
+------
+VERHILLE Arnaud - gist974@gmail.com
+
+Date de compilation : 5 octobre 2025
+===============================================================================
+

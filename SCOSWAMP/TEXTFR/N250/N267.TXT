@@ -1,0 +1,13 @@
+267 : L'affrontement avec le Voleur
+----------------------------------
+
+Le voleur pousse un cri et se jette sur vous. Il n'est arme que
+d'un poignard, mais il est retors et rapide.
+VOLEUR HABILETE: 10 ENDURANCE: 9
+Il vous est impossible de prendre la fuite : le bandit ne vous
+laisse aucun instant de repos. Il faut en venir aux mains.
+Si vous parvenez a le tuer, rendez-vous au 386. En cas de defaite,
+votre aventure s'acheve ici.
+
+C 386 Si vous tuez le Voleur, poursuivre
+C 000 En cas de defaite : votre aventure s'acheve ici
