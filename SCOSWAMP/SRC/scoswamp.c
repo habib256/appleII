@@ -216,17 +216,25 @@ void main(void) {
     videomode(VIDEOMODE_80COL);
     clrscr();
     
-    cprintf("\r\n\r\n\r\n");
+    cprintf("\r\n\r\n");
     cprintf("          ====================================================\r\n");
     cprintf("                   LE MARAIS AUX SCORPIONS\r\n");
+    cprintf("                      SCORPION SWAMP\r\n");
     cprintf("          ====================================================\r\n");
-    cprintf("\r\n\r\n");
+    cprintf("\r\n");
+    cprintf("          A Fighting Fantasy Gamebook\r\n");
+    cprintf("                      Un livre dont vous etes le heros\r\n");
+    cprintf("\r\n");
+    cprintf("               Steve JACKSON & Ian LIVINGSTONE (1985)\r\n");
+    cprintf("\r\n");
+    cprintf("          Apple II Port : Arnaud VERHILLE (gist974@gmail.com)\r\n");
+    cprintf("\r\n");
     cprintf("                    SELECT YOUR LANGUAGE / LANGUE\r\n");
-    cprintf("\r\n\r\n");
+    cprintf("\r\n");
     cprintf("                         [F] - Francais\r\n");
     cprintf("\r\n");
     cprintf("                         [E] - English\r\n");
-    cprintf("\r\n\r\n\r\n");
+    cprintf("\r\n\r\n");
     cprintf("          ====================================================\r\n");
     
     /* Attendre le choix de langue */

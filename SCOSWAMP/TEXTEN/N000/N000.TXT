@@ -12,12 +12,11 @@ speaks of a fabulous treasure hidden in its depths...
 Can you survive the perils of the Swamp and discover its secrets?
 Your choices will determine your fate!
 
+
 Commands:
   [SPACE]  - Toggle between text and graphic mode
   [A-Z]    - Make a choice
   [Q]      - Quit the adventure
-
-A game by VERHILLE Arnaud - gist974@gmail.com
 
 C 1 Start the adventure
 

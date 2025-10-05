@@ -12,12 +12,11 @@ legende parle d'un tresor fabuleux cache en ses profondeurs...
 Saurez-vous survivre aux perils du Marais et decouvrir ses secrets ?
 Vos choix determineront votre destin !
 
+
 Commandes :
   [ESPACE] - Basculer entre mode texte et graphique
   [A-Z]    - Faire un choix
   [Q]      - Quitter l'aventure
-
-Un jeu de VERHILLE Arnaud - gist974@gmail.com
 
 C 1 Commencer l'aventure
 
