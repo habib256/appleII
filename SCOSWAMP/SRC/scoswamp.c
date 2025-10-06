@@ -189,14 +189,21 @@ void cycle_video_mode(void) {
 
 /* Charger une nouvelle scene */
 void load_scene(int scene_id) {
+    int has_image;
     current_scene = scene_id;
     
-    /* Charger l'image HGR (toujours, meme si affichage en mode texte) */
-    load_hgr_image(scene_id);
+    /* Charger l'image HGR si elle existe */
+    has_image = load_hgr_image(scene_id);
     
-    /* Toujours afficher l'image HGR en plein ecran en premier */
-    video_mode = 1;  /* Force le mode HGR pour la nouvelle scene */
-    enable_hgr_full();
+    if (has_image) {
+        /* Image disponible : afficher en mode HGR plein ecran */
+        video_mode = 1;
+        enable_hgr_full();
+    } else {
+        /* Pas d'image : afficher le texte en mode 80 colonnes */
+        video_mode = 0;
+        display_scene_text(scene_id);
+    }
 }
 
 void main(void) {
