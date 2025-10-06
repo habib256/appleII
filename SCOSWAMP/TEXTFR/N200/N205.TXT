@@ -1,0 +1,14 @@
+205 : Grognard, la bière et les sorciers
+---------------------------------------
+
+Grognard commande un autre pichet et vous parle des trois sorciers :  
+
+- **Gayolard** est selon lui un bon sorcier.  
+- **Stratagus** s’est tourné vers le Mal.  
+- **Pompatarte** est un mystère, puissant, mais imprévisible.  
+
+Tous trois recrutent un aventurier pour explorer le Marais.  
+
+C 335 Gayolard, le bon sorcier  
+C 255 Stratagus, au service du Mal  
+C 027 Le mystérieux Pompatarte
