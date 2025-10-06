@@ -166,9 +166,9 @@ void display_scene_text(int scene_id) {
     }
     
     if (strcmp(language, "FR") == 0) {
-        cprintf("\r\n[ESPACE]=Basculer vers le Graphique HGR [A-Z]=Choix [Q]=Quitter\r\n");
+        cprintf("\r\n[ESPACE/RETURN/ESC]=Basculer Graphique HGR [A-Z]=Choix [Q]=Quitter\r\n");
     } else {
-        cprintf("\r\n[SPACE]=Toggle HGR Graphic [A-Z]=Choice [Q]=Quit\r\n");
+        cprintf("\r\n[SPACE/RETURN/ESC]=Toggle HGR Graphic [A-Z]=Choice [Q]=Quit\r\n");
     }
 }
 
@@ -194,12 +194,9 @@ void load_scene(int scene_id) {
     /* Charger l'image HGR (toujours, meme si affichage en mode texte) */
     load_hgr_image(scene_id);
     
-    /* Afficher selon le mode video courant */
-    if (video_mode == 0) {
-        display_scene_text(scene_id);
-    } else {
-        enable_hgr_full();
-    }
+    /* Toujours afficher l'image HGR en plein ecran en premier */
+    video_mode = 1;  /* Force le mode HGR pour la nouvelle scene */
+    enable_hgr_full();
 }
 
 void main(void) {
@@ -261,8 +258,8 @@ void main(void) {
     while (1) {
         key = cgetc();
         
-        if (key == ' ') {
-            /* Barre d'espace : cycler les modes */
+        if (key == ' ' || key == '\r' || key == 27) {
+            /* Barre d'espace, RETURN ou ESC : cycler les modes */
             cycle_video_mode();
             
         } else if (key == 'Q' || key == 'q') {
