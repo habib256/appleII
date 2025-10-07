@@ -1,0 +1,21 @@
+164 : La Maîtresse des Oiseaux
+------------------------------
+L’Anneau de Cuivre reste froid : la Maitresse des Oiseaux est donc bienveillante.  
+Vous lui expliquez le but de votre mission et elle se met aussitôt à sautiller de joie :  
+« Il y a donc encore un buisson d’Antherique ? Quelle merveille ! »  
+Son enthousiasme est si sincere qu’elle ressemble un instant à une petite fille ravie.
+
+Consciente de l’importance de votre quête pour la cause du Bien,  
+elle vous tend une **potion magique** :  
+elle a le pouvoir de ramener à leur valeur initiale vos points  
+d’**HABILETÉ**, d’**ENDURANCE** ou de **CHANCE** — à vous de choisir.
+
+Puis, d’un geste, elle appelle plusieurs oiseaux qui viennent tournoyer autour d'elle.  
+Elle leur murmure quelques mots, les écoute, puis se tourne vers vous :  
+« Gayolard avait raison, dit-elle doucement,  
+il existe bien un buisson d’Antherique, au nord-est du Marais.  
+Je peux t’aider à t’y rendre. »
+
+Vous acceptez avec reconnaissance.
+
+C 248 Être guidé par la Maîtresse des Oiseaux
