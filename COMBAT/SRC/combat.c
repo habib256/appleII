@@ -39,6 +39,7 @@ Player player;
 Monster monsters[MAX_MONSTERS];
 int current_monster = -1;
 int combat_active = 0;
+int display_mode = 0;  /* 0 = mode texte, 1 = mode HGR */
 char language[3] = "FR";
 char monster_img_path[MAX_PATH];
 
@@ -254,71 +255,144 @@ void display_status_bar(void) {
             player.experience, player.attack, player.defense);
 }
 
+/* Basculer entre mode HGR et mode texte */
+void toggle_display_mode(void) {
+    display_mode = !display_mode;
+    
+    if (display_mode == 1) {
+        /* Mode HGR - afficher l'image du monstre */
+        set_video_mode(1);
+        
+        /* Charger l'image du monstre si disponible */
+        if (current_monster >= 0 && current_monster < MAX_MONSTERS) {
+            load_monster_image(monsters[current_monster].image_file);
+        }
+        
+        /* Attendre un peu pour l'affichage */
+        __asm__("nop");
+        __asm__("nop");
+    } else {
+        /* Mode texte - afficher l'interface de combat */
+        set_video_mode(0);
+        videomode(VIDEOMODE_80COL);
+        clrscr();
+        
+        /* Afficher les stats du monstre */
+        if (current_monster >= 0) {
+            int i;
+            int monster_hp_bars;
+            
+            cprintf("=== %s ===\r\n", monsters[current_monster].name);
+            cprintf("HP Monstre: ");
+            
+            /* Calculer le nombre de barres à afficher pour le monstre */
+            if (monsters[current_monster].max_hp > 0) {
+                monster_hp_bars = (monsters[current_monster].hp * 10) / monsters[current_monster].max_hp;
+            } else {
+                monster_hp_bars = 0;
+            }
+            
+            /* S'assurer que monster_hp_bars est dans la plage 0-10 */
+            if (monster_hp_bars < 0) monster_hp_bars = 0;
+            if (monster_hp_bars > 10) monster_hp_bars = 10;
+            
+            /* Afficher barre de vie du monstre */
+            for (i = 0; i < 10; i++) {
+                if (i < monster_hp_bars) {
+                    cprintf("#");  /* Caractère # au lieu de █ */
+                } else {
+                    cprintf(".");  /* Caractère . au lieu de ░ */
+                }
+            }
+            cprintf(" %d/%d\r\n", monsters[current_monster].hp, monsters[current_monster].max_hp);
+            cprintf("ATK: %d  DEF: %d\r\n", monsters[current_monster].attack, monsters[current_monster].defense);
+        }
+        
+        cprintf("\r\n");
+        
+        /* Afficher les stats du joueur */
+        display_status_bar();
+        
+        cprintf("\r\n");
+        
+        /* Afficher les options de combat */
+        if (strcmp(language, "FR") == 0) {
+            cprintf("=== OPTIONS DE COMBAT ===\r\n");
+            cprintf("[A] Attaquer  [D] Defendre  [F] Fuir  [Q] Quitter  [ESPACE] Basculer affichage\r\n");
+        } else {
+            cprintf("=== COMBAT OPTIONS ===\r\n");
+            cprintf("[A] Attack  [D] Defend  [F] Flee  [Q] Quit  [SPACE] Toggle display\r\n");
+        }
+    }
+}
+
 /* Afficher l'écran de combat */
 void display_combat_screen(void) {
-    int i;
-    
-    /* Mode HGR pour l'image du monstre */
-    set_video_mode(1);
-    
-    /* Charger l'image du monstre si disponible */
-    if (current_monster >= 0 && current_monster < MAX_MONSTERS) {
-        load_monster_image(monsters[current_monster].image_file);
-    }
-    
-    /* Attendre un peu pour l'affichage */
-    __asm__("nop");
-    __asm__("nop");
-    
-    /* Basculer vers le mode texte pour l'interface */
-    set_video_mode(0);
-    videomode(VIDEOMODE_80COL);
-    clrscr();
-    
-    /* Afficher les stats du monstre */
-    if (current_monster >= 0) {
-        int monster_hp_bars;
+    /* Utiliser le mode d'affichage actuel */
+    if (display_mode == 1) {
+        /* Mode HGR - afficher l'image du monstre */
+        set_video_mode(1);
         
-        cprintf("=== %s ===\r\n", monsters[current_monster].name);
-        cprintf("HP Monstre: ");
-        
-        /* Calculer le nombre de barres à afficher pour le monstre */
-        if (monsters[current_monster].max_hp > 0) {
-            monster_hp_bars = (monsters[current_monster].hp * 10) / monsters[current_monster].max_hp;
-        } else {
-            monster_hp_bars = 0;
+        /* Charger l'image du monstre si disponible */
+        if (current_monster >= 0 && current_monster < MAX_MONSTERS) {
+            load_monster_image(monsters[current_monster].image_file);
         }
         
-        /* S'assurer que monster_hp_bars est dans la plage 0-10 */
-        if (monster_hp_bars < 0) monster_hp_bars = 0;
-        if (monster_hp_bars > 10) monster_hp_bars = 10;
-        
-        /* Afficher barre de vie du monstre */
-        for (i = 0; i < 10; i++) {
-            if (i < monster_hp_bars) {
-                cprintf("#");  /* Caractère # au lieu de █ */
-            } else {
-                cprintf(".");  /* Caractère . au lieu de ░ */
-            }
-        }
-        cprintf(" %d/%d\r\n", monsters[current_monster].hp, monsters[current_monster].max_hp);
-        cprintf("ATK: %d  DEF: %d\r\n", monsters[current_monster].attack, monsters[current_monster].defense);
-    }
-    
-    cprintf("\r\n");
-    
-    /* Afficher les stats du joueur */
-    display_status_bar();
-    
-    cprintf("\r\n");
-    
-    /* Afficher les options de combat */
-    if (strcmp(language, "FR") == 0) {
-        cprintf("=== OPTIONS DE COMBAT ===\r\n");
-        cprintf("[A] Attaquer  [D] Defendre  [F] Fuir  [Q] Quitter\r\n");
+        /* Attendre un peu pour l'affichage */
+        __asm__("nop");
+        __asm__("nop");
     } else {
-        cprintf("=== COMBAT OPTIONS ===\r\n");
-        cprintf("[A] Attack  [D] Defend  [F] Flee  [Q] Quit\r\n");
+        /* Mode texte - afficher l'interface de combat */
+        set_video_mode(0);
+        videomode(VIDEOMODE_80COL);
+        clrscr();
+        
+        /* Afficher les stats du monstre */
+        if (current_monster >= 0) {
+            int i;
+            int monster_hp_bars;
+            
+            cprintf("=== %s ===\r\n", monsters[current_monster].name);
+            cprintf("HP Monstre: ");
+            
+            /* Calculer le nombre de barres à afficher pour le monstre */
+            if (monsters[current_monster].max_hp > 0) {
+                monster_hp_bars = (monsters[current_monster].hp * 10) / monsters[current_monster].max_hp;
+            } else {
+                monster_hp_bars = 0;
+            }
+            
+            /* S'assurer que monster_hp_bars est dans la plage 0-10 */
+            if (monster_hp_bars < 0) monster_hp_bars = 0;
+            if (monster_hp_bars > 10) monster_hp_bars = 10;
+            
+            /* Afficher barre de vie du monstre */
+            for (i = 0; i < 10; i++) {
+                if (i < monster_hp_bars) {
+                    cprintf("#");  /* Caractère # au lieu de █ */
+                } else {
+                    cprintf(".");  /* Caractère . au lieu de ░ */
+                }
+            }
+            cprintf(" %d/%d\r\n", monsters[current_monster].hp, monsters[current_monster].max_hp);
+            cprintf("ATK: %d  DEF: %d\r\n", monsters[current_monster].attack, monsters[current_monster].defense);
+        }
+        
+        cprintf("\r\n");
+        
+        /* Afficher les stats du joueur */
+        display_status_bar();
+        
+        cprintf("\r\n");
+        
+        /* Afficher les options de combat */
+        if (strcmp(language, "FR") == 0) {
+            cprintf("=== OPTIONS DE COMBAT ===\r\n");
+            cprintf("[A] Attaquer  [D] Defendre  [F] Fuir  [Q] Quitter  [ESPACE] Basculer affichage\r\n");
+        } else {
+            cprintf("=== COMBAT OPTIONS ===\r\n");
+            cprintf("[A] Attack  [D] Defend  [F] Flee  [Q] Quit  [SPACE] Toggle display\r\n");
+        }
     }
 }
 
@@ -563,6 +637,10 @@ void combat_loop(void) {
             case 'q':
                 combat_active = 0;
                 return;
+                
+            case ' ':  /* Touche espace */
+                toggle_display_mode();
+                break;
         }
         
         cprintf("Appuyez sur une touche...\r\n");
@@ -576,6 +654,7 @@ void start_combat(int monster_id) {
     
     current_monster = monster_id;
     combat_active = 1;
+    display_mode = 0;  /* Commencer en mode texte */
     
     /* Restaurer les HP du monstre */
     monsters[current_monster].hp = monsters[current_monster].max_hp;
@@ -601,11 +680,11 @@ void display_main_menu(void) {
         cprintf("                     SYSTEME DE COMBAT APPLE II\r\n");
         cprintf("          ====================================================\r\n");
         cprintf("\r\n");
-        cprintf("  [1] Combattre Spore Cosmique (Facile)\r\n");
-        cprintf("  [2] Combattre Alien Vortex (Moyen)\r\n");
-        cprintf("  [3] Combattre Robot Sentinel (Moyen)\r\n");
-        cprintf("  [4] Combattre Baleine Celeste (Difficile)\r\n");
-        cprintf("  [5] Combattre Guardian Magnetar (BOSS)\r\n");
+        cprintf("  [A] Combattre Spore Cosmique (Facile)\r\n");
+        cprintf("  [B] Combattre Alien Vortex (Moyen)\r\n");
+        cprintf("  [C] Combattre Robot Sentinel (Moyen)\r\n");
+        cprintf("  [D] Combattre Baleine Celeste (Difficile)\r\n");
+        cprintf("  [E] Combattre Guardian Magnetar (BOSS)\r\n");
         cprintf("  [S] Afficher les statistiques\r\n");
         cprintf("  [T] Test du generateur aleatoire\r\n");
         cprintf("  [L] Changer la langue\r\n");
@@ -617,11 +696,11 @@ void display_main_menu(void) {
         cprintf("                     APPLE II COMBAT SYSTEM\r\n");
         cprintf("          ====================================================\r\n");
         cprintf("\r\n");
-        cprintf("  [1] Fight Cosmic Spore (Easy)\r\n");
-        cprintf("  [2] Fight Alien Vortex (Medium)\r\n");
-        cprintf("  [3] Fight Robot Sentinel (Medium)\r\n");
-        cprintf("  [4] Fight Celestial Whale (Hard)\r\n");
-        cprintf("  [5] Fight Guardian Magnetar (BOSS)\r\n");
+        cprintf("  [A] Fight Cosmic Spore (Easy)\r\n");
+        cprintf("  [B] Fight Alien Vortex (Medium)\r\n");
+        cprintf("  [C] Fight Robot Sentinel (Medium)\r\n");
+        cprintf("  [D] Fight Celestial Whale (Hard)\r\n");
+        cprintf("  [E] Fight Guardian Magnetar (BOSS)\r\n");
         cprintf("  [S] Show statistics\r\n");
         cprintf("  [T] Test random generator\r\n");
         cprintf("  [L] Change language\r\n");
@@ -720,19 +799,24 @@ void main(void) {
         key = cgetc();
         
         switch (key) {
-            case '1':
+            case 'A':
+            case 'a':
                 start_combat(0);
                 break;
-            case '2':
+            case 'B':
+            case 'b':
                 start_combat(1);
                 break;
-            case '3':
+            case 'C':
+            case 'c':
                 start_combat(2);
                 break;
-            case '4':
+            case 'D':
+            case 'd':
                 start_combat(3);
                 break;
-            case '5':
+            case 'E':
+            case 'e':
                 start_combat(4);
                 break;
             case 'S':
