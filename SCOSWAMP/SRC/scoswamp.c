@@ -297,7 +297,7 @@ void main(void) {
     
     cprintf("\r\n");
     cprintf("          ====================================================\r\n");
-    cprintf("                     SCORPION SWAMP\r\n");
+    cprintf("                     SCORPIONS SWAMP\r\n");
     cprintf("                          LE MARAIS AUX SCORPIONS\r\n");
     cprintf("          ====================================================\r\n");
     cprintf("\r\n");
