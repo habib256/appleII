@@ -1,8 +1,6 @@
 000 : LE MARAIS AUX SCORPIONS
 =============================
 
-Un Livre dont Vous etes le Heros
-
 Vous etes un(e) aventurier(e) aguerri(e) en quete de gloire !
 
 Le Marais aux Scorpions est un lieu maudit que nul n'ose explorer.
@@ -14,7 +12,7 @@ Vos choix determineront votre destin !
 
 
 Commandes :
-  [ESPACE] - Basculer entre mode texte et graphique
+  [ESPACE/RETURN/ESC] - Basculer entre mode texte et graphique
   [A-Z]    - Faire un choix
   [Q]      - Quitter l'aventure
 

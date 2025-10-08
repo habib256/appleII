@@ -70,6 +70,72 @@ void enable_hgr_full(void) {
     __asm__("sta $C052");  /* MIXCLR */
 }
 
+/* Charger le texte et les choix sans affichage (pour mode HGR) */
+void load_scene_text_choices(int scene_id) {
+    char line[MAX_LINE];
+    FILE* f;
+    int i, j;
+    size_t bytes_read;
+    
+    /* Build paths (conforme ProDOS MLI - chemins relatifs) */
+    if (build_paths(scene_id, language, g_imgPath, g_txtPath) != 0) {
+        return;  /* Scene ID hors plage */
+    }
+    
+    /* Reinitialiser les choix */
+    num_choices = 0;
+    
+    /* Open text file */
+    f = fopen(g_txtPath, "r");
+    if (!f) {
+        return;  /* Pas de fichier texte */
+    }
+    
+    /* Read file into buffer */
+    bytes_read = fread(file_buffer, 1, sizeof(file_buffer) - 1, f);
+    fclose(f);
+    
+    if (bytes_read == 0) {
+        return;
+    }
+    file_buffer[bytes_read] = '\0';
+    
+    /* Parser ligne par ligne pour extraire les choix */
+    j = 0;
+    for (i = 0; i <= bytes_read; i++) {
+        if (file_buffer[i] == '\r' || file_buffer[i] == '\n' || file_buffer[i] == '\0') {
+            /* Fin de ligne */
+            line[j] = '\0';
+            
+            if (line[0] == 'C' && line[1] == ' ') {
+                /* Choix : C ID Titre */
+                if (num_choices < MAX_CHOICES) {
+                    int id;
+                    char* title_start = strchr(line + 2, ' ');
+                    if (title_start && sscanf(line + 2, "%d", &id) == 1) {
+                        choices[num_choices].scene_id = id;
+                        strncpy(choices[num_choices].title, title_start + 1, 79);
+                        choices[num_choices].title[79] = '\0';
+                        num_choices++;
+                    }
+                }
+            }
+            
+            /* Reinitialiser pour la prochaine ligne */
+            j = 0;
+            /* Sauter les \n qui suivent les \r */
+            if (file_buffer[i] == '\r' && file_buffer[i+1] == '\n') {
+                i++;
+            }
+        } else {
+            /* Ajouter le caractere a la ligne */
+            if (j < MAX_LINE - 1) {
+                line[j++] = file_buffer[i];
+            }
+        }
+    }
+}
+
 /* Parser et afficher le fichier texte */
 void display_scene_text(int scene_id) {
     char line[MAX_LINE];
@@ -183,6 +249,7 @@ void cycle_video_mode(void) {
             
         case 1:  /* HGR plein ecran */
             enable_hgr_full();
+            /* L'image est déjà chargée en mémoire HGR, elle s'affiche automatiquement */
             break;
     }
 }
@@ -198,6 +265,14 @@ void load_scene(int scene_id) {
     if (has_image) {
         /* Image disponible : afficher en mode HGR plein ecran */
         video_mode = 1;
+        enable_hgr_full();
+        /* L'image est maintenant affichée sur l'écran HGR */
+        
+        /* Charger aussi le texte en arrière-plan pour permettre le basculement */
+        /* On ne l'affiche pas encore, mais on prépare les choix */
+        load_scene_text_choices(scene_id);
+        
+        /* Forcer l'affichage HGR immédiatement après le chargement */
         enable_hgr_full();
     } else {
         /* Pas d'image : afficher le texte en mode 80 colonnes */
@@ -238,7 +313,7 @@ void main(void) {
     cprintf("                         [E] - English\r\n");
     cprintf("\r\n");
     cprintf("\r\n");
-    cprintf("               Apple II Port by : Arnaud VERHILLE\r\n");
+    cprintf("               2025 Apple II Port by : Arnaud VERHILLE\r\n");
     cprintf("                                  (gist974@gmail.com)\r\n");
     cprintf("\r\n\r\n");
     cprintf("          ====================================================\r\n");
@@ -260,6 +335,8 @@ void main(void) {
      * et TEXTEN/N000/N000.TXT selon la langue choisie
      */
     load_scene(0);
+    enable_hgr_full();
+    video_mode = 1;
     
     /* Boucle principale */
     while (1) {
