@@ -4,7 +4,9 @@
 #include <ctype.h>
 #include <conio.h>
 #include <apple2enh.h>
+#include <peekpoke.h>
 #include "paths.h"
+#include "memory_swap.h"
 
 /* Adresse de la page HGR 1 */
 #define HGR_PAGE1 ((unsigned char*)0x2000)
@@ -22,13 +24,14 @@ typedef struct {
 /* Structure pour l'état global de l'application */
 typedef struct {
     int current_scene;
-    int video_mode;  /* 0=texte 80col, 1=HGR plein */
+    int video_mode;  /* 0=texte 80col, 1=HGR plein (2=mixte pour combat futur) */
     Choice choices[MAX_CHOICES];
     int num_choices;
     char language[3];  /* FR ou EN */
     char imgPath[MAX_PATH];
     char txtPath[MAX_PATH];
     int text_loaded;  /* flag pour savoir si le texte est en buffer */
+    int text_saved;   /* flag pour savoir si le texte est sauvegardé */
 } AppState;
 
 /* Variables globales optimisées */
@@ -62,29 +65,60 @@ int load_hgr_image(int scene_id) {
     return 0;
 }
 
-/* Soft switches pour les modes video - version optimisée */
+/* Soft switches pour les modes video - version optimisée avec memory swap */
 void set_video_mode(int mode) {
     if (mode == 0) {
-        /* Mode texte 80 colonnes */
-        __asm__("sta $C051");  /* TXTSET */
-    } else {
-        /* Mode HGR plein écran - séquence Apple II correcte */
-        __asm__("sta $C050");  /* TXTCLR - désactiver le mode texte */
-        __asm__("sta $C057");  /* HIRES - activer le mode haute résolution */
-        __asm__("sta $C054");  /* LOWSCR - sélectionner la page basse (HGR page 1) */
-        __asm__("sta $C052");  /* MIXCLR - désactiver le mode mixte */
+        /* Mode texte 80 colonnes - restaurer le texte sauvegardé */
+        switch_to_text();
+        app.video_mode = 0;
+    } else if (mode == 1) {
+        /* Mode HGR plein écran - sauvegarder le texte actuel */
+        switch_to_hgr();
+        app.video_mode = 1;
+    } else if (mode == 2) {
+        /* Mode mixte HGR + 4 lignes texte */
+        switch_to_mixed();
+        app.video_mode = 2;
     }
 }
 
-/* Fonction commune pour parser un fichier texte */
+/* Fonction commune pour parser un fichier texte - version optimisée */
 int parse_text_file(int scene_id, int display_mode) {
     FILE* f;
     size_t bytes_read;
     char line[MAX_LINE];
     int i, j;
     
-    /* Note: L'optimisation du cache texte n'est pas possible car le buffer texte Apple II */
-    /* est écrasé lors du basculement vers HGR. On doit toujours recharger pour l'affichage. */
+    /* OPTIMISATION: Si le texte est déjà sauvegardé et qu'on est en mode display, */
+    /* on peut éviter le rechargement du fichier en restaurant les choix sauvegardés */
+    if (display_mode && app.text_saved && scene_id == app.current_scene && has_saved_choices()) {
+        /* IMPORTANT : Toujours forcer le bon mode vidéo */
+        set_video_mode(0);
+        videomode(VIDEOMODE_80COL);
+        
+        /* Restaurer les choix depuis la sauvegarde */
+        restore_choices((SwapChoice*)app.choices, &app.num_choices);
+        
+        /* Le texte est déjà en mémoire (restauré par switch_to_text), afficher les choix */
+        if (app.num_choices > 0) {
+            /* Afficher les choix restaurés */
+            if (strcmp(app.language, "FR") == 0) {
+                cprintf("\r\n--- Choix ---\r\n");
+            } else {
+                cprintf("\r\n--- Choices ---\r\n");
+            }
+            for (i = 0; i < app.num_choices; i++) {
+                cprintf("%c) %s\r\n", 'A' + i, app.choices[i].title);
+            }
+            
+            if (strcmp(app.language, "FR") == 0) {
+                cprintf("\r\n[ESPACE/RETURN/ESC]=Basculer Graphique HGR [A-Z]=Choix [Q]=Quitter\r\n");
+            } else {
+                cprintf("\r\n[SPACE/RETURN/ESC]=Toggle HGR Graphic [A-Z]=Choice [Q]=Quit\r\n");
+            }
+        }
+        return 1;
+    }
     
     /* Build paths */
     if (build_paths(scene_id, app.language, app.imgPath, app.txtPath) != 0) {
@@ -185,6 +219,13 @@ int parse_text_file(int scene_id, int display_mode) {
         }
     }
     
+    /* Marquer le texte comme sauvegardé et sauvegarder les choix */
+    if (display_mode) {
+        app.text_saved = 1;
+        /* Sauvegarder les choix pour la prochaine fois */
+        save_choices((SwapChoice*)app.choices, app.num_choices);
+    }
+    
     return 1;
 }
 
@@ -192,6 +233,8 @@ int parse_text_file(int scene_id, int display_mode) {
 void load_scene_text_choices(int scene_id) {
     parse_text_file(scene_id, 0);  /* Mode non-display */
     app.text_loaded = 1;
+    /* Sauvegarder les choix pour permettre la restauration */
+    save_choices((SwapChoice*)app.choices, app.num_choices);
 }
 
 /* Parser et afficher le fichier texte */
@@ -199,37 +242,46 @@ void display_scene_text(int scene_id) {
     parse_text_file(scene_id, 1);  /* Mode display */
 }
 
-/* Cycle entre les modes video */
+/* Cycle entre les modes video - version optimisée avec memory swap */
 void cycle_video_mode(void) {
-    app.video_mode = (app.video_mode + 1) % 2;  /* 2 modes: texte, plein */
+    /* Cycle entre 2 modes: texte (0) et HGR (1) */
+    /* Le mode mixte (2) sera utilisé plus tard pour le combat */
+    app.video_mode = (app.video_mode + 1) % 2;
     
     if (app.video_mode == 0) {
-        /* Texte 80 colonnes - réafficher depuis le buffer texte Apple II */
-        display_scene_text(app.current_scene);
+        /* Mode texte - restaurer simplement (le texte est déjà en mémoire) */
+        set_video_mode(0);
+        videomode(VIDEOMODE_80COL);
     } else {
-        /* HGR plein écran */
+        /* Mode HGR plein écran */
         set_video_mode(1);
-        /* L'image est déjà en mémoire HGR */
     }
 }
 
-/* Charger une nouvelle scene */
+/* Charger une nouvelle scene - version optimisée */
 void load_scene(int scene_id) {
     int has_image;
     app.current_scene = scene_id;
     app.text_loaded = 0;  /* Réinitialiser le flag au changement de scène */
+    app.text_saved = 0;   /* Réinitialiser le flag de sauvegarde */
+    app.num_choices = 0;  /* Réinitialiser les choix */
+    
+    /* Effacer toute la sauvegarde (texte + choix) */
+    clear_all_backup();
     
     /* Charger l'image HGR si elle existe */
     has_image = load_hgr_image(scene_id);
     
     if (has_image) {
-        /* Image disponible : afficher en mode HGR plein écran */
+        /* Image disponible : d'abord charger et afficher le texte */
+        app.video_mode = 0;
+        display_scene_text(scene_id);
+        
+        /* Maintenant que le texte est affiché et sauvegardé, basculer en HGR */
         app.video_mode = 1;
         set_video_mode(1);
         /* L'image est maintenant affichée sur l'écran HGR */
-        
-        /* Charger aussi le texte en arrière-plan pour permettre le basculement */
-        load_scene_text_choices(scene_id);
+        /* Le texte et les choix sont sauvegardés dans le memory swap */
         
     } else {
         /* Pas d'image : afficher le texte en mode 80 colonnes */
@@ -286,6 +338,28 @@ void select_language(void) {
     }
 }
 
+/* DEBUG: Afficher l'état actuel (peut être appelé avec touche spéciale) */
+void show_debug_info(void) {
+    int i;
+    set_video_mode(0);
+    videomode(VIDEOMODE_80COL);
+    cprintf("\r\n=== DEBUG INFO ===\r\n");
+    cprintf("Scene: %d\r\n", app.current_scene);
+    cprintf("Video mode: %d\r\n", app.video_mode);
+    cprintf("Num choices: %d\r\n", app.num_choices);
+    cprintf("Text saved: %d\r\n", app.text_saved);
+    if (app.num_choices > 0) {
+        cprintf("\r\nChoix disponibles:\r\n");
+        for (i = 0; i < app.num_choices; i++) {
+            cprintf("%c) ID=%d %s\r\n", 'A'+i, app.choices[i].scene_id, app.choices[i].title);
+        }
+    }
+    cprintf("\r\nAppuyez sur une touche...\r\n");
+    cgetc();
+    /* Retourner au mode vidéo précédent */
+    display_scene_text(app.current_scene);
+}
+
 /* Fonction pour gérer les choix de l'utilisateur */
 void handle_user_input(char key) {
     int choice_num;
@@ -310,6 +384,7 @@ void handle_user_input(char key) {
         /* Choix par lettre */
         choice_num = (key >= 'a') ? (key - 'a') : (key - 'A');
         if (choice_num < app.num_choices) {
+            /* Charger la scène correspondant au choix */
             load_scene(app.choices[choice_num].scene_id);
         }
     }
@@ -323,6 +398,7 @@ void main(void) {
     app.video_mode = 1;  /* Démarrer en mode HGR */
     app.num_choices = 0;
     app.text_loaded = 0;  /* Initialiser le flag */
+    app.text_saved = 0;   /* Initialiser le flag de sauvegarde */
     strcpy(app.language, "FR");  /* Valeur par défaut */
     
     /* Note: Le prefix ProDOS est défini par l'environnement de lancement
