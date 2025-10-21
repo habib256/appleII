@@ -28,6 +28,7 @@ typedef struct {
     char language[3];  /* FR ou EN */
     char imgPath[MAX_PATH];
     char txtPath[MAX_PATH];
+    int text_loaded;  /* flag pour savoir si le texte est en buffer */
 } AppState;
 
 /* Variables globales optimisées */
@@ -81,6 +82,9 @@ int parse_text_file(int scene_id, int display_mode) {
     size_t bytes_read;
     char line[MAX_LINE];
     int i, j;
+    
+    /* Note: L'optimisation du cache texte n'est pas possible car le buffer texte Apple II */
+    /* est écrasé lors du basculement vers HGR. On doit toujours recharger pour l'affichage. */
     
     /* Build paths */
     if (build_paths(scene_id, app.language, app.imgPath, app.txtPath) != 0) {
@@ -187,6 +191,7 @@ int parse_text_file(int scene_id, int display_mode) {
 /* Charger le texte et les choix sans affichage (pour mode HGR) */
 void load_scene_text_choices(int scene_id) {
     parse_text_file(scene_id, 0);  /* Mode non-display */
+    app.text_loaded = 1;
 }
 
 /* Parser et afficher le fichier texte */
@@ -199,13 +204,12 @@ void cycle_video_mode(void) {
     app.video_mode = (app.video_mode + 1) % 2;  /* 2 modes: texte, plein */
     
     if (app.video_mode == 0) {
-        /* Texte 80 colonnes */
+        /* Texte 80 colonnes - réafficher depuis le buffer texte Apple II */
         display_scene_text(app.current_scene);
     } else {
         /* HGR plein écran */
         set_video_mode(1);
-        /* S'assurer que l'image est bien chargée en mémoire HGR */
-        load_hgr_image(app.current_scene);
+        /* L'image est déjà en mémoire HGR */
     }
 }
 
@@ -213,6 +217,7 @@ void cycle_video_mode(void) {
 void load_scene(int scene_id) {
     int has_image;
     app.current_scene = scene_id;
+    app.text_loaded = 0;  /* Réinitialiser le flag au changement de scène */
     
     /* Charger l'image HGR si elle existe */
     has_image = load_hgr_image(scene_id);
@@ -317,6 +322,7 @@ void main(void) {
     app.current_scene = 0;
     app.video_mode = 1;  /* Démarrer en mode HGR */
     app.num_choices = 0;
+    app.text_loaded = 0;  /* Initialiser le flag */
     strcpy(app.language, "FR");  /* Valeur par défaut */
     
     /* Note: Le prefix ProDOS est défini par l'environnement de lancement
