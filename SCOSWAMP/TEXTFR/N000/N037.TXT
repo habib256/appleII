@@ -1,5 +1,4 @@
-037 : Dire la verite ou mentir
-------------------------------
+T 037 Dire la verite ou mentir
 Vous prenez un instant pour peser vos paroles. Dire la verite peut
 gagner la confiance, mais vous denoncerait si vous servez un sorcier.
 Mentir permet de gagner du temps, mais risque d'etre retourne contre vous.

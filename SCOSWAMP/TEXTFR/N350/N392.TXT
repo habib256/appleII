@@ -1,0 +1,10 @@
+T 392 Combat contre l'Aigle
+
+L'Aigle sait que vous etes un ennemi et il vous attaque. Vous
+n'avez aucune possibilite de prendre la fuite, car il est plus grand
+et plus rapide que vous. Il ne vous reste plus qu'a vous fier a
+votre epe.
+AIGLE HABILETeE : 7 ENDURANCE : 6
+
+C 132 Si vous tuez l'Aigle
+

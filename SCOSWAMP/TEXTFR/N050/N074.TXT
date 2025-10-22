@@ -1,7 +1,6 @@
-074 : Le Maitre des Araignees
-------------------------------
+T 074 Le Maitre des Araignes
 
-Vous avez decide de combattre le Maitre des Araignees a l aide
+Vous avez decide de combattre le Maitre des Araignes a l aide
 d une de vos Pierres de Magie. Mais laquelle choisir ?
 
 C 361 Utiliser la Pierre d Amitie

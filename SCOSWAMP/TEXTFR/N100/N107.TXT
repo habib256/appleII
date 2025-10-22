@@ -1,17 +1,16 @@
-107 : La malediction des brigands
----------------------------------
+T 107 La malediction des brigands
 
-Vous lancez votre malediction sur le brigand le plus proche.  
+Vous lancez votre malediction sur le brigand le plus proche. 
 Il hurle et s ecroule aussitot. Ses compagnons accourent,
-puis effrayes, fuient vers le nord.  
+puis effrayes, fuient vers le nord. 
 
 Le brigand a terre est mort, les traits convulses, frappe
-par un mal effroyable.  
+par un mal effroyable. 
 
-Mais bientot, vous ressentez vous-meme le contrecoup :  
+Mais bientot, vous ressentez vous-meme le contrecoup : 
 jetez un de et perdez autant de points d ENDURANCE que
-le chiffre obtenu.  
+le chiffre obtenu. 
 
-Si vous survivez, vous pouvez poursuivre votre route.  
+Si vous survivez, vous pouvez poursuivre votre route. 
 
 C 019 Continuer votre chemin

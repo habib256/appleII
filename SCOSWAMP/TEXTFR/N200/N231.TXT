@@ -1,5 +1,4 @@
-231 : Epreuve de CHANCE
-------------------------------
+T 231 Epreuve de CHANCE
 Tentez votre CHANCE: la fortune decide de l'issue.
 Appliquez immediatement le test selon vos regles de CHANCE.
 Que faites-vous?

@@ -1,15 +1,10 @@
-386 : Le butin du voleur
--------------------------
+T 386 Le butin du voleur
 
-Le cadavre du Voleur est etendu a vos pieds : il n'etait pas
-aussi habile qu'il le prétendait. Vous fouillez ses affaires
-et ne trouvez guere de choses utiles, a l'exception d'une
-grande Cape Rouge, solide et assez chaude pour vous servir.
-Vous pouvez l'emporter si vous le souhaitez. Vous grappillez
-ensuite un morceau de fromage dans son panier et le degustez :
-cela vous rend un peu de vigueur. Vous remettez la Cape
-dans votre sac, ajustez votre equipement et vous vous relevez.
-La route vous appelle ; il est temps de repartir, plus riche
-d'un objet et d'un peu d'expérience.
+Le cadavre du Voleur est etendu a vos pieds : il n'etait pas si
+habile qu'il l'avait cru ! Vous fouiller alors dans ses affaires et la
+seule chose utile que vous y trouviez est une grande Cape Rouge
+que vous pouvez emporter avec vous si vous le desirez. Vous
+grignotez ensuite un morcau de fromage que vous trouvez dans
+son panier, puis vous poursuivez votre chemin.
 
-C 179 Quitter la clairiere
+C 179 Continuer

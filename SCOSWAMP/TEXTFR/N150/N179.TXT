@@ -1,8 +1,7 @@
-179 : Le carrefour des trois chemins
------------------------------------
+T 179 Le carrefour des trois chemins
 
 Trois chemins permettent de quitter cette clairiere. Le sentier
-orienté au nord semble suivre une pente descendante. Le sud
+oriente au nord semble suivre une pente descendante. Le sud
 ramene vers la clairiere precedente, tandis que l'est s'enfonce
 plus profondement dans le Marais. Quel chemin choisissez-vous ?
 Pesez vite : chaque direction vous conduira vers des epreuves

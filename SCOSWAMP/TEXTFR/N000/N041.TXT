@@ -1,6 +1,5 @@
-041 : Sables mouvants
-------------------------------
-Vous entrez dans une clairiere entouree d'arbres dont les troncs
+T 041 Sables mouvants
+Vous entrez dans une clairiere entoure d'arbres dont les troncs
 sont couverts de lierre. Le sol devient soudain plus meuble.
 Aucun autre chemin ne semble present: vous etes pris au centre.
 Sans avertissement, le terrain cede et vous commencez a vous

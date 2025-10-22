@@ -1,0 +1,9 @@
+T 319 Choisir une direction
+
+Vous vous hatez de choisir une direction. Oeu souhaitez-vous aller
+?
+
+C 138 Au nord
+C 47 A l'est
+C 66 A l'ouest
+

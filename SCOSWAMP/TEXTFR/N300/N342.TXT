@@ -1,0 +1,8 @@
+T 342 Retour au Geant
+
+Vous reconnaissez la clairiere oeu vous avez rencontre l'eenorme
+Geant.
+
+C 197 Si vous l'avez tue
+C 300 Sinon
+

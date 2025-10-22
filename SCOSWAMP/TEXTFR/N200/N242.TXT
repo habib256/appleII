@@ -1,5 +1,4 @@
-242 : Sac leger
-------------------------------
+T 242 Sac leger
 
 En ouvrant le sac vous constatez qu'il n'est pas aussi lourd
 qu'il devrait l'etre. Vous avez traverse le Marais pour lui;

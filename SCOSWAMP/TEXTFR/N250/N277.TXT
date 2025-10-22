@@ -1,15 +1,8 @@
-277 : La corne de la Licorne
-----------------------------
+T 277 La corne de Licorne
+La Licorne est morte. Sachant que sa corne est dote de grands
+pouvoirs magiques, vous la coupez a l'aide de votre epe et vous
+la rangez dans votre Sac a Dos (inscrivez-la sur votre Feuille
+d'Aventure).
 
-La Licorne est morte. Sa corne, reputee pour ses puissants effets
-magiques, brille faiblement sur le sol noir du marais. Vous la
-coupez a l'aide de votre epee et la rangez dans votre sac a dos.
-N'oubliez pas de l'inscrire sur votre Feuille d'Aventure.
-Vous pouvez repartir des maintenant si vous le souhaitez : la
-route reste longue et dangereuse. Ou bien rester un peu pour
-fouiller la clairiere et chercher d'autres indices ou objets utiles.
-Chaque instant passe augmente le risque, mais peut aussi rapporter
-de precieuses trouvailles. Le choix vous appartient.
-
-C 348 Repartir des maintenant vers la voie de fuite
-C 086 Fouiller la clairiere pour trouver d'autres objets
+C 348 Repartir des a present
+C 86 Rester un peu pour fouiller la clairiere

@@ -1,5 +1,4 @@
-080 : Les Fleurs d Angoisse
-------------------------------
+T 080 Les Fleurs d Angoisse
 
 Quelle Pierre de Magie allez-vous utiliser contre les Fleurs
 d Angoisse ?

@@ -1,12 +1,11 @@
-114 : Croissance funeste
-------------------------------
+T 114 Croissance funeste
 
 Vous jetez une Pierre de Croissance sur les arbres, esperant
-les faire grandir hors de portee.  
+les faire grandir hors de porte. 
 
 Helas, de nouvelles branches jaillissent de leurs troncs
-et vous frappent plus violemment encore.  
+et vous frappent plus violemment encore. 
 Vous devrez les combattre avec leur total d ENDURANCE
 double.
 
-C 028 Combattre les Arbres-Epees
+C 028 Combattre les Arbres-Epes

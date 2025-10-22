@@ -1,0 +1,7 @@
+T 300 Le Geant est parti
+
+Il n'y a plus trace de l'eenorme Geant : il a deu partir. Vous
+poursuivez donc votre chemin.
+
+C 161 Continuer
+

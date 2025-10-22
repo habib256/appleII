@@ -1,14 +1,13 @@
-079 : Duel au premier sang
-------------------------------
+T 079 Duel au premier sang
 
 Apres etre tombes d accord pour un duel au premier sang,
-le Chef des Brigands et vous vous mettez en garde.  
+le Chef des Brigands et vous vous mettez en garde. 
 Les autres brigands se rassemblent, curieux mais sans
-hostilite, attentifs au combat.  
+hostilite, attentifs au combat. 
 
-CHEF DES BRIGANDS  HABILETE : 9  ENDURANCE : 10  
+CHEF DES BRIGANDS HABILETE : 9 ENDURANCE : 10 
 
-Le combat s arrete des qu un des deux adversaires est blesse.  
+Le combat s arrete des qu un des deux adversaires est blesse. 
 
 C 360 Si vous touchez le Chef des Brigands
 C 128 Si c est lui qui vous blesse

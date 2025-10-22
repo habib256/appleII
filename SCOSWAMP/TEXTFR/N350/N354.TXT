@@ -1,12 +1,15 @@
-354 : Amulette incendiaire
-------------------------------
-Vous retirez votre epee du cadavre du repugnant adversaire.
-Autour de vous, les araignees s'attroupent et s'approchent.
-Vous penchez sur le corps et saisissez l'Amulette en forme d'araignee.
-A l'instant ou vous l'otez, une etincelle jaillit du bijou.
-Le cadavre prend feu instantanement; les flammes se propagent.
-Vous vous hateuritez et emportez l'Amulette tandis que le brasier
-devient un mur de feu derriere vous. Il faut vous depecher.
-Que faites-vous?
+T 354 Amulette incendiaire
 
-C 165 Partir immediatement pour echapper aux flammes
+Vous retirez votre epe du cadavre de votre repugnant adversaire
+en poussant un soupir de soulagement. Mais, tout autour de
+vous, les Araignes vous guettent et s'approchent de plus en plus
+pres. Vous vous penchez alors sur le corps de leur Maeitre defunt
+pour vous emparer de son Amulette en forme d'araigne. Mais
+lorsque vous l'eotez de son cou, une etincelle jaillit soudain et le
+cadavre prend feu instantanement. Vous vous hatez de quitter la
+clairiere en emportant l'Amulette tandis que les flammes se
+propagent derriere vous. L'incendie aura teot fait de breuler les
+araignes, mais il faut vous depecher de vous rendre au 165 si
+vous ne voulez pas etre carbonise a votre tour !
+
+C 165 Partir immediatement

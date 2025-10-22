@@ -1,10 +1,9 @@
-085 : La Fuite
-------------------------------
+T 085 La Fuite
 
 Vous prenez la fuite et devez obligatoirement revenir sur vos pas
-en suivant le chemin qui vous a mene jusqu ici.  
+en suivant le chemin qui vous a mene jusqu ici. 
 
 Vous retrouvez la piste initiale et preparez votre prochaine
-decision.  
+decision. 
 
 C 153 Revenir par la direction d ou vous etes arrive

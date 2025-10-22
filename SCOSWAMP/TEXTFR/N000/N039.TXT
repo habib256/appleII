@@ -1,5 +1,4 @@
-039 : Licorne apaisee
-------------------------------
+T 039 Licorne apaise
 Vous jetez un sort d'Amitie; la licorne vous regarde, soupconneuse.
 Evidemment, elle ne se fie pas aux humains, mais votre magie agit.
 Peu a peu elle cesse de vous observer et se remet a brouter l'herbe.

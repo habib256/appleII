@@ -1,23 +1,19 @@
-398 : La clairiere du Maitre des Loups
---------------------------------------
+T 398 La clairiere du Maeitre des Loups
 
-Vous entrez dans la Clairiere n° 4, ou se dresse une petite maison
-en rondins. Si vous etes deja venu ici, rendez-vous au 239. Sinon,
-lisez la suite. Un grognement sourd retentit : ce n'est pas un
-chien, mais un Loup qui vous observe, les crocs decouverts,
-immobile pres de la cabane. La porte s'ouvre presque aussitot et
-un homme robuste apparait sur le seuil. A ses cotes surgit un
-second Loup. L'homme porte une epee et sa tunique de cuir
-rappelle celle d'un garde forestier. Pourtant, l'amulette d'argent
-en forme de loup qui pend sur sa poitrine ne laisse aucun doute :
-vous etes face au MAITRE DES LOUPS. Vous le saluez d'un ton
-amical, mais il fronce les sourcils et sa voix gronde : "Passez
-votre chemin et ne revenez pas !" Son ordre est sans appel.
-Les deux fauves s'avancent lentement, muscles tendus, pret a
-bondir au moindre geste. Le regard froid du maitre se plante
-dans le votre, attendant votre reaction. Vous savez qu'il faudra
-decider vite, car ici l'hesitation pourrait etre fatale.
+Vous entrez dans une clairiere oeu l'on a bati une petite maison en
+rondins. C'est la Clairiere n 4. Si vous y etes deja venu, rendez-
+vous au239. Sinon, lisez ce qui suit. Vous entendez alors un
+grognement qui ressemble a celui d'un chien : ce n'est pas un
+chien, cependant, mais un Loup qui grogne ainsi. L'animal vous
+observe, debout a ceote de la maison. La porte s'ouvre presque
+aussiteot, et un homme robuste apparaeit sur le seuil. Un autre
+Loup le suit. L'homme porte une epe au ceote et il est vetu
+comme un Garde Forestier, mais l'Amulette d'Argent en forme de
+loup qui pend sur sa poitrine vous indique qu'il s'agit la du
+MAeITRE DES LOUPS. Vous le saluez d'un ton amical mais il
+vous repond avec mauvaise humeur en vous ordonnant de passer
+votre chemin. Qu'allez-vous faire ?
 
-C 314 Obeir et vous eloigner de la clairiere
-C 191 Recourir a la magie contre le Maitre et ses Loups
-C 120 Degainer et attaquer le Maitre des Loups
+C 314 Obeir et vous en aller
+C 191 Recourir a la magie
+C 120 L'attaquer

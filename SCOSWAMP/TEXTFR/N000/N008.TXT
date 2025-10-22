@@ -1,5 +1,4 @@
-008 : Echange propose
-------------------------------
+T 008 Echange propose
 "Pompatarte soupire et secoue la tete: 'C'est dommage...'
 Si vous possedez encore quelques Pierres de Magie, je vous
 les echange contre une Potion de Guerison.' Son offre est simple
@@ -8,5 +7,5 @@ Peser l'avantage: la potion soigne, les pierres servent a la magie.
 Que faites-vous?
 
 C 141 Echanger les Pierres restantes contre la Potion
-C 316 Dire que vous les avez toutes utilisees
+C 316 Dire que vous les avez toutes utilises
 C 341 Attaquer Pompatarte

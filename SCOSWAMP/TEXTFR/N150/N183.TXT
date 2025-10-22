@@ -1,12 +1,11 @@
-183 : Sommet de la falaise
-------------------------------
+T 183 Sommet de la falaise
 Vous montez: le sol devient rocheux et le chemin s'eleve.
 Bientot, au lieu du morne feuillage, c'est le ciel qui s'ouvre.
 Vous atteignez le sommet d'une haute falaise dominant la riviere.
 Vous etes dans la Clairiere n 20.
-En contrebas, les eaux boueuses coulent loin sous vous.
-Des crocodiles paresseux flottent au soleil dans l'eau.
-Plus loin a l'est, un pont enjambe le cours d'eau, inaccessible.
+En contrebas, les aux boueuses coulent loin sous vous.
+Des crocodiles paresseux flottent au soleil dans l'au.
+Plus loin a l'est, un pont enjambe le cours d'au, inaccessible.
 Aucune piste ne longe la rive; plusieurs voies s'offrent a vous.
 Que voulez-vous faire?
 

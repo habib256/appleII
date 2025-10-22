@@ -1,21 +1,46 @@
-371 : La quete de l'Antherique
-------------------------------
+T 371 La quete de l'Antherique
 
-"Vous etes celui que j'attendais, dit Gayolard en souriant.
-Vous pourrez accomplir ce qui doit etre fait." Fiere, vous
-l'ecoutez : "Jadis poussait une plante appelee l'Antherique.
-Ses vertus curatives etaient precieuses aux Maitres de Magie
-Blanche. Mais les forces du Mal s'efforcerent de la detruire.
-On la croyait disparue, jusqu'a ce que mes recherches revelent
-qu'il reste un seul buisson, cache dans le Marais. Petit, vert
-fonce, ses fleurs sont blanches et ses baies violettes. Si vous
-m'en rapportez une, je pourrai faire revivre l'Antherique."
-Puis il ajoute : "Vous garderez les tresors que vous trouverez.
-Moi, je ne demande qu'une baie. Au Marais, des forces
-mystiques echappent a la lame. Je vous offre six Pierres
-Magiques. Chacune donne un sortilege. Choisissez parmi les
-Pierres Benefiques ou Neutres, puis inscrivez-les sur votre
-Feuille d'Aventure." Vous rangez les Pierres et partez.
+ "Vous etes en effet celui que j'attendais depuis longtemps, dit-il
+en hochant la tete, vous pourrez faire ce qui doit etre fait. " Il
+vous sourit alors et vous vous sentez tres fier. " Je vais vous
+parler de votre quete. Autrefois poussait un buisson que l'on
+appelle l'Antherique. Cette plante avait des proprietes curatives
+et apportait une aide precieuse aux Maitres de Magie Blanche.
+Elle n'avait cependant aucune utilite dans les pratiques
+malefiques et les forces du Mal s'evertuerent a la detruire partout
+dans le monde. On pensait qu'ils avaient reussi a la faire
+disparaitre a jamais mais grace aux recherches que j'ai menes et
+aux indications que m'a fournies ma boule de cristal, j'ai
+decouvert qu'il subsiste un buisson d'Antherique et un seul. Or ce
+buisson se trouve dans le Marais aux Scorpions. Il est petit, vert
+fonce, ses fleurs sont blanches et ses baies violettes. Si vous me
+rapportiez ne serait-ce qu'une seule de ces baies, je pourrais,
+grace a ma magie, faire en sorte que revive le buisson
+d'Antherique et qu'il prospere a nouveau a travers le monde,
+pour le plus grand bien des Maitres de Magie Blanche. Il y a
+nombre de tresors a decouvrir dans le Marais, poursuit le petit
+homme, et vous pourrez garder tout ce que vous y trouverez. Je
+n'ai besoin, pour ma part, que de cette baie d'Antherique. Mais
+bien qu'un guerrier tel que vous soit le mieux apte a survivre
+dans ce terrible marecage, il y regne des forces magiques contre
+lesquelles une epe n'est d'aucun secours. Je ne puis pas vous
+enseigner l'art de la magie, mais je vais vous aider, malgre tout,
+en vous donnant six Pierres Magiques. Chacune d'elles vous
+permettra de faire usage d'un sortilege ; sachez cependant que
+lorsque vous les aurez toutes utilises, vous ne devrez plus vous
+fier qu'a votre fidele epe et aux ressources de votre intelligence.
+ "Vous examinez alors avec Gayolard quelles sont les Pierres de
+Magie qui vous seront les plus utiles. Vous choisirez ces six
+Pierres dans la liste qui figure au debut de ce livre, mais vous ne
+pourrez les prendre que parmi les Pierres Benefiques ou Neutres.
+Il vous est interdit de choisir des Pierres Malefiques. Lorsque
+vous aurez etabli votre choix, vous inscrirez sur votre Feuille
+d'Aventure les Pierres que vous emporterez. Vous rangez
+soigneusement vos Pierres dans votre bourse et vous prenez
+conge de Gayolard puis vous vous mettez en chemin, en direction
+du Marais. Votre voyage sera perilleux, a n'en pas douter, mais
+vous vous sentez porte par la sagesse et la bienveillance du vieux
+sorcier. Votre mission sera celle-ci : trouver une baie
+d'Antherique et la rapporter a Gayolard.
 
-C 009 Commencer l'aventure et partir vers le Marais
-
+C 9 Commencer votre aventure

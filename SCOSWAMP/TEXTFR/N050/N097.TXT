@@ -1,12 +1,11 @@
-097 : La statue du gobelin
-------------------------------
+T 097 La statue du gobelin
 
 "Parfait !" repond-il en souriant, et vous remarquez alors
-ses dents pointues.  
+ses dents pointues. 
 
 D un geste, il designe le mur ou se dresse la statue d un
 gobelin. Aussitot, la statue fremit et s avance vers vous,
-brandissant une epee de pierre.  
+brandissant une epe de pierre. 
 
 C 315 S enfuir
 C 284 Combattre la statue

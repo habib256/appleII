@@ -1,5 +1,4 @@
-012 : Combat contre le geant
-------------------------------
+T 012 Combat contre le gant
 Le GEANT se met a combattre en poussant des cris de fureur.
 Sa force est extraordinaire, mais il est maladroit dans ses gestes.
 Quand sa massue atteint sa cible, vous subissez 4 points de degat

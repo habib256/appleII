@@ -1,5 +1,4 @@
-052 : Echec a la baie
-------------------------------
+T 052 Echec a la baie
 Vous n'avez malheureusement pas de baie a lui donner.
 En racontant ce qui vous est arrive dans le Marais, Gayolard
 voit son visage s'assombrir. "Je suis sur que vous avez fait de votre mieux",

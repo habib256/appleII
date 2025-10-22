@@ -1,5 +1,4 @@
-189 : Les pierres decouvertes
------------------------------
+T 189 Les pierres decouvertes
 
 Vous remarquez que la terre a ete remue au pied d'un des arbres
 qui bordent la clairiere. Vous creusez aussitot en cet endroit

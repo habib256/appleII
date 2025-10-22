@@ -1,10 +1,9 @@
-215 : Les loups attaquent
-------------------------------
+T 215 Les loups attaquent
 Les loups grondent et bondissent. Pas le temps pour la magie.
-Votre epee siffle et tranche net la gorge du premier en plein saut.
+Votre epe siffle et tranche net la gorge du premier en plein saut.
 Le second tourne autour de vous, cherchant l'angle d'attaque.
 Il faut tenir bon et combattre jusqu'au bout.
 
-LOUP HABILETE : 7  ENDURANCE : 6
+LOUP HABILETE : 7 ENDURANCE : 6
 
 C 247 Si vous parvenez a le tuer

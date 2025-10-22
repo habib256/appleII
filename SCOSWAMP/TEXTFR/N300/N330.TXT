@@ -1,10 +1,8 @@
-330 : Tronc creux 
-------------------------------
-Vous arrivez dans la clairiere du gros tronc creux; le lieu est calme.
-Si une creature y etait apparue lors d'une visite precedente, vous
-pouvez y retourner directement. Sinon, vous pouvez l'examiner d'abord.
-Le tronc est massif; une ouverture noire invite a la curiosite et a la prudence.
-Que faites-vous?
+T 330 Le tronc creux
 
-C 129 Retourner vers le tronc (si vous l'avez deja vu)
-C 268 Examiner la clairiere et scruter le tronc
+Vous vous trouvez dans la clairiere au gros tronc creux. Si vous y
+avez vu une creature lors d'une precedente visite, rendez-vous au
+129.
+
+C 268 Examiner la clairiere
+

@@ -1,8 +1,7 @@
-208 : Sortir du Marais
-----------------------
+T 208 Sortir du Marais
 
 La clarte semble grandir a mesure que vous progressez. Soudain,
-vous apercevez un coin de ciel bleu a travers une trouee du
+vous apercevez un coin de ciel bleu a travers une troue du
 feuillage, juste au-dessus de votre tete. Quelques minutes plus
 tard, les arbres s'ecartent au bout du chemin et vous comprenez
 que vous avez quitte le Marais. L'air est plus sec, la lumiere plus
@@ -16,7 +15,7 @@ derriere vous, pret a engloutir de nouveau l'imprudent voyageur.
 Mais si, au contraire, vous estimez votre quete accomplie, il est
 temps de songer a retourner aupres de votre sorcier, afin de lui
 rapporter le fruit de vos recherches. Le choix vous appartient,
-entre poursuivre l'aventure ou rentrer auréole de gloire.
+entre poursuivre l'aventure ou rentrer aureole de gloire.
 
 C 195 Revenir sur vos pas et regagner une clairiere du Marais
 C 159 Retourner chez votre sorcier pour lui faire rapport

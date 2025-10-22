@@ -1,5 +1,4 @@
-014 : Scorpion et nain
-------------------------------
+T 014 Scorpion et nain
 Le sentier conduit a une petite clairiere ou plusieurs arbres sont tombes.
 Vous approchez et entendez des bruits de lutte derriere un large tronc.
 L'image qui se deploie est terrible: un SCORPION GEANT tient un NAIN.

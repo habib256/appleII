@@ -1,5 +1,4 @@
-152 : Choix de la pierre magique
-------------------------------
+T 152 Choix de la pierre magique
 Face au Maitre des Jardins, vous preparez une Pierre Magique.
 Laquelle allez-vous utiliser? Chaque pierre peut declencher un effet
 different, mais le choix est crucial et irreversible.

@@ -1,5 +1,4 @@
-105 : Pierres et tronc
-------------------------------
+T 105 Pierres et tronc
 Vous apercevez une clairiere a quelque distance devant vous.
 Le sol y est ferme; vous pouvez y penetrer d'un pas assure.
 Des pierres plates de grande taille, un tronc creux massif,

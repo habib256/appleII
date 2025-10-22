@@ -1,7 +1,6 @@
-234 : Deux sentiers
-------------------------------
+T 234 Deux sentiers
 Le chemin s'elargit et debouche sur une nouvelle clairiere.
-Deux sentiers permettent d'en sortir: l'un mène vers l'est,
+Deux sentiers permettent d'en sortir: l'un mene vers l'est,
 l'autre s'ouvre en direction du sud. Choisissez votre route.
 
 C 305 Aller vers l'est

@@ -1,11 +1,7 @@
-314 : Choix de direction
-------------------------
+T 314 Deux directions
 
 Vous avez le choix entre deux directions.
-Si vous voulez aller au nord, prenez le sentier qui monte
-vers des hauteurs plus seches et permet d'avancer plus vite.
-Si vous preferez aller a l'est, suivez le chemin sinueux,
-qui ramene vers la clairiere et offre abris et points d'eau.
 
-C 090 Prendre le sentier qui monte au nord
-C 195 Prendre le chemin sinueux vers l'est
+C 90 Aller au nord
+C 195 Aller a l'est
+

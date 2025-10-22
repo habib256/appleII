@@ -1,5 +1,4 @@
-019 : Deux sentiers
-------------------------------
+T 019 Deux sentiers
 Vous arrivez a une ouverture ou deux sentiers se divisent devant vous.
 L'un, vers le nord, est large et bien trace: de nombreux voyageurs l'ont
 emprunte; il parait plus sur et plus rapide.

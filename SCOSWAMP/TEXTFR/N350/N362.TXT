@@ -1,16 +1,11 @@
-362 : Recolte de graines
-------------------------
+T 362 Recolte de graines
 
-Les Arbres-Epees ne pouvaient lutter contre votre habilete et,
-en quelques instants, toutes leurs branches furent coupees net.
-Vous jetez un rapide coup d'oeil autour de la clairiere : rien de
-vraiment remarquable, seulement quelques graines tombées des
-arbres. Elles semblent solides et bien reglees, peut-etre utiles
-pour l'avenir. Vous les ramassez soigneusement et les rangez
-dans votre sac, sondant deja les possibles usages que vous
-pourrez en faire plus tard. Le marais reprend son calme, seulement
-trouble par le bourdonnement lointain des insectes. Satisfait de
-cette petite recolte, vous reprenez la route, l'esprit alerte et
-les provisions legerement enrichies.
+Ces arbres n'etaient pas de taille a lutter contre vous et quelques
+instants plus tard, toutes les branches qui vous menae aient ont
+ete coupes net. Vous jetez alors un regard autour de la clairiere,
+mais vous ne decouvrez rien d'interessant, en dehors de quelques
+graines qui proviennent sans doute de ces Arbres-eEpes. Vous
+decidez de les ramasser en pensant qu'elles vous seront peut-etre
+utiles plus tard.
 
-C 022 Ramasser les graines et aller au 22
+C 22 Continuer

@@ -1,5 +1,4 @@
-170 : Le Patrouilleur vert
-------------------------------
+T 170 Le Patrouilleur vert
 Le sentier etroit serpente entre de gros rochers dans un brouillard
 epais. La brume se leve soudain et vous debouchez dans une clairiere.
 Un homme, grand et bronze, entierement vetu de vert, vous salue

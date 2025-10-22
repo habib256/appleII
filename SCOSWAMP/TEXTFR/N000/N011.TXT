@@ -1,7 +1,6 @@
-011 : Cul-de-sac de la bete
-------------------------------
+T 011 Cul-de-sac de la bete
 Vous avancez vers l'ouest; le marais devient plus sinistre encore.
-Enfin le sentier s'elargit et aboutit a une etroite, longue echappee.
+Enfin le sentier s'elargit et aboutit a une etroite, longue echappe.
 Il n'y a aucun autre sentier: vous etes arrive dans un cul-de-sac.
 Vous vous approchez d'un grand rocher gris pour vous allonger et
 vous reposer. Soudain, le rocher bouge: ce n'etait pas de la pierre.

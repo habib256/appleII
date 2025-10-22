@@ -1,16 +1,10 @@
-348 : Le carrefour des chemins
-------------------------------
+T 348 Quatre chemins
 
-Quatre chemins s'offrent a vous pour quitter la clairiere.
-Le choix que vous ferez determine la suite de votre voyage
-et les epreuves auxquelles vous serez confronte. Prenez un
-instant pour juger les directions et leurs promesses.
-Le nord semble monter vers des terres plus elevees et seches.
-Le sud ramene vers des zones humides et la riviere profonde.
-L'est parait s'enfoncer davantage dans le coeur du Marais.
-L'ouest presente un sentier obscur mais peut-etre plus calme.
+Quatre chemins vous permettent de repartir. Dans quelle
+direction souhaitez-vous aller ?
 
-C 094 Prendre le chemin qui monte au nord
-C 157 Rejoindre la clairiere precedente vers le sud
-C 010 Emprunter le sentier qui s'enfonce a l'est
-C 204 Prendre le passage etroit qui va vers l'ouest
+C 94 Au nord
+C 157 Au sud
+C 10 A l'est
+C 204 A l'ouest
+

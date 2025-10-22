@@ -1,5 +1,4 @@
-058 : Le passage prudent
-------------------------
+T 058 Le passage prudent
 
 Tentez votre CHANCE. Si vous etes chanceux, vous atteignez
 le chemin choisi sans dommage. Si vous etes malchanceux,

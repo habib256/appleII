@@ -1,11 +1,10 @@
-162 : Le maitre confiant
-------------------------------
+T 162 Le maitre confiant
 Il croit votre histoire et bavarde volontiers; vous apprenez ainsi
-que les Maitres forment un cercle de sorciers aux alliances changeantes.
-Leur lien tient aux Amulettes qu'ils portent: un Maître ne peut tuer un
+que les Maitres forment un cercle de sorciers aux alliances changantes.
+Leur lien tient aux Amulettes qu'ils portent: un Maeitre ne peut tuer un
 autre tant que celui-ci porte son amulette. Ces bijoux n'ont de pouvoir
 plutot que lorsqu'un sorcier les porte, dit-il, puis il reprend sa parole.
-Vous le remerciez et reculez jusqu'a l'entree du chemin, hors de sa vue.
+Vous le remerciez et reculez jusqu'a l'entre du chemin, hors de sa vue.
 Que faites-vous?
 
 C 352 Repartir pour de bon

@@ -1,5 +1,4 @@
-001 : Le chemin vers le Marais
-------------------------------
+T 001 Le chemin vers le Marais
 
 Le voyage vers le Marais a l'extreme ouest du royaume a ete
 long. Combattre Orques et Gobelins n'est que routine pour vous.
@@ -15,5 +14,5 @@ en sont les seigneurs. L'un d'eux, un colosse brutal, est venu
 avec deux loups gris. Il n'attend pas les intrus." Les
 villageois veulent vous retenir. Que faites-vous ?
 
-C 048 Tirer votre epee pour montrer qu'il ne fait pas bon vous barrer la route
+C 048 Tirer votre epe pour montrer qu'il ne fait pas bon vous barrer la route
 C 095 Expliquer poliment que votre decision est irrevocable

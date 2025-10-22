@@ -1,20 +1,27 @@
-335 : La demeure de Gayolard
------------------------------
+T 335 Chez Gayolard
 
-Vous quittez la taverne. Dehors, le soleil brille et vous clignez
-des yeux le temps de vous habituer. Vous vous mettez en route,
-mais vous ignorez comment trouver la demeure du sorcier. Vous
-interrogez un vieil homme appuye contre une vitrine. D'abord
-soupconneux, il devient amical et vous indique la direction. Plus
-loin, vous vous egarez, et une grosse femme vous renseigne. Il
-semble que tout le monde connaisse le logis de Gayolard.
-Finalement, vous arrivez devant une petite maison a la lisiere du
-village. Dans son jardin, un petit homme replet, vetu d'une
-tunique blanche, modele de l'argile. Vous l'abordez et lui exposez
-votre histoire. Il vous ecoute avec bienveillance, puis esquisse
-un sourire. "Comment comptez-vous traverser le Marais, alors
-qu'aucun n'en a jamais trace la carte ?" demande-t-il. La
-decision vous revient : devoiler votre secret ou le garder.
+Baissant la tete pour eviter de vous cogner contre une grosse
+lanterne a l'armature de fonte, vous quittez la taverne. Au-
+dehors, il fait un soleil exceptionnel et vous clignez des yeux
+pendant quelques instants pour vous accoutumer a cette
+brillante clarte. Vous vous mettez ensuite en chemin, mais vous
+vous apercevez bienteot que vous ignorez comment faire pour
+vous rendre chez le sorcier. Vous demandez alors a un vieil
+homme appuye contre la vitrine de sa boutique oeu habite le bon
+sorcier Gayolard. Tout d'abord, l'homme semble soupe onneux,
+mais tres vite, il devient baucoup plus amical et vous indique
+quelle direction prendre. Un peu plus loin, vous vous perdez a
+nouveau, mais une grosse femme au visage rubicond se fait un
+plaisir de vous renseigner. Il semble que tout le monde ici
+connaeit la demeure de Gayolard. Vous arrivez enfin devant une
+petite maison en bordure du village. Gayolard, un petit homme
+replet, vetu d'une tunique blanche et d'un pantalon de lin, est en
+train de s'adonner a la poterie dans son jardin. Vous vous
+approchez de lui et vous lui racontez votre histoire. Il sourit alors
+et vous demande comment vous comptez vous y prendre pour
+traverser ce Marais dont personne n'a jamais reussi a etablir la
+carte.
 
-C 371 Reveler a Gayolard l'existence de votre Anneau magique
-C 096 Garder le secret et taire l'existence de l'Anneau
+C 371 Lui reveler l'existence de votre Annau
+C 96 Garder le secret
+

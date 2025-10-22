@@ -1,5 +1,4 @@
-021 : Repos pres du tronc
-------------------------------
+T 021 Repos pres du tronc
 Vous vous reposez quelques minutes et recuperez 1 point d'ENDURANCE.
 Un bruit vient soudain de l'interieur du tronc creux.
 Si vous voulez savoir ce qui s'y cache, examinez le tronc.

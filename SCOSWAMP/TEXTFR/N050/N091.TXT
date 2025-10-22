@@ -1,5 +1,4 @@
-091 : Le saut hasardeux
------------------------
+T 091 Le saut hasardeux
 
 Lancez deux des. Si le total est inferieur ou egal a vos points
 d'ENDURANCE, vous reussissez a franchir la zone marecageuse
@@ -14,7 +13,7 @@ continuer malgre ce revers. Trois directions s'offrent alors a vous,
 et chacune mene vers l'inconnu. A l'ouest, un sentier sombre
 disparait derriere les troncs humides. A l'est, un chemin plus
 clair semble serpenter a travers des herbes hautes. Au sud, le
-passage par lequel vous etes arrive parait moins engageant,
+passage par lequel vous etes arrive parait moins engagant,
 mais il reste possible de l'emprunter de nouveau. Vous pesez
 vos choix, sachant que chaque pas peut etre lourd de consequences.
 

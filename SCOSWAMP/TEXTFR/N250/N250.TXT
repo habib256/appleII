@@ -1,13 +1,12 @@
-250 : Clairiere des Fleurs
-----------------------------
+T 250 Clairiere des Fleurs
 
 Vous vous trouvez dans la clairiere ou vous avez rencontre les
-Fleurs d’Angoisse. Si vous les avez toutes tuees, vous pouvez
+Fleurs d AUAngoisse. Si vous les avez toutes tues, vous pouvez
 poursuivre sans risque; la clairiere est alors silencieuse et seche.
 Si elles etaient encore vivantes lorsque vous etes parti, il faudra
 courir a toutes jambes pour passer sans etre paralyse par leur
 parfum attirant. Un bruissement monte entre les troncs, les
-petales frissonnent — le moment d’agir est arrive.
+petales frissonnent AO le moment d AUagir est arrive.
 
-C 367 Poursuivre - les fleurs sont mortes, j’avance dans la clairiere
-C 269 Fuir a toutes jambes - les fleurs sont vivantes, je m’echappe vite
+C 367 Poursuivre - les fleurs sont mortes, j AUavance dans la clairiere
+C 269 Fuir a toutes jambes - les fleurs sont vivantes, je m AUechappe vite

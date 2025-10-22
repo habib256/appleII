@@ -1,13 +1,12 @@
-145 : Le choix des pierres
----------------------------
+T 145 Le choix des pierres
 
 Il vous semble que recourir a la magie soit le meilleur moyen
-d’echapper a la colere d’un Geant.
+d AUechapper a la colere d AUun Gant.
 Devant vous, quatre emplacements accueillent des pierres differentes,
 chacune emetant une faible lueur enigmatique.
-Quel talisman choisirez-vous pour defier le Geant et passer vivant ?
+Quel talisman choisirez-vous pour defier le Gant et passer vivant ?
 
 C 252 Pierre de Malediction 
-C 328 Pierre d’Amitie
+C 328 Pierre d AUAmitie
 C 211 Pierre de Feu 
 C 275 Aucune de ces pierres

@@ -1,5 +1,4 @@
-199 : Rencontre amicale
-------------------------------
+T 199 Rencontre amicale
 Deux Brigands se reposent dans la clairiere, leur campement habituel.
 En vous voyant approcher, ils vous reconnaissent, vous saluent
 et vous adressent un large sourire.

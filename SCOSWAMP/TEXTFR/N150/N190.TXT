@@ -1,5 +1,4 @@
-190 : Saut au-dessus des sables
-------------------------------
+T 190 Saut au-dessus des sables
 Vous reculez pour prendre votre elan et tentez votre CHANCE.
 Test: lancez 2 des (2d6). Si total <= CHANCE, vous etes Chanceux
 et vous sautez de l'autre cote sans difficulte.

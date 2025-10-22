@@ -1,5 +1,4 @@
-045 : Pont suspect
-------------------------------
+T 045 Pont suspect
 Vous vous mefiez de ce pont qui vous parait trop simple; il doit
 sans doute dissimuler un piege quelconque. Vous rebroussez donc
 chemin dans la direction d'ou vous etes venu. Le trajet depend de

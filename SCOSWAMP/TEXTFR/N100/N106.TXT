@@ -1,5 +1,4 @@
-106 : Le piege du voleur
-------------------------
+T 106 Le piege du voleur
 
 Une cordelette s'enroule autour de votre cou : le Voleur vous a
 trompe ! Fort heureusement, vous etes bien plus fort que lui et

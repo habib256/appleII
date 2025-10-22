@@ -1,11 +1,10 @@
-094 : La brume fétide
-------------------------------
+T 094 La brume fetide
 
-Le sentier descend et des tourbillons de brume vous entourent.  
-Une odeur infecte emplit l air et vous retenez votre souffle.  
+Le sentier descend et des tourbillons de brume vous entourent. 
+Une odeur infecte emplit l air et vous retenez votre souffle. 
 
 Mais bientot, force vous est de respirer de nouveau et
-l atmosphere viciée vous coute 2 points d ENDURANCE.  
+l atmosphere vicie vous coute 2 points d ENDURANCE. 
 
 C 295 Aller vers le nord
 C 320 Aller vers le sud
