@@ -9,7 +9,7 @@ chiffre obtenu represente le nombre de points d'ENDURANCE que
 vous avez perdus. Si vous etes toujours vivant, vous fouillez la
 sinistre tour dans l'espoir de decouvrir ses tresors caches. Mais
 l'atmosphere devient bienteot lourde et oppressante. Quant a
-votre annau, il reste chaud vous avertissant qu'un danger plane
+votre anneau, il reste chaud vous avertissant qu'un danger plane
 toujours sur vous, un danger peut-etre meme plus grand
 qu'auparavant. Soudain, vous sentez une odeur de soufre.
 

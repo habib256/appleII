@@ -1,12 +1,12 @@
 T 258 Recours a la magie
 
 Recourir a la magie contre un sorcier est une entreprise hasardeuse.
-L AUair vibre, l AUenergie gronde autour de vos mains. Chaque sort a un prix.
- AUPeur A peut briser sa volonte, mais risque de provoquer visions paralysantes.
- AUAmitie A tente de corrompre son coeur ou de semer le doute; approche subtile.
-Ne rien faire vous permet d AUobserver et de garder l AUinitiative, mais vous
-perdez l AUavantage d AUetre le premier a agir. Pesez la porte, le cout et le risque.
+L'air vibre, l'energie gronde autour de vos mains. Chaque sort a un prix.
+ -Peur A peut briser sa volonte, mais risque de provoquer visions paralysantes.
+ -Amitie A tente de corrompre son coeur ou de semer le doute; approche subtile.
+Ne rien faire vous permet d'observer et de garder l'initiative, mais vous
+perdez l'avantage d'etre le premier a agir. Pesez la porte, le cout et le risque.
 
 C 198 Prononcer le sort de Peur pour briser sa volonte
-C 127 Tenter le sort d AUAmitie pour semer le doute et l AUhesitation
+C 127 Tenter le sort d'Amitie pour semer le doute et l'hesitation
 C 212 Ne lancer aucun des deux, attendre et choisir un autre sort

@@ -1,6 +1,6 @@
 T 026 Attaque du Maitre
 Vous sentez que le MAITRE DES ARAIGNEES est profondement malfaisant
-et vous l'attaquez a l'epe. Il se defend avec une baguette luisante
+et vous l'attaquez a l'epee. Il se defend avec une baguette luisante
 dont l'extremite est tres pointue et enduite d'une substance verdatre.
 Chaque coup porte par sa baguette vous fera perdre 1 point
 d'ENDURANCE supplementaire (3 au lieu de 2).

@@ -10,7 +10,7 @@ vous font ainsi perdre 1 point d'ENDURANCE. Qu'allez-vous faire a
 present ?
 
 C 116 Vous enfouir la tete sous l'oreiller
-C 236 Descendre en brandissant votre epe
-C 78 Aller a la e Lance Tordue u
-C 289 Aller au e Cheval Volant de Tancrede u
+C 236 Descendre en brandissant votre epee
+C 78 Aller a la e Lance Tordue "
+C 289 Aller au e Cheval Volant de Tancrede "
 

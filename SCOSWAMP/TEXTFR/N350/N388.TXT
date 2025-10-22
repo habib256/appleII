@@ -11,5 +11,5 @@ apparaissent aux extremites de ses tiges, des pinces qui essayent
 de vous saisir. Vous vous trouvez au plein milieu d'une etendue
 d'HERBE A PINCES!
 
-C 134 Vous defendre avec votre epe
+C 134 Vous defendre avec votre epee
 C 167 Recourir a la magie

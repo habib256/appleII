@@ -10,7 +10,7 @@ apres avoir cause la perte de celui qui le portait avant vous. Les
 Orques sont en train de preparer de nouvelles fleches. Qu'allez-
 vous faire ?
 
-C 281 Les attaquer avec votre epe
+C 281 Les attaquer avec votre epee
 C 399 Recourir a la magie
 C 309 Prendre la Fuite
 

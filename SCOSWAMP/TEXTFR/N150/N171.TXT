@@ -3,7 +3,7 @@ La crature qui se dresse devant vous est une masse visqueuse
 et puissante, presque sans intelligence mais d'une force
 terrible.
 
-VASE AO HABILETE : 5 / ENDURANCE : 17
+VASE - HABILETE : 5 / ENDURANCE : 17
 
 Vous pouvez choisir de fuir a tout moment,
 mais il vous faudra rebrousser chemin.

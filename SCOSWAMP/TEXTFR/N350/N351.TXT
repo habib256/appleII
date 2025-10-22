@@ -7,7 +7,7 @@ essayez, car le sorcier fait un geste de la main et l'image que vous
 vouliez crer se dissipe avant meme d'avoir pu prendre forme. e
 Tu ne parviendras pas a me tromper avec ces enfantillages !
 s'ecrie Stratagus d'un air meprisant. Prepare-toi pluteot a mourir,
-pauvre imbecile ! u
+pauvre imbecile ! "
 
 C 124 Combattre
 

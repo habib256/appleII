@@ -1,9 +1,9 @@
-T 110 L annau de feu
+T 110 L anneau de feu
 
 La seule Pierre de Magie capable de vous sauver de cette
 multitude grouillante est une Pierre de Feu. 
 
-Vous en lancez une et un annau de flammes jaillit aussitot
+Vous en lancez une et un anneau de flammes jaillit aussitot
 tout autour de vous. Le brasier se propage, puis s eteint,
 mais les scorpions ont deja fui. 
 

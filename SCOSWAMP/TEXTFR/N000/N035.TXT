@@ -6,6 +6,6 @@ Vous comprenez alors que l'Aimant d'Or est maudit: il attire les fleches.
 Par chance, il etait range dans votre sac et non porte sur vous.
 Que faites-vous?
 
-C 281 Attaquer avec votre epe
+C 281 Attaquer avec votre epee
 C 399 Recourir a la magie
 C 309 Prendre la fuite

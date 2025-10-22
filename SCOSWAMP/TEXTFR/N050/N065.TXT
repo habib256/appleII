@@ -4,12 +4,12 @@ Vous contournez un grand champignon ou grouillent des cratures.
 Bientot, vous approchez d'une autre clairiere: des voix parviennent.
 Cache derriere un arbre, vous epiez un groupe de cinq hommes.
 D'apres leur tenue et leur langage, ce sont probablement des BRIGANDS.
-L'Annau de Cuivre reste froid: ils ne paraissent pas malfaisants.
+L'Anneau de Cuivre reste froid: ils ne paraissent pas malfaisants.
 Il serait cependant stupide de prendre des risques inutiles.
 Vous etes dans la Clairiere n 009.
 Que faites-vous?
 
 C 137 Revenir sur vos pas le long du chemin emprunte
-C 231 Vous ruer sur eux en criant et brandissant votre epe
+C 231 Vous ruer sur eux en criant et brandissant votre epee
 C 387 Faire usage de magie depuis votre cachette
 C 163 Avancer confiant et les saluer

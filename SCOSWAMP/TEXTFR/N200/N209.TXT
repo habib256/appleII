@@ -9,5 +9,5 @@ Vous etes dans la Clairiere n 025.
 Que faites-vous?
 
 C 397 Prendre la fuite
-C 082 Attaquer avec votre epe
+C 082 Attaquer avec votre epee
 C 034 Recourir a la magie

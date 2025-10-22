@@ -6,5 +6,5 @@ empiles a foison. Vos yeux s'ecarquillent devant tant d'or.
 Pompatarte vous sourit: "Accepteriez-vous de me le vendre?"
 Il propose en echange cent Pieces d'Or fines.
 
-C 049 Accepter l'offre et vendre votre annau
-C 173 Refuser et garder votre annau
+C 049 Accepter l'offre et vendre votre anneau
+C 173 Refuser et garder votre anneau

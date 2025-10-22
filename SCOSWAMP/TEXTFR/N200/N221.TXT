@@ -1,6 +1,6 @@
 T 221 Le combat contre la Licorne
 
-Vous tirez votre epe et vous vous preparez a recevoir la charge.
+Vous tirez votre epee et vous vous preparez a recevoir la charge.
 LICORNE HABILETE: 11 ENDURANCE: 4
 Vous avez de la chance : la crature est deja gravement blesse.
 Il vous faudra lui porter au moins deux Assauts pour l'abattre.

@@ -1,6 +1,6 @@
 T 181 Le retour de l'Ours
 A travers les arbres, vous distinguez une silhouette familiere. 
-L'Ours est de retour AO et cette fois, il semble bien decide a en
+L'Ours est de retour - et cette fois, il semble bien decide a en
 decoudre. Ses yeux luisent d'une rage tenace : il se souvient de
 vous.
 

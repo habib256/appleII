@@ -14,5 +14,5 @@ en sont les seigneurs. L'un d'eux, un colosse brutal, est venu
 avec deux loups gris. Il n'attend pas les intrus." Les
 villageois veulent vous retenir. Que faites-vous ?
 
-C 048 Tirer votre epe pour montrer qu'il ne fait pas bon vous barrer la route
+C 048 Tirer votre epee pour montrer qu'il ne fait pas bon vous barrer la route
 C 095 Expliquer poliment que votre decision est irrevocable

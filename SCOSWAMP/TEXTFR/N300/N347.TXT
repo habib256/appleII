@@ -7,6 +7,6 @@ cependant a rompu le sortilege et le Maeitre des Jardins, vous
 voyant reparaeitre sous votre forme habituelle, fait un bond en
 arriere. La tentative a echoue.
 
-C 379 L'attaquer avec votre epe
+C 379 L'attaquer avec votre epee
 C 363 Fuir la clairiere
 

@@ -5,7 +5,7 @@ meilleure chance de vaincre Stratagus et vous lui lancez donc
 votre Pierre Magique. Helas ! il fait un geste de la main et c'est
 vous qui subissez alors les effets du sortilege.
 Une sensation glace vous envahit aussiteot : vous avez peur,
-terriblement peur, et vous perdez un point d'HABILETeE.
+terriblement peur, et vous perdez un point d'HABILETE.
 
 C 124 Combattre
 

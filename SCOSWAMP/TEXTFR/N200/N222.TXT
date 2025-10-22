@@ -1,10 +1,10 @@
 T 222 Le demon de Stratagus
 Un enorme demon cornu surgit entre vous et le sorcier. Pelage vert,
 verrues repugnantes, mains noueuses comme des racines. Stratagus
-pointe un doigt sec: "Tue cet imbecile et rapporte-moi son annau."
+pointe un doigt sec: "Tue cet imbecile et rapporte-moi son anneau."
 Vous avez ete imprudent; il faut payer le prix.
 
-DEMON AO HABILETE : 12 ENDURANCE : 16
+DEMON - HABILETE : 12 ENDURANCE : 16
 
 Impossible de fuir: il vous rattraperait. Il n'a pas d'arme, seulement
 ses poings monstrueux: une chance subsiste de le vaincre.

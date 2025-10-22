@@ -2,7 +2,7 @@ T 204 Les Fleurs d'Angoisse
 Le sentier s'elargit, et des fleurs colores bordent le chemin. 
 C'est la Clairiere n 23. 
 Mais soudain, un frisson vous parcourt : quelque chose ne va pas. 
-Votre Annau de Cuivre devient brulant, signe d'un danger proche. 
+Votre Anneau de Cuivre devient brulant, signe d'un danger proche. 
 
 Autour de vous, ces fleurs semblent trop belles... 
 Vous vous souvenez alors de leur nom redoutable : 
@@ -13,5 +13,5 @@ Vous perdez 1 point d'HABILETE.
 Que faites-vous ?
 
 C 269 Fuir droit devant vous 
-C 032 Les trancher a coups d'epe 
+C 032 Les trancher a coups d'epee 
 C 080 Tenter un sort de magie

@@ -11,9 +11,12 @@ Vos choix determineront votre destin !
 
 
 Commandes :
- [ESPACE/RETURN/ESC] - Basculer entre mode texte et graphique
- [A-Z] - Faire un choix
- [Q] - Quitter l'aventure
+ [ESPACE/RETURN/ESC] 
+  - Basculer entre mode texte et graphique
+ [A-Z] 
+  - Faire un choix
+ [Q] 
+  - Quitter l'aventure
 
 C 1 Commencer l'aventure
 

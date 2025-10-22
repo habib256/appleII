@@ -12,5 +12,5 @@ votre CHANCE : si le sort vous favorise, vous eviterez le piege ;
 sinon, vous tomberez dans le filet et devrez vous en
 degager par la force.
 
-C 213 Vous etes CHANCEUX AO vous evitez le piege et decouvrez un indice
-C 267 Vous etes MALCHANCEUX AO vous tombez dans son filet et devez ragir
+C 213 Vous etes CHANCEUX - vous evitez le piege et decouvrez un indice
+C 267 Vous etes MALCHANCEUX - vous tombez dans son filet et devez ragir

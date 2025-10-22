@@ -22,6 +22,6 @@ et vous demande comment vous comptez vous y prendre pour
 traverser ce Marais dont personne n'a jamais reussi a etablir la
 carte.
 
-C 371 Lui reveler l'existence de votre Annau
+C 371 Lui reveler l'existence de votre Anneau
 C 96 Garder le secret
 

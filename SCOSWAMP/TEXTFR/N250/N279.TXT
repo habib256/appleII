@@ -1,8 +1,8 @@
-T 279 Les Arbres-eEpes
+T 279 Les Arbres-Epees
 A votre grande consternation, les branches des terribles Arbres-
-eEpes ont deja repousse, et si vous voulez les combattre avec
-votre epe, vous devrez vous rendre au 28.
+Epees ont deja repousse, et si vous voulez les combattre avec
+votre epee, vous devrez vous rendre au 28.
 
-C 28 Les combattre avec votre epe
+C 28 Les combattre avec votre epee
 C 203 Recourir a la magie
 

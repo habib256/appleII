@@ -10,5 +10,5 @@ vos services. Il vous repond: "J'en ai besoin, mais comment comptez-
 vous survivre au Marais aux Scorpions?"
 Que dites-vous?
 
-C 002 Lui parler de la Vieille Femme et de l'Annau de Cuivre
+C 002 Lui parler de la Vieille Femme et de l'Anneau de Cuivre
 C 173 Lui assurer que vous etes un guerrier hors pair

@@ -7,4 +7,4 @@ Il rampe legerement, pret a bondir sur tout intrus qui s'approche.
 Que faites-vous?
 
 C 390 Prendre la fuite immediatement
-C 200 Combattre l'Ours a l'epe
+C 200 Combattre l'Ours a l'epee
