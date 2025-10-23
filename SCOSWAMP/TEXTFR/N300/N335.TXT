@@ -1,19 +1,14 @@
 T 335 Chez Gayolard
 
-Baissant la tete pour eviter de vous cogner contre une grosse
-lanterne a l'armature de fonte, vous quittez la taverne. Au-
-dehors, il fait un soleil exceptionnel et vous clignez des yeux
-pendant quelques instants pour vous accoutumer a cette
-brillante clarte. Vous vous mettez ensuite en chemin, mais vous
-vous apercevez bienteot que vous ignorez comment faire pour
-vous rendre chez le sorcier. Vous demandez alors a un vieil
-homme appuye contre la vitrine de sa boutique oeu habite le bon
-sorcier Gayolard. Tout d'abord, l'homme semble soupe onneux,
-mais tres vite, il devient baucoup plus amical et vous indique
-quelle direction prendre. Un peu plus loin, vous vous perdez a
-nouveau, mais une grosse femme au visage rubicond se fait un
+Vous quittez la taverne. Au dehors, il fait un soleil exceptionnel et vous clignez des yeux
+pendant quelques instants pour vous accoutumer a cette brillante clarte. 
+Vous vous mettez ensuite en chemin. Vous demandez alors a un vieil
+homme appuye contre la vitrine de sa boutique ou habite le bon
+sorcier Gayolard. Il est amical et vous indique
+quelle direction prendre. Un peu plus loin, vous vous perdez,
+ mais une grosse femme au visage rubicond se fait un
 plaisir de vous renseigner. Il semble que tout le monde ici
-connaeit la demeure de Gayolard. Vous arrivez enfin devant une
+connait la demeure de Gayolard. Vous arrivez enfin devant une
 petite maison en bordure du village. Gayolard, un petit homme
 replet, vetu d'une tunique blanche et d'un pantalon de lin, est en
 train de s'adonner a la poterie dans son jardin. Vous vous
