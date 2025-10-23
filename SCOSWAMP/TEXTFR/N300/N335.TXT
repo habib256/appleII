@@ -18,5 +18,5 @@ traverser ce Marais dont personne n'a jamais reussi a etablir la
 carte.
 
 C 371 Lui reveler l'existence de votre Anneau
-C 96 Garder le secret
+C 096 Garder le secret
 

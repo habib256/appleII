@@ -8,15 +8,11 @@ legende parle d'un tresor fabuleux cache en ses profondeurs...
 
 Saurez-vous survivre aux perils du Marais et decouvrir ses secrets ?
 Vos choix determineront votre destin !
-\r\r
 
 Commandes :
- [ESPACE/RETURN/ESC] 
-  - Basculer entre mode texte et graphique
- [A-Z] 
-  - Faire un choix
- [Q] 
-  - Quitter l'aventure
+ [ESPACE/RETURN/ESC] - Basculer entre mode texte et graphique
+ [A-Z] - Faire un choix
+ [Q] - Quitter l'aventure
 
-C 1 Commencer l'aventure
+C 001 Commencer l'aventure
 
