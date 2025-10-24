@@ -1,0 +1,15 @@
+T 137 Return Facing the Slime
+
+You return to the place where you had encountered the Slime.
+
+If you have already killed it:
+
+C 153 Continue your journey
+
+Otherwise, it blocks your way again.
+Its wounds have completely healed.
+
+C 336 Go back to find a solution
+
+
+

@@ -112,7 +112,7 @@ int parse_text_file(int scene_id, int display_mode) {
             }
             
             if (strcmp(app.language, "FR") == 0) {
-                cprintf("\r\n[ESPACE/RETURN/ESC]=Basculer Graphique HGR [A-Z]=Choix [Q]=Quitter\r\n");
+                cprintf("\r\n[ESPACE/RETURN/ESC]=Graphique <-> HGR [A-Z]=Choix [Q]=Quitter\r\n");
             } else {
                 cprintf("\r\n[SPACE/RETURN/ESC]=Toggle HGR Graphic [A-Z]=Choice [Q]=Quit\r\n");
             }

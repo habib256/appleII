@@ -1,0 +1,10 @@
+T 319 Choose a Direction
+
+You hasten to choose a direction. Where do you wish to go?
+
+C 138 North
+C 47 East
+C 66 West
+
+
+

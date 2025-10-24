@@ -1,0 +1,12 @@
+T 387 Magic Stone Choice
+
+Which Magic Stone will you use?
+
+C 107 Curse Stone
+C 278 Terror
+C 148 Illusion
+C 318 Friendship
+C 65 None of these
+
+
+

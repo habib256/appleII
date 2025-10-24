@@ -1,0 +1,11 @@
+T 012 Battle against the Giant
+The GIANT begins to fight, shouting in fury.
+His strength is extraordinary, but he is clumsy in his movements.
+When his club hits its target, you suffer 4 damage points
+instead of 2: the power of the blow doubles the endurance loss.
+The combat is brutal; measure your blows and keep your breath.
+GIANT SKILL: 9 STAMINA: 12
+
+C 061 If you reduce the GIANT's STAMINA to 6
+C 161 Flee in the middle of battle
+

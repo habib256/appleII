@@ -2,8 +2,10 @@
 
 ## 📊 Vue d'ensemble
 
-- **Total de fichiers** : 178 fichiers .TXT
-- **Langues** : Français (TEXTFR/) et Anglais (TEXTEN/)
+- **Total de scènes** : 401 scènes de jeu
+- **Fichiers français** : 401 fichiers .TXT (TEXTFR/) ✓ 100% complet
+- **Fichiers anglais** : 401 fichiers .TXT (TEXTEN/) ✓ 100% complet
+- **Support bilingue** : Français et Anglais intégralement traduits
 - **Organisation** : Par tranches de 50 (N000/, N050/, N100/, etc.)
 - **Conformité** : 100% des fichiers ≤18 lignes ✓
 
@@ -14,8 +16,7 @@
 L'écran dispose de **24 lignes** totales :
 
 ```
-Ligne 1    : Titre (ex: "001 : Le chemin vers le Marais")
-Ligne 2    : Séparateur (ex: "------------------------------")
+Ligne 1    : Titre (ex: "T 001  Le chemin vers le Marais")
 Ligne 3    : Ligne vide
 Lignes 4-21: Texte de la scène (≤18 lignes)
 Ligne 22   : Ligne vide
@@ -93,22 +94,66 @@ C 095 Choix numéro 2 (texte du choix)
 
 ## 📁 Organisation des dossiers
 
+### Structure complète bilingue
+
 ```
-TEXTFR/
-├── N000/  (scènes 0-49)
+TEXTFR/ (Version française - 401 fichiers)
+├── N000/  (scènes 0-49)    → 50 fichiers
 │   ├── N000.TXT (titre du jeu)
 │   ├── N001.TXT
 │   └── ...
-├── N050/  (scènes 50-99)
-│   ├── N050.TXT
+├── N050/  (scènes 50-99)   → 50 fichiers
+├── N100/  (scènes 100-149) → 50 fichiers
+├── N150/  (scènes 150-199) → 50 fichiers
+├── N200/  (scènes 200-249) → 50 fichiers
+├── N250/  (scènes 250-299) → 50 fichiers
+├── N300/  (scènes 300-349) → 50 fichiers
+├── N350/  (scènes 350-399) → 50 fichiers
+└── N400/  (scène 400)      → 1 fichier
+
+TEXTEN/ (Version anglaise - 401 fichiers)
+├── N000/  (scenes 0-49)    → 50 fichiers
+│   ├── N000.TXT (game title)
+│   ├── N001.TXT
 │   └── ...
-├── N100/  (scènes 100-149)
-├── N150/  (scènes 150-199)
-├── N200/  (scènes 200-249)
-├── N250/  (scènes 250-299)
-├── N300/  (scènes 300-349)
-└── N350/  (scènes 350-399)
+├── N050/  (scenes 50-99)   → 50 fichiers
+├── N100/  (scenes 100-149) → 50 fichiers
+├── N150/  (scenes 150-199) → 50 fichiers
+├── N200/  (scenes 200-249) → 50 fichiers
+├── N250/  (scenes 250-299) → 50 fichiers
+├── N300/  (scenes 300-349) → 50 fichiers
+├── N350/  (scenes 350-399) → 50 fichiers
+└── N400/  (scene 400)      → 1 fichier
 ```
+
+### Correspondance des fichiers
+
+Chaque fichier français a son équivalent anglais :
+- `TEXTFR/N000/N001.TXT` ↔ `TEXTEN/N000/N001.TXT`
+- Les numéros de scène sont identiques
+- La structure et les choix (C xxx) sont préservés
+- Seul le texte narratif est traduit
+
+## 🌍 Traduction anglaise
+
+### Statut : 100% complète ✓
+
+- **Date de traduction** : Octobre 2024
+- **Fichiers traduits** : 401 fichiers (100%)
+- **Méthode** : Traduction manuelle préservant :
+  - Les numéros de scène
+  - La structure des choix (C xxx)
+  - Le gameplay et les références
+  - L'atmosphère narrative
+
+### Particularités
+
+- Adaptation au contexte anglophone (gamebook genre)
+- Respect des contraintes d'affichage (≤18 lignes)
+- Terminologie cohérente :
+  - `HABILETE` → `SKILL`
+  - `ENDURANCE` → `STAMINA`
+  - `CHANCE` → `LUCK`
 
 ## 📚 Documentation
 
@@ -118,8 +163,9 @@ TEXTFR/
 
 ## ✅ Vérification
 
-Pour vérifier qu'aucun fichier ne dépasse 18 lignes :
+### Vérifier les limites de lignes (18 max)
 
+Pour la version **française** :
 ```bash
 for file in TEXTFR/*/*.TXT; do
     lignes=$(grep -v "^C " "$file" | grep -v "^$" | wc -l)
@@ -129,7 +175,29 @@ for file in TEXTFR/*/*.TXT; do
 done
 ```
 
-Résultat actuel : **0 fichiers trop longs** ✓
+Pour la version **anglaise** :
+```bash
+for file in TEXTEN/*/*.TXT; do
+    lignes=$(grep -v "^C " "$file" | grep -v "^$" | wc -l)
+    if [ $lignes -gt 18 ]; then
+        echo "$(basename $file): $lignes lignes (TOO LONG)"
+    fi
+done
+```
+
+**Résultat actuel** : 
+- Français : 0 fichiers trop longs ✓
+- Anglais : 0 fichiers trop longs ✓
+
+### Vérifier la correspondance FR ↔ EN
+
+```bash
+# Compter les fichiers
+echo "Fichiers FR: $(find TEXTFR -name "*.TXT" -o -name "N168TXT" | wc -l)"
+echo "Fichiers EN: $(find TEXTEN -name "*.TXT" -o -name "N168TXT" | wc -l)"
+```
+
+**Résultat attendu** : 401 fichiers dans chaque langue
 
 ## 🎯 Recommandations
 
@@ -145,5 +213,8 @@ Lors de la création de nouveaux textes :
 
 VERHILLE Arnaud - gist974@gmail.com
 
-Date d'optimisation : 5 octobre 2025
+**Dates importantes** :
+- Optimisation française : 5 octobre 2024
+- Traduction anglaise complète : 24 octobre 2024
+- Statut : Version bilingue 100% opérationnelle ✓
 

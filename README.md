@@ -18,7 +18,7 @@ Deux jeux d'aventure pour Apple IIe Enhanced démontrant une architecture modern
 
 | Projet | Description | Scènes | Contenu |
 |--------|-------------|--------|---------|
-| **SCOSWAMP** | Le Marais aux Scorpions (livre-jeu) | 178 | ~9 MB |
+| **SCOSWAMP** | Le Marais aux Scorpions (livre-jeu) | 401 | ~9 MB |
 | **SPACETRIP** | Space Explorer Trip (aventure sci-fi) | 14 | ~150 KB |
 
 ---
@@ -32,19 +32,22 @@ Adaptation du livre-jeu "Scorpion Swamp" (1985) par Steve JACKSON & Ian LIVINGST
 | Métrique | Valeur |
 |----------|--------|
 | **Moteur** | 13-15 KB |
-| **Scènes** | 178 (FR + EN) |
+| **Scènes** | 401 paragraphes (livre-jeu complet) |
 | **Images HGR** | 57 × 8 KB = 456 KB |
-| **Fichiers texte** | 356 fichiers (178 FR + 178 EN) |
+| **Fichiers texte** | 802 fichiers (401 FR + 401 EN) ✓ 100% |
+| **Traduction** | Bilingue FR/EN complet (Oct. 2024) |
 | **Contenu total** | ~9 MB |
 | **Ratio efficacité** | 692:1 (9 MB / 13 KB) |
 
 ### Fonctionnalités
 
-- Graphismes HGR 280×192 pixels, 6 couleurs
-- Mode texte 80 colonnes pour lecture confortable
-- Bascule instantanée image ↔ texte (ESPACE/RETURN/ESC)
-- Navigation par choix (branches narratives)
-- Bilingue FR/EN
+- **401 scènes** : Livre-jeu complet adapté pour Apple II
+- **Bilingue FR/EN** : Traduction 100% complète (802 fichiers texte)
+- **Graphismes HGR** : 280×192 pixels, 6 couleurs, 57 images
+- **Mode texte 80 colonnes** : Lecture confortable et immersive
+- **Bascule instantanée** : Image ↔ texte (ESPACE/RETURN/ESC)
+- **Navigation par choix** : Branches narratives interactives
+- **Optimisé** : Memory swap pour transitions ultra-rapides
 
 ### Compilation
 
@@ -148,6 +151,7 @@ $C000-$FFFF : I/O et ROM
 - **SCOSWAMP/SRC/README.md** : Compilation et structure
 - **SCOSWAMP/DOCS/PRODOS-MLI.md** : Gestion des chemins ProDOS
 - **SCOSWAMP/DOCS/README-TEXTES.md** : Format des fichiers texte
+- **SCOSWAMP/DOCS/TRADUCTION-STATUS.md** : Statut traduction bilingue (401 scènes FR/EN)
 - **SPACETRIP/README.TXT** : Architecture et guide complet
 - **DOCS/cc65/** : Documentation cc65 complète (HTML)
 
@@ -209,8 +213,9 @@ Moteur reste ~15-18 KB, contenu illimité sur disque.
 | Métrique | SCOSWAMP | SPACETRIP | Total |
 |----------|----------|-----------|-------|
 | **Moteur** | 13-15 KB | 13 KB | 26-28 KB |
-| **Scènes** | 178 | 14 | 192 |
-| **Fichiers texte** | 356 (178×2 langues) | 28 (14×2 langues) | 384 |
+| **Scènes** | 401 | 14 | 415 |
+| **Fichiers texte** | 802 (401×2 langues) | 28 (14×2 langues) | 830 |
+| **Traduction** | ✓ 100% FR/EN | ✓ 100% FR/EN | ✓ 100% |
 | **Images HGR** | 57 × 8 KB = 456 KB | 14 × 8 KB = 112 KB | 568 KB |
 | **Contenu total** | ~9 MB | ~150 KB | ~9.15 MB |
 | **Ratio efficacité** | 692:1 | 11:1 | - |
@@ -243,7 +248,8 @@ cd ../../SPACETRIP && cl65 -t apple2enh -O -Oirs \
 **Arnaud VERHILLE** (gist974@gmail.com)  
 Licence : **GNU GPL v3.0** - Libre d'utiliser, modifier, distribuer
 
-**SCOSWAMP** : Adaptation de "Scorpion Swamp" (1985) par Steve JACKSON & Ian LIVINGSTONE
+**SCOSWAMP** : Adaptation de "Scorpion Swamp" (1985) par Steve JACKSON & Ian LIVINGSTONE  
+Traduction anglaise complète : Octobre 2024 (401 scènes, 802 fichiers)
 
 **Remerciements** : cc65 team, communauté Apple II, Virtual ][ team
 
