@@ -1,0 +1,30 @@
+TEXTE (obligatoire)
+Rédige un paragraphe de type "Livre dont vous êtes le héros" en FRANÇAIS, ASCII (pas d'accents), conforme aux contraintes suivantes :
+- Format : "XYZ : Titre" en première ligne (XYZ = numéro 3 chiffres), ligne 2 = séparation (ex : "------------------------------"), ligne 3 vide facultative, puis texte narratif.
+- Longueur : maximum **23 lignes** au total (titre + séparateur + texte + choix). Ne PAS dépasser 80 caractères par ligne.
+- Narration : fluide, ton aventure/heroic-fantasy, pas verbeux inutilement (privilégier concision tout en restant vivant).
+- Numéros de renvoi **NE DOIVENT PAS** apparaître dans la zone narrative (uniquement dans les lignes de choix).
+- Choix : placer en fin de bloc sous forme *exacte* : C 0XX Texte du choix (trois chiffres pour 0XX).
+- Respecter la règle des objets / contraintes globales (ex. : si règle du livre interdit Pierres Maléfiques, ne pas proposer ces choix).
+- Si le contenu dépasse la taille, résumer ou condenser automatiquement pour tenir dans la limite des lignes.
+- Exemple de variables à fournir par l'utilisateur : NUM=314, TITRE="Choix de direction", BRIEF="décris brièvement deux chemins, nord rapide, est sinueux".
+
+IMAGE (obligatoire)
+Génère une illustration pixel art 1-bit (noir/blanc) adaptée à l'univers Apple II, basée sur la même scène que le texte. Contraintes :
+- Style : **1-bit black & white**, landscape **4:3**, résolution recommandée **560×384** (double HGR) — si l'outil ne supporte pas cette résolution, utiliser **280×192**.
+- Traits : **contours blancs épais** (équivalent visuel 3–5 px), **remplissages noirs pleins**, **aucun gris, pas de dithering, pas de dégradés**.
+- Pixels : bords nets, esthétique "crisp pixels", pas d'anti-aliasing.
+- Composition : paysage (clearing/path/objet principal) centré, arrière-plan sobre (minimal starfield si nuit), éléments lisibles en silhouette.
+- UI : fine bande noire (1–2 px) tout le long du bord inférieur pour zone UI, cadre blanc rectangulaire propre autour de l'image.
+- Éléments à préciser par l'utilisateur : sujet (« licorne blessée dans une clairière »), ambiance (jour/nuit), éléments de mise en scène (arbre, flèche, feuilles, sang en taches noires), préférences (thickness outlines, pas d'éléments flous).
+- Optionnel : inclure un bref prompt d'édition si tu veux coller l'image dans un template Apple II.
+
+EXEMPLE D'UTILISATION (remplacer les variables entre << >>) :
+NUM=314
+TITRE="Choix de direction"
+BRIEF_TEXTE="Deux chemins : nord sec et rapide ; est sinueux avec points d'eau. Phrase finale : choix à faire."
+BRIEF_IMAGE="fourche de chemin dans marais, Y-shaped path, minimal starfield, thin bottom UI bar"
+
+→ Le système doit générer :
+1) Le bloc texte (001 : Titre ... choix C 0XX) en ASCII ≤80 col et ≤23 lignes.
+2) L'image pixel art 1-bit 560×384 correspondant au BRIEF_IMAGE.
