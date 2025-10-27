@@ -5,7 +5,7 @@ Intrigue, vous lui demandez quel est son but dans le Marais.
 "Des renseignements ! Si j'avais une carte du Marais aux Scorpions, 
 je pourrais y faire passer mes caravanes et economiser des semaines. 
 Rapportez-moi une carte claire menant a la ville de Courbensaule, 
-et je vous offrirai la moitie des benefices de ma premiere anne !" 
+et je vous offrirai la moitie des benefices de ma premiere annee !" 
 
 Pompatarte ouvre alors un coffret rempli de Pierres scintillantes. 
 "Choisissez-en cinq, toutes neutres, elles vous seront utiles." 
