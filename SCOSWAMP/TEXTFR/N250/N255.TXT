@@ -13,5 +13,6 @@ Le portail en fer forge est massif; il vous toise, presque
 vivant. Vous pesez vos options: aller a la porte ou rebrousser
 chemin. Quel choix faites-vous?
 
-C 040 Aller jusqu'a la porte et frapper pour demander entre
-C 139 Reculer et retourner au village, me fondre dans la foule
+C 139 Reculer et retourner au village
+C 040 Aller jusqu'a la porte et frapper
+
