@@ -1,0 +1,6 @@
+# Répertoire de build (objets .o)
+build/
+
+# Le .gitignore racine ignore *.s ; ici les .s sont nos SOURCES, on les garde
+!src/*.s
+!src/*.inc
