@@ -14,8 +14,22 @@
 #
 # Ce script lit le fichier .map et tranche.
 #
+# Il contrôle aussi le placement du tas. Dans cc65, le tas n'est pas un segment :
+# _heap.o n'importe que sp, __STACKSIZE__, __BSS_SIZE__ et __BSS_RUN__, d'où
+#     __heaporg = __BSS_RUN__ + __BSS_SIZE__      (juste après la BSS)
+#     __heapend = sp - __STACKSIZE__
+# Le tas SUIT donc la BSS, où qu'elle soit. Reloger la BSS en RAM basse pour
+# gagner de la place l'y entraîne, et malloc() — utilisé par fopen() pour le
+# buffer ProDOS de 1 Ko — rend alors des pointeurs dans HGR page 1 puis dans le
+# code. Ce script refuse cette configuration.
+#
 # Usage :
-#   ./tools/check-memory.sh build.map
+#   ./tools/check-memory.sh build.map [--himem 0xBF00]
+#
+# Options :
+#   --himem <adr>   Plafond RAM. Défaut 0x9600 (BASIC.SYSTEM résident, ]BRUN).
+#                   Passer 0xBF00 pour un binaire qui sacrifie BASIC.SYSTEM et
+#                   quitte par l'appel MLI QUIT (voir DOCS/MEMOIRE.md).
 #
 # Code de sortie : 0 = tient en mémoire, 1 = déborde.
 #
@@ -24,21 +38,34 @@
 
 set -uo pipefail
 
-MAP="${1:-}"
+MAP=""
+HIMEM=0x9600     # "presumed RAM end" cc65 : BASIC.SYSTEM occupe $9600-$BEFF
+
+while [ $# -gt 0 ]; do
+    case "$1" in
+        --himem) HIMEM="$2"; shift 2 ;;
+        -*)      echo "Option inconnue : $1" >&2; exit 2 ;;
+        *)       MAP="$1"; shift ;;
+    esac
+done
 
 if [ -z "$MAP" ] || [ ! -f "$MAP" ]; then
-    echo "Usage : $0 <fichier.map>" >&2
+    echo "Usage : $0 <fichier.map> [--himem 0xBF00]" >&2
     echo "" >&2
     echo "Produire le .map avec :  cl65 ... -Wl -m,build.map -o PROG.BIN ..." >&2
     exit 2
 fi
 
-# Cible apple2enh sous ProDOS 8 (valeurs de /usr/share/cc65/cfg/apple2enh.cfg).
-# $9600-$BFFF appartient à ProDOS : MLI, page globale ($BF00), buffers fichier.
-readonly HIMEM=0x9600        # "presumed RAM end" cc65
-readonly STACKSIZE=0x0800    # pile C, 2 Ko
-readonly LOAD_ADDR=0x4000    # -Wl -S,0x4000, préserve HGR page 1
-readonly CEILING=$((HIMEM - STACKSIZE))   # $8E00
+# Cible apple2enh sous ProDOS 8. $BF00-$BFFF est la page globale ProDOS, jamais
+# disponible. En dessous, $9600-$BEFF n'est réservé que si BASIC.SYSTEM reste
+# résident — ce que fait ]BRUN.
+# Normalisées en décimal : [ ] ne sait pas comparer des littéraux 0x.
+readonly STACKSIZE=$((0x0800))    # pile C, 2 Ko
+readonly LOAD_ADDR=$((0x4000))    # -Wl -S,0x4000, préserve HGR page 1
+readonly HGR1_START=$((0x2000))   # HGR page 1 : $2000-$3FFF
+readonly HGR1_END=$((0x3FFF))
+readonly HIMEM_D=$((HIMEM))       # accepte 0x9600 comme 38400
+readonly CEILING=$((HIMEM_D - STACKSIZE))
 
 # Fin du segment BSS = point le plus haut occupé à l'exécution.
 bss_line=$(grep -E '^BSS ' "$MAP" | head -1)
@@ -57,9 +84,27 @@ available=$((CEILING - LOAD_ADDR))
 printf 'Analyse mémoire : %s\n' "$MAP"
 printf '  Chargement    : $%04X\n' "$LOAD_ADDR"
 printf '  BSS           : $%04X - $%04X\n' "$bss_start" "$bss_end"
+printf '  Tas           : $%04X - $%04X  (%d o)\n' \
+       "$bss_end" "$CEILING" "$((CEILING - bss_end))"
 printf '  Plafond       : $%04X  (__HIMEM__ $%04X moins %d o de pile C)\n' \
-       "$CEILING" "$HIMEM" "$STACKSIZE"
+       "$CEILING" "$HIMEM_D" "$STACKSIZE"
 printf '  Empreinte     : %d o sur %d o disponibles\n' "$footprint" "$available"
+
+# Le tas démarre juste après la BSS. Si la BSS a été relogée sous la zone de
+# chargement, le tas traverse HGR page 1 puis le code : malloc() rendrait des
+# pointeurs sur l'image affichée, puis sur le programme lui-même.
+if [ "$bss_start" -lt "$LOAD_ADDR" ]; then
+    printf '\n'
+    printf 'ERREUR : la BSS est relogée en RAM basse ($%04X < $%04X).\n' \
+           "$bss_start" "$LOAD_ADDR"
+    printf 'Dans cc65 le tas suit la BSS (__heaporg = __BSS_RUN__ + __BSS_SIZE__).\n'
+    printf 'Il démarrerait à $%04X et traverserait HGR page 1 ($%04X-$%04X)\n' \
+           "$bss_end" "$HGR1_START" "$HGR1_END"
+    printf "puis le code lui-même. fopen() alloue 1 Ko par fichier ouvert :\n"
+    printf "l'image affichée et le programme seraient écrasés.\n"
+    printf 'Gagner de la place par ce biais ne fonctionne pas.\n'
+    exit 1
+fi
 
 # Détection du piège : la BSS démarre-t-elle déjà au-delà du plafond ?
 # Dans ce cas ld65 n'a rien pu signaler, quel que soit le résultat.

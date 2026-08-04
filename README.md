@@ -149,18 +149,19 @@ Résumé des obstacles à lever :
 
 | # | Obstacle | Nature | État |
 |---|----------|--------|------|
-| 1 | **Budget mémoire** : la fusion statique déborde de 6 204 o dans la zone ProDOS | overlay requis | ✅ mesuré |
+| 1 | **Budget mémoire** | config étendue | ✅ **résolu** |
 | 2 | `set_video_mode()` dupliqué, avec deux comportements **incompatibles** | refactorisation | ✅ identifié |
 | 3 | Données monstres codées en dur, contraires à l'architecture pilotée par données | `MONSTERS.DAT` | à faire |
 | 4 | Bestiaire sci-fi inadapté à l'univers médiéval-fantastique de SCOSWAMP | contenu | à faire |
 | 5 | Pas de persistance HP/XP entre les scènes | moteur | à faire |
 
-> **Résultat de la mesure (étape 1)** : le binaire fusionné fait 21 343 o, sous
-> la limite de chargement — mais sa BSS s'étend jusqu'à `$A63C`, soit 6 204 o
-> au-dessus du plafond `$8E00`, en pleine zone ProDOS. Et `ld65` **ne signale
-> rien** : la taille de zone se calcule en négatif et le contrôle d'overflow est
-> neutralisé par un débordement non signé. La fusion statique est donc écartée
-> au profit d'un overlay. Détail complet dans [COMBAT/README.md](COMBAT/README.md).
+> **Obstacle 1 levé.** Avec la config cc65 standard, la fusion débordait de
+> 6 219 o dans la zone ProDOS — sans que `ld65` ne signale rien. En récupérant
+> les 10 496 octets de BASIC.SYSTEM via [`SRC/apple2enh-game.cfg`](SRC/apple2enh-game.cfg),
+> le binaire fusionné (26 187 o d'empreinte) **tient, avec 4 277 octets de tas** —
+> soit plus que ce dont SCOSWAMP dispose aujourd'hui seul (2 282 o).
+> L'overlay n'est plus nécessaire. Reste à valider sur émulateur, voir
+> [DOCS/MEMOIRE.md](DOCS/MEMOIRE.md).
 
 ---
 
@@ -185,33 +186,50 @@ $C000-$FFFF : I/O et ROM
 
 Démarrage à `$4000` pour préserver HGR Page 1 (`$2000-$3FFF`).
 
-**Le plafond est `$9600`, pas `$A000`.** cc65 définit `__HIMEM__ = $9600` pour la
-cible `apple2enh` : au-delà commence ProDOS 8, qu'un moteur trop gros écraserait
-silencieusement à la première ouverture de fichier.
+**`$9600-$BEFF` n'est pas perdu.** cc65 y suppose BASIC.SYSTEM résident — ce
+qu'implique `]BRUN` — et fixe par prudence `__HIMEM__ = $9600`. Un programme qui
+renonce à revenir au BASIC récupère ces **10 496 octets**. C'est l'objet de
+[`SRC/apple2enh-game.cfg`](SRC/apple2enh-game.cfg) :
+
+| | Config cc65 standard | `SRC/apple2enh-game.cfg` |
+|---|---|---|
+| `__HIMEM__` | `$9600` | `$BF00` |
+| Utilisable depuis `$4000` | 19 968 o | **30 464 o** |
+| BASIC.SYSTEM | préservé | détruit |
+| Sortie | `exit()` | `prodos_quit()` obligatoire |
 
 Deux contraintes distinctes, à ne pas confondre :
 
-| Contrainte | Limite | Vérifiée par |
-|------------|--------|--------------|
-| Taille du `.BIN` chargé | 22 016 o (`$9600-$4000`) | `check-project.sh` |
-| Empreinte totale **BSS comprise** | 19 968 o (`$8E00-$4000`) | fichier `.map` uniquement |
+| Contrainte | Ce qu'elle limite | Vérifiée par |
+|------------|-------------------|--------------|
+| Taille du `.BIN` | CODE + RODATA + DATA + ONCE | `check-project.sh` |
+| Empreinte exécution | **+ BSS + tas + pile** | `check-memory.sh` (lit le `.map`) |
 
-Le `.BIN` **ne contient pas la BSS** (variables non initialisées), allouée au
-lancement. Un binaire sous les 22 016 o peut donc quand même déborder à
-l'exécution. Pour le vérifier :
+Le `.BIN` **ne contient pas la BSS**, allouée au lancement. Un binaire de taille
+acceptable peut donc déborder à l'exécution :
 
 ```bash
 cl65 ... -Wl -m,build.map -o SCOSWAMP.BIN ...
-sed -n '/Segment list/,/^$/p' build.map   # fin de BSS doit rester < $8E00
+./tools/check-memory.sh build.map                    # config standard
+./tools/check-memory.sh build.map --himem 0xBF00     # config étendue
 ```
 
-> **Piège `ld65`.** Si la BSS démarre déjà au-delà de `$8E00`, la taille de sa
+> **Piège `ld65`.** Si la BSS démarre déjà au-delà du plafond, la taille de sa
 > zone se calcule en négatif, déborde en non signé, et le contrôle d'overflow
 > est neutralisé : **le link réussit sans le moindre avertissement**. Seule la
-> lecture du `.map` révèle le problème. Ce cas est réel — voir la mesure de
-> fusion dans [COMBAT/README.md](COMBAT/README.md).
+> lecture du `.map` révèle le problème.
 
-Marge actuelle de SCOSWAMP : BSS finit à `$8516`, soit 2 282 octets sous le plafond.
+> **Piège du tas.** `$0800-$1FFF` (6 Ko) est libre, mais y reloger la BSS ne
+> marche pas : dans cc65 le tas est câblé sur `__BSS_RUN__ + __BSS_SIZE__` et
+> **suit la BSS**. Relogée en bas, le tas traverse HGR page 1 puis le code, et
+> `fopen()` — 1 Ko par fichier ouvert — écrase l'image affichée. Le linker
+> accepte pourtant cette configuration sans broncher.
+
+Analyse complète des zones récupérables, mesures et validation restante :
+**[DOCS/MEMOIRE.md](DOCS/MEMOIRE.md)**.
+
+Marge actuelle de SCOSWAMP : BSS finit à `$8516`, soit 2 282 octets sous le
+plafond standard, 12 778 sous le plafond étendu.
 
 ### Format des fichiers
 
@@ -236,6 +254,7 @@ build_paths(5, "FR", ...) → "IMG/N005.HGR", "TEXTFR/N000/N005.TXT"
 |----------|---------|
 | [SCOSWAMP/SRC/README.md](SCOSWAMP/SRC/README.md) | Compilation et structure du moteur |
 | [SCOSWAMP/DOCS/README-TEXTES.md](SCOSWAMP/DOCS/README-TEXTES.md) | Format des fichiers texte |
+| [DOCS/MEMOIRE.md](DOCS/MEMOIRE.md) | Carte mémoire, zones récupérables, pièges cc65 |
 | [DOCS/PRODOS-MLI.md](DOCS/PRODOS-MLI.md) | Gestion des chemins ProDOS |
 | [DOCS/RELEASE.md](DOCS/RELEASE.md) | Génération et publication des images disque |
 | [COMBAT/README.md](COMBAT/README.md) | Système de combat et feuille de route d'intégration |

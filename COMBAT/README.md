@@ -201,26 +201,79 @@ by 10284 bytes`. Le piège ne se déclenche que dans ce cas précis — celui-ci
 **À retenir : ne jamais conclure d'un link réussi que le binaire tient.**
 Toujours produire et lire le `.map`.
 
-#### Conséquence : charger COMBAT en overlay
+#### Solution : récupérer BASIC.SYSTEM — la fusion tient
 
-Il faut faire entrer ~8 486 o de code, données et BSS supplémentaires dans
-2 282 o de marge. Une réduction de 73 % n'est pas atteignable par simple
-optimisation : la fusion statique est écartée.
+Le plafond `$9600` n'est pas une limite matérielle. C'est la valeur prudente de
+cc65, qui suppose BASIC.SYSTEM résident en `$9600-$BEFF` — ce qu'implique un
+lancement par `]BRUN`. Un programme qui renonce à revenir au BASIC récupère ces
+**10 496 octets**. La limite réelle est `$BF00`, page globale ProDOS.
 
-La solution est l'**overlay**, prévue par cc65 via `apple2enh-overlay.cfg` :
-le code de combat est chargé depuis le disque au moment de la rencontre, dans
-une zone mémoire réutilisée, puis libérée au retour à la narration. C'est
-exactement la philosophie pilotée par données du projet, appliquée au code.
+C'est l'objet de [`SRC/apple2enh-game.cfg`](../SRC/apple2enh-game.cfg).
 
-```bash
-# Produire systématiquement le .map et vérifier la fin de BSS
-cl65 -t apple2enh -O -Oirs -Wl -D,__EXEHDR__=0 -Wl -S,0x4000 \
-     -Wl -m,build.map -o SCOSWAMP.BIN scoswamp.c paths.c memory_swap.c
-sed -n '/Segment list/,/^$/p' build.map   # fin de BSS doit rester < $8E00
+| | Config standard | Config étendue |
+|---|---|---|
+| `__HIMEM__` | `$9600` | `$BF00` |
+| Plafond BSS + tas | `$8E00` | `$B700` |
+| Utilisable depuis `$4000` | 19 968 o | **30 464 o** |
+
+**Mesure de la fusion avec la config étendue** (`scoswamp.c + combat.c +
+paths.c + memory_swap.c + prodos_quit.asm`) :
+
+```
+Chargement    : $4000
+BSS           : $92B5 - $A64B
+Tas           : $A64B - $B700  (4277 o)
+Plafond       : $B700
+Empreinte     : 26187 o sur 30464 o disponibles
+
+OK : tient en mémoire, marge de 4277 octets.
 ```
 
-`./tools/check-project.sh` contrôle la taille du `.BIN` (≤ 22 016 o), ce qui est
-nécessaire mais pas suffisant : la vérification BSS passe par le `.map`.
+**L'overlay n'est pas nécessaire.** Mieux : les 4 277 octets de tas restants
+dépassent les 2 282 dont SCOSWAMP dispose aujourd'hui seul. Le jeu n'ouvrant
+qu'un fichier à la fois (1 Ko de buffer ProDOS), la marge est confortable.
+
+#### Contrepartie : sortir par MLI QUIT
+
+La BSS et le tas s'étendent au-dessus de `$9600` et détruisent BASIC.SYSTEM en
+cours de partie. `exit(0)` — utilisé aujourd'hui dans `scoswamp.c` ligne 381 —
+rendrait la main à un programme qui n'existe plus.
+
+Remplacer par [`prodos_quit()`](../SRC/prodos_quit.asm), qui invoque l'appel MLI
+QUIT (`$BF00`, commande `$65`) :
+
+```c
+#include "prodos_quit.h"
+...
+    cprintf("Au revoir!\r\n");
+    prodos_quit();          /* et non exit(0) */
+```
+
+#### Fausse piste écartée : la RAM basse
+
+`$0800-$1FFF` (6 Ko) est libre puisque le chargement commence à `$4000`. Y
+reloger la BSS paraît un gain facile — **c'est un piège**. Dans cc65 le tas
+n'est pas un segment : `_heap.o` n'importe que `sp`, `__STACKSIZE__`,
+`__BSS_SIZE__` et `__BSS_RUN__`, et pose `__heaporg = __BSS_RUN__ +
+__BSS_SIZE__`. Le tas **suit la BSS**. Relogée en `$0800`, le tas part de
+`$1B96` et traverse HGR page 1 puis tout le code : `fopen()` écraserait l'image
+affichée. Testé, et accepté sans broncher par le linker.
+
+`tools/check-memory.sh` refuse cette configuration.
+
+#### Vérifier systématiquement
+
+```bash
+cl65 -t apple2enh -C ../../SRC/apple2enh-game.cfg -O -Oirs \
+     -Wl -D,__EXEHDR__=0 -Wl -m,build.map -o SCOSWAMP.BIN \
+     scoswamp.c combat.c paths.c memory_swap.c ../../SRC/prodos_quit.asm
+./tools/check-memory.sh build.map --himem 0xBF00
+```
+
+`check-project.sh` contrôle la taille du `.BIN`, ce qui est nécessaire mais pas
+suffisant : la BSS ne s'y trouve pas. Analyse complète dans
+[DOCS/MEMOIRE.md](../DOCS/MEMOIRE.md), y compris la validation sur émulateur
+restant à faire.
 
 ### Étape 2 — Éliminer les duplications
 
