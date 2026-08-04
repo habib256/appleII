@@ -2,6 +2,17 @@
 *.o
 *.s
 *.lst
+*.map
+
+# Exception : sources assembleur volontaires (pas des intermédiaires cc65)
+!DOCS/HELLO_WORLD-ASM/*.s
+
+# Images disque ProDOS (artefacts de build, publiées en GitHub Release)
+# Voir DOCS/RELEASE.md pour la procédure de génération et de publication.
+*.2mg
+*.2img
+*.po
+*.dsk
 
 # Fichiers de backup
 *~
@@ -10,3 +21,6 @@
 
 # Fichiers macOS
 .DS_Store
+._*
+.Spotlight-V100
+.Trashes
