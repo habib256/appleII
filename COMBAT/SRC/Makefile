@@ -9,7 +9,11 @@ LD = cl65
 # Options de compilation
 CFLAGS = -t apple2enh -O -Oirs
 ASFLAGS = -t apple2enh
-LDFLAGS = -t apple2enh -O -Oirs -Wl -D,__EXEHDR__=0 -Wl -S,0x4000
+# -Wl -m,$(MAPFILE) : produit la carte mémoire, indispensable pour vérifier
+#                     la BSS (absente du .BIN, allouée au lancement)
+LDFLAGS = -t apple2enh -O -Oirs -Wl -D,__EXEHDR__=0 -Wl -S,0x4000 -Wl -m,$(MAPFILE)
+
+MAPFILE = build.map
 
 # Fichiers sources
 SOURCES = combat.c
@@ -23,13 +27,23 @@ TARGET = ../COMBAT.BIN
 all: $(TARGET)
 
 # Compilation directe avec cl65
+# Le contrôle mémoire est systématique : un link réussi ne prouve pas que le
+# binaire tient (ld65 peut manquer un débordement BSS, voir tools/check-memory.sh).
+# Point de vigilance pour ce module : son intégration à SCOSWAMP déborde
+# actuellement de 6204 octets — voir la feuille de route dans ../README.md.
 $(TARGET): $(SOURCES)
 	$(LD) $(LDFLAGS) -o $@ $^
 	@echo "==> Compilation terminée : $(TARGET)"
+	@echo ""
+	@../../tools/check-memory.sh $(MAPFILE)
+
+# Contrôle mémoire seul (nécessite une compilation préalable)
+check: $(MAPFILE)
+	@../../tools/check-memory.sh $(MAPFILE)
 
 # Nettoyage
 clean:
-	rm -f *.o *.s
+	rm -f *.o *.s $(MAPFILE)
 	@echo "==> Fichiers intermédiaires supprimés"
 
 # Installation
@@ -43,4 +57,4 @@ help:
 	@echo "  make clean  - Nettoyer les fichiers temporaires"
 	@echo "  make help   - Afficher cette aide"
 
-.PHONY: all clean install help
+.PHONY: all check clean install help
