@@ -1,60 +1,88 @@
 # Apple II - Moteurs de Jeu Pilotés par Données
 
-Deux jeux d'aventure pour Apple IIe Enhanced démontrant une architecture moderne : moteur compact (~13 KB) + contenu illimité sur disque ProDOS.
+Deux jeux d'aventure pour Apple IIe Enhanced démontrant une architecture moderne : moteur compact (~13 Ko) + contenu illimité sur disque ProDOS.
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 ## 📖 Philosophie
 
-**Architecture pilotée par données** : Le moteur reste en mémoire (~13 KB), seule la scène actuelle est chargée depuis le disque.
+**Architecture pilotée par données** : le moteur reste en mémoire (~13 Ko), seule la scène actuelle est chargée depuis le disque.
 
 **Avantages** :
-- Contenu illimité (limité uniquement par l'espace disque, jusqu'à 32 MB ProDOS)
+- Contenu illimité (limité uniquement par l'espace disque, jusqu'à 32 Mo ProDOS)
 - Ajout de scènes sans recompilation
 - Contenu moddable par les joueurs
 - Ratio efficacité : 1000:1 (contenu vs. empreinte mémoire)
 
-## 🎮 Projets inclus
+---
 
-| Projet | Description | Scènes | Images | Statut |
-|--------|-------------|--------|--------|--------|
-| **SCOSWAMP** | Le Marais aux Scorpions (livre-jeu) | 401 ✅ | 75/~401 🚧 | 40% |
-| **SPACETRIP** | Space Explorer Trip (aventure sci-fi) | 14 ✅ | 14 ✅ | 100% |
+## 📊 État du projet
+
+> Les chiffres ci-dessous sont **produits par `./tools/check-project.sh`**, pas saisis à la main.
+> Relancer le script après toute modification de contenu pour les mettre à jour.
+> Dernière vérification : 4 août 2026 — 0 erreur.
+
+| Module | Rôle | Moteur | Scènes | Textes | Images | État |
+|--------|------|--------|--------|--------|--------|------|
+| **SCOSWAMP** | Le Marais aux Scorpions (livre-jeu) | 13 322 o | 402 | 804 ✅ | 79 / 402 | 🚧 Images en cours |
+| **SPACETRIP** | Space Explorer Trip (aventure sci-fi) | 12 835 o | 14 | 28 ✅ | 14 / 14 ✅ | ✅ Complet |
+| **COMBAT** | Système de combat RPG | 14 490 o | — | — | 5 monstres | 🔬 Prototype autonome, **non intégré** |
+
+**Progression par axe** (pas de pourcentage global : les axes ne sont pas comparables)
+
+```
+SCOSWAMP  texte FR/EN   [####################] 100%  (804/804 fichiers)
+SCOSWAMP  moteur        [####################] 100%
+SCOSWAMP  images HGR    [####................]  20%  (79/402 scènes)
+SPACETRIP tout          [####################] 100%
+COMBAT    prototype     [####################] 100%  (fonctionne isolément)
+COMBAT    intégration   [....................]   0%  (voir COMBAT/README.md)
+Distribution            [....................]   0%  (voir DOCS/RELEASE.md)
+```
+
+**Intégrité** : 101 images HGR, toutes à 8192 octets exactement. Aucun trou de numérotation, aucune scène FR sans équivalent EN, aucun fichier texte vide.
+
+### Vérifier soi-même
+
+```bash
+./tools/check-project.sh          # rapport complet
+./tools/check-project.sh --quiet  # erreurs seules (code de sortie 1 si problème)
+```
+
+Le script valide les tailles HGR, l'appariement FR/EN, la continuité des scènes, la taille des moteurs face au budget mémoire, et l'absence d'artefacts de build versionnés.
 
 ---
 
 ## 🎮 SCOSWAMP - Le Marais aux Scorpions
 
-Adaptation du livre-jeu "Scorpion Swamp" (1985) par Steve JACKSON & Ian LIVINGSTONE.
+Adaptation du livre-jeu « Scorpion Swamp » (1985) par Steve JACKSON & Ian LIVINGSTONE.
 
-### Statistiques
+### Ce qui est terminé
 
-| Métrique | Valeur | Statut |
-|----------|--------|--------|
-| **Moteur** | 13-15 KB | ✅ 100% |
-| **Scènes** | 401 paragraphes (livre-jeu complet) | ✅ 100% |
-| **Fichiers texte** | 802 fichiers (401 FR + 401 EN) | ✅ 100% |
-| **Traduction** | Bilingue FR/EN complet (Oct. 2024) | ✅ 100% |
-| **Images HGR** | 75 / ~401 images | 🚧 19% |
-| **Colorisation** | 0 / 75 images existantes | 🚧 0% |
-| **Progression globale** | Texte complet, images en cours | 🚧 40% |
+- **402 scènes** (N000 → N401), livre-jeu complet adapté
+- **Bilingue FR/EN** : 804 fichiers texte, appariement complet vérifié
+- **Mode texte 80 colonnes** : lecture confortable et immersive
+- **Bascule instantanée** image ↔ texte (ESPACE / RETURN / ESC)
+- **Navigation par choix** : branches narratives interactives
+- **Memory swap** : transitions optimisées
 
-### Fonctionnalités
+### Ce qui reste
 
-- **401 scènes** : Livre-jeu complet adapté pour Apple II ✅
-- **Bilingue FR/EN** : Traduction 100% complète (802 fichiers texte) ✅
-- **Mode texte 80 colonnes** : Lecture confortable et immersive ✅
-- **Graphismes HGR** : 280×192 pixels, 6 couleurs (75 images) 🚧
-- **Bascule instantanée** : Image ↔ texte (ESPACE/RETURN/ESC) ✅
-- **Navigation par choix** : Branches narratives interactives ✅
-- **Optimisé** : Memory swap pour transitions ultra-rapides ✅
+**Images HGR : 79 sur 402 scènes illustrées.** Répartition actuelle :
 
-### 🚧 Travail en cours
+| Bloc | Images / Scènes | | Bloc | Images / Scènes |
+|------|-----------------|-|------|-----------------|
+| N000 | 30 / 50 | | N200 | 4 / 50 |
+| N050 | 15 / 50 | | N250 | 3 / 50 |
+| N100 | 9 / 50  | | N300 | 6 / 50 |
+| N150 | 6 / 50  | | N350 | 6 / 50 |
 
-**Images HGR** : ~326 images à créer + colorisation des 75 existantes
-- État actuel : 75 images N&B (19%)
-- Objectif : ~401 images colorisées (100%)
-- Estimation : 165-330h de travail artistique
+Les images existantes sont en noir et blanc ; aucune n'est colorisée.
+
+> **Note de périmètre.** Illustrer les 402 scènes représente 165–330 h de travail
+> artistique. Un objectif intermédiaire réaliste est d'illustrer et coloriser
+> les ~120 scènes structurantes (embranchements majeurs, rencontres, fins),
+> ce qui donne un jeu perçu comme complet sans le coût du 100 %.
 
 ### Compilation
 
@@ -71,37 +99,25 @@ cl65 -t apple2enh -O -Oirs -Wl -D,__EXEHDR__=0 -Wl -S,0x4000 \
 
 ### Exécution
 
-1. Monter SCOSWAMP/ comme disque ProDOS (Virtual ][)
+1. Monter `SCOSWAMP/` comme disque ProDOS (Virtual ][)
 2. `]BRUN SCOSWAMP`
-3. Choisir langue : `F` (Français) ou `E` (English)
+3. Choisir la langue : `F` (Français) ou `E` (English)
 
-**Contrôles** : `ESPACE/RETURN/ESC`=basculer image/texte | `A-Z`=choix | `Q`=quitter
+**Contrôles** : `ESPACE/RETURN/ESC` = basculer image/texte | `A-Z` = choix | `Q` = quitter
 
 ---
 
 ## 🚀 SPACETRIP - Space Explorer Trip
 
-Aventure galactique interactive démontrant l'architecture pilotée par données.
-
-### Statistiques
+Aventure galactique interactive démontrant l'architecture pilotée par données. **Complet** : 14 scènes, 14 images, bilingue.
 
 | Métrique | Valeur |
 |----------|--------|
-| **Moteur** | 13 KB |
-| **Scènes** | 14 (FR + EN) |
-| **Images HGR** | 14 × 8 KB = 112 KB |
-| **Fichiers texte** | 28 fichiers (14 FR + 14 EN) |
-| **Contenu total** | ~150 KB |
-| **Ratio efficacité** | 11:1 (150 KB / 13 KB) |
-| **Potentiel** | 1000+ scènes (limité par espace disque) |
-
-### Fonctionnalités
-
-- Graphismes HGR 280×192 pixels
-- Chargement dynamique : seule la scène actuelle en RAM
-- Bilingue FR/EN
-- Moddable : ajout de scènes sans recompilation
-- Extensible : ~16 KB libres pour fonctionnalités RPG futures
+| Moteur | 12 835 o |
+| Scènes | 14 (FR + EN) |
+| Images HGR | 14 × 8 Ko = 112 Ko |
+| Fichiers texte | 28 (14 FR + 14 EN) |
+| Ratio efficacité | 11:1 |
 
 ### Compilation
 
@@ -111,20 +127,33 @@ cl65 -t apple2enh -O -Oirs -Wl -D,__EXEHDR__=0 -Wl -S,0x4000 \
      -o SPACETRIP.BIN spacetrip.c paths.c
 ```
 
-### Exécution
-
-1. Monter SPACETRIP/ comme disque ProDOS
-2. `]BRUN SPACETRIP`
-3. Choisir langue : `F` (Français) ou `E` (English)
-
-**Contrôles** : identiques à SCOSWAMP
-
 ### Ajouter du contenu (sans recompilation)
 
 1. Créer `TXTFR/N015` et `TXTEN/N015` (description + choix)
-2. Créer `IMG/N015.HGR` (8192 octets)
+2. Créer `IMG/N015.HGR` (8192 octets exactement)
 3. Lier depuis une scène : ajouter `C 015 Titre du choix`
-4. Terminé ! Jouable immédiatement.
+4. Terminé, jouable immédiatement. Valider avec `./tools/check-project.sh`.
+
+---
+
+## ⚔️ COMBAT - Système de combat RPG
+
+Prototype **fonctionnel mais autonome** : 847 lignes de C, son propre `main()`, compilé
+séparément en `COMBAT.BIN`. Il ne s'exécute pas depuis SCOSWAMP ni SPACETRIP à ce jour.
+
+C'est une **étape assumée du projet**, pas du code mort : l'intégration est planifiée.
+Le détail des mécaniques, les obstacles techniques identifiés et la feuille de route
+en 5 étapes se trouvent dans **[COMBAT/README.md](COMBAT/README.md)**.
+
+Résumé des obstacles à lever :
+
+| # | Obstacle | Nature |
+|---|----------|--------|
+| 1 | Budget mémoire : 13 322 + 14 490 o dépassent la zone `$4000-$9FFF` (24 576 o) | à mesurer |
+| 2 | Code dupliqué (`set_video_mode`, `HGR_PAGE1`, `MAX_PATH`…) entre les deux moteurs | refactorisation |
+| 3 | Données monstres codées en dur, contraires à l'architecture pilotée par données | `MONSTERS.DAT` |
+| 4 | Bestiaire sci-fi inadapté à l'univers médiéval-fantastique de SCOSWAMP | contenu |
+| 5 | Pas de persistance HP/XP entre les scènes | moteur |
 
 ---
 
@@ -134,63 +163,76 @@ cl65 -t apple2enh -O -Oirs -Wl -D,__EXEHDR__=0 -Wl -S,0x4000 \
 
 - **cc65** : `brew install cc65` (macOS) ou https://cc65.github.io/
 - **Virtual ][** ou autre émulateur Apple II
-- **Apple IIe Enhanced** (65C02) avec 64 KB RAM et carte 80 colonnes
+- **Apple IIe Enhanced** (65C02), 64 Ko RAM, carte 80 colonnes
 
 ### Carte mémoire
 
 ```
 $0000-$1FFF : Système ProDOS
-$2000-$3FFF : HGR Page 1 (8 KB image)
-$4000-$4FFF : Moteur (13-15 KB)
-$5000-$9FFF : Libre (~16 KB pour extensions)
+$2000-$3FFF : HGR Page 1 (8 Ko image)
+$4000-$9FFF : Moteur + espace de travail (24 Ko disponibles)
 $A000-$BFFF : Pile/tas C
 $C000-$FFFF : I/O et ROM
 ```
 
-**Note** : Démarrage à $4000 pour préserver HGR Page 1 ($2000-$3FFF)
+**Note** : démarrage à `$4000` pour préserver HGR Page 1 (`$2000-$3FFF`).
+`check-project.sh` échoue si un moteur dépasse 24 576 octets.
 
----
+### Format des fichiers
 
-## 📚 Documentation
+- **Images** : `IMG/N###.HGR` — **exactement 8192 octets**, 280×192, 6 couleurs
+  Une page HGR fait 7680 octets affichés + 512 octets de « screen holes » non
+  affichés. Un fichier plus court est chargé partiellement et laisse des résidus
+  de la scène précédente à l'écran.
+- **Textes** : `TEXTFR/N###/N###.TXT` et `TEXTEN/N###/N###.TXT`
+- **Choix** : `C <scene_id> <titre>` (la ligne commence par `C` + espace)
 
-### Guides détaillés
+### Chemins ProDOS
 
-- **SCOSWAMP/SRC/README.md** : Compilation et structure
-- **SCOSWAMP/DOCS/PRODOS-MLI.md** : Gestion des chemins ProDOS
-- **SCOSWAMP/DOCS/README-TEXTES.md** : Format des fichiers texte
-- **SCOSWAMP/DOCS/PROJECT-STATUS.md** : Statut complet du projet (texte 100%, images 19%)
-- **SPACETRIP/README.TXT** : Architecture et guide complet
-- **DOCS/cc65/** : Documentation cc65 complète (HTML)
-
-### Techniques
-
-**Architecture pilotée par données**
-- Code séparé du contenu
-- Moteur constant en mémoire (~13 KB)
-- Contenu illimité sur disque ProDOS
-
-**Format fichiers**
-- Images : `IMG/N###.HGR` (8192 octets, 280×192, 6 couleurs)
-- Textes : `TEXTFR/N###/N###.TXT` et `TEXTEN/N###/N###.TXT`
-- Choix : `C <scene_id> <titre>`
-
-**Chemins ProDOS**
 ```c
 build_paths(5, "FR", ...) → "IMG/N005.HGR", "TEXTFR/N000/N005.TXT"
 ```
 
 ---
 
-## 🔮 Évolutions futures (RPG)
+## 📚 Documentation
 
-~16 KB de RAM libre permettent d'ajouter :
-- **Combat** : Rencontres, tour par tour, monstres depuis fichiers
-- **Inventaire** : Objets, clés, armes, armures (moddables)
-- **Progression** : HP, stats, expérience, niveaux
-- **Sauvegarde** : Système multi-emplacements
-- **Fichiers** : MONSTERS.DAT, ITEMS.DAT, IMG/MONSTERS/*.HGR
+| Document | Contenu |
+|----------|---------|
+| [SCOSWAMP/SRC/README.md](SCOSWAMP/SRC/README.md) | Compilation et structure du moteur |
+| [SCOSWAMP/DOCS/README-TEXTES.md](SCOSWAMP/DOCS/README-TEXTES.md) | Format des fichiers texte |
+| [DOCS/PRODOS-MLI.md](DOCS/PRODOS-MLI.md) | Gestion des chemins ProDOS |
+| [DOCS/RELEASE.md](DOCS/RELEASE.md) | Génération et publication des images disque |
+| [COMBAT/README.md](COMBAT/README.md) | Système de combat et feuille de route d'intégration |
+| [SPACETRIP/README.TXT](SPACETRIP/README.TXT) | Architecture et guide complet |
+| [DOCS/cc65/](DOCS/cc65/) | Documentation cc65 complète (HTML) |
 
-Moteur reste ~15-18 KB, contenu illimité sur disque.
+> Le statut chiffré du projet vit **uniquement ici**, alimenté par
+> `tools/check-project.sh`. L'ancien `SCOSWAMP/DOCS/PROJECT-STATUS.md` a été
+> fusionné dans ce README pour éviter deux sources de vérité divergentes.
+
+---
+
+## 📦 Images disque
+
+Les fichiers `.2mg` **ne sont pas versionnés** : ce sont des artefacts de build
+régénérables, et les committer ajoutait 5 à 32 Mo à l'historique Git à chaque
+mise à jour, de façon définitive.
+
+Ils sont publiés en **GitHub Release**. Voir [DOCS/RELEASE.md](DOCS/RELEASE.md)
+pour la procédure de génération et de publication.
+
+---
+
+## 🔮 Évolutions futures
+
+Au-delà de l'intégration de COMBAT :
+
+- **Inventaire** : objets, clés, armes, armures (moddables via fichiers)
+- **Sauvegarde** : système multi-emplacements
+- **Fichiers de données** : `MONSTERS.DAT`, `ITEMS.DAT`, `IMG/MONSTERS/*.HGR`
+
+Le moteur resterait ~15-18 Ko, le contenu illimité sur disque.
 
 ---
 
@@ -198,10 +240,11 @@ Moteur reste ~15-18 KB, contenu illimité sur disque.
 
 | Problème | Solution |
 |----------|----------|
-| Fichier non trouvé | Vérifier format N### (3 chiffres), chemins corrects |
-| Choix absents | Lignes commencent par `C ` (C+espace) |
-| Graphiques corrompus | Fichiers HGR = 8192 octets exactement |
+| Fichier non trouvé | Vérifier le format `N###` (3 chiffres) et les chemins |
+| Choix absents | Les lignes doivent commencer par `C ` (C + espace) |
+| Graphiques corrompus | Les fichiers HGR doivent faire 8192 octets — lancer `./tools/check-project.sh` |
 | Plantage au démarrage | Compiler avec `-Wl -S,0x4000` |
+| Texte manquant dans une langue | `./tools/check-project.sh` détecte les scènes non appariées FR/EN |
 
 ---
 
@@ -210,24 +253,8 @@ Moteur reste ~15-18 KB, contenu illimité sur disque.
 - **cc65** : https://cc65.github.io/
 - **Virtual ][** (macOS) : https://www.virtualii.com/
 - **AppleWin** (Windows) : https://github.com/AppleWin/AppleWin
-- **bmp2dhr** : Convertisseur HGR
+- **bmp2dhr** : convertisseur HGR
 - **ProDOS 8** : https://prodos8.com/
-
----
-
-## 📊 Vue d'ensemble des projets
-
-| Métrique | SCOSWAMP | SPACETRIP | Total |
-|----------|----------|-----------|-------|
-| **Moteur** | 13-15 KB | 13 KB | 26-28 KB |
-| **Scènes** | 401 | 14 | 415 |
-| **Fichiers texte** | 802 (401×2 langues) ✅ | 28 (14×2 langues) ✅ | 830 ✅ |
-| **Traduction** | ✅ 100% FR/EN | ✅ 100% FR/EN | ✅ 100% |
-| **Images HGR** | 75 / ~401 (🚧 19%) | 14 ✅ | 89 images |
-| **Colorisation** | 🚧 0% (75 à faire) | ✅ 100% | 🚧 En cours |
-| **Contenu actuel** | ~600 KB images + texte | ~150 KB | ~750 KB |
-| **Code C** | ~290 lignes | ~310 lignes | ~600 lignes |
-| **Progression** | 🚧 40% (texte 100%) | ✅ 100% | 🚧 45% |
 
 ---
 
@@ -237,30 +264,33 @@ Moteur reste ~15-18 KB, contenu illimité sur disque.
 # 1. Installer cc65
 brew install cc65  # macOS
 
-# 2. Compiler
+# 2. Vérifier l'intégrité du dépôt
+./tools/check-project.sh
+
+# 3. Compiler
 cd SCOSWAMP/SRC && make
 cd ../../SPACETRIP && cl65 -t apple2enh -O -Oirs \
     -Wl -D,__EXEHDR__=0 -Wl -S,0x4000 -o SPACETRIP.BIN spacetrip.c paths.c
 
-# 3. Exécuter (Virtual ][)
-# - Menu → "Mount Folder as ProDOS Disk" → sélectionner SCOSWAMP/ ou SPACETRIP/
+# 4. Exécuter (Virtual ][)
+# - Menu → « Mount Folder as ProDOS Disk » → sélectionner SCOSWAMP/ ou SPACETRIP/
 # - ]BRUN SCOSWAMP (ou SPACETRIP)
-# - F=Français, E=English
-# - ESPACE=basculer image/texte, A-Z=choix, Q=quitter
+# - F = Français, E = English
+# - ESPACE = basculer image/texte, A-Z = choix, Q = quitter
 ```
 
 ---
 
 ## 👨‍💻 Auteur & Licence
 
-**Arnaud VERHILLE** (gist974@gmail.com)  
-Licence : **GNU GPL v3.0** - Libre d'utiliser, modifier, distribuer
+**Arnaud VERHILLE** (gist974@gmail.com)
+Licence : **GNU GPL v3.0** — libre d'utiliser, modifier, distribuer
 
-**SCOSWAMP** : Adaptation de "Scorpion Swamp" (1985) par Steve JACKSON & Ian LIVINGSTONE  
-- ✅ Traduction anglaise complète : Octobre 2024 (401 scènes, 802 fichiers)
-- 🚧 Images et colorisation : En cours (75/~401 images, 0% colorisées)
+**SCOSWAMP** : adaptation de « Scorpion Swamp » (1985) par Steve JACKSON & Ian LIVINGSTONE
+- ✅ Traduction anglaise complète : octobre 2024 (402 scènes, 804 fichiers)
+- 🚧 Images et colorisation : en cours (79/402 images, 0 % colorisées)
 
-**Remerciements** : cc65 team, communauté Apple II, Virtual ][ team
+**Remerciements** : équipe cc65, communauté Apple II, équipe Virtual ][
 
 ---
 
