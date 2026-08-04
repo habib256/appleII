@@ -127,9 +127,24 @@ say "  Images  : $st_img / $st_fr scènes illustrées"
 say ""
 say "-- Moteurs compilés --"
 
-# Le moteur démarre à $4000 et la pile/tas C commence à $A000.
-# Au-delà de 24 Ko le moteur mordrait sur la zone réservée à l'exécution.
-readonly ENGINE_MAX=24576
+# Le moteur est chargé à $4000. Le plafond n'est PAS $A000 : sous ProDOS 8,
+# cc65 fixe __HIMEM__ = $9600 ("presumed RAM end"), car $9600-$BFFF appartient
+# à ProDOS (MLI, page globale $BF00, buffers fichier de 1 Ko par fichier ouvert).
+# Taille maximale de l'image chargée : $9600 - $4000 = 22016 octets.
+readonly ENGINE_MAX=22016
+
+# ATTENTION : ce contrôle est NÉCESSAIRE MAIS PAS SUFFISANT.
+# Le fichier .BIN ne contient pas le segment BSS (variables non initialisées),
+# alloué à l'exécution juste après DATA. L'empreinte réelle est donc plus grande
+# que la taille du fichier, et doit tenir sous $8E00 ($9600 moins 2 Ko de pile C),
+# soit 19968 octets depuis $4000 pour CODE+RODATA+DATA+BSS.
+#
+# Piège connu de ld65 : si la BSS démarre déjà au-delà de $8E00, la taille de la
+# zone se calcule en négatif, déborde en non signé, et le contrôle d'overflow est
+# neutralisé — le link réussit en silence alors que la BSS écrase ProDOS.
+# Seule l'inspection du fichier .map détecte ce cas :
+#   cl65 ... -Wl -m,build.map && sed -n '/Segment list/,/^$/p' build.map
+# Vérifier que la fin du segment BSS reste inférieure à $8E00.
 
 for bin in SCOSWAMP/SCOSWAMP.BIN SPACETRIP/SPACETRIP.BIN COMBAT/COMBAT.BIN; do
     if [ -f "$bin" ]; then

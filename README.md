@@ -147,13 +147,20 @@ en 5 étapes se trouvent dans **[COMBAT/README.md](COMBAT/README.md)**.
 
 Résumé des obstacles à lever :
 
-| # | Obstacle | Nature |
-|---|----------|--------|
-| 1 | Budget mémoire : 13 322 + 14 490 o dépassent la zone `$4000-$9FFF` (24 576 o) | à mesurer |
-| 2 | Code dupliqué (`set_video_mode`, `HGR_PAGE1`, `MAX_PATH`…) entre les deux moteurs | refactorisation |
-| 3 | Données monstres codées en dur, contraires à l'architecture pilotée par données | `MONSTERS.DAT` |
-| 4 | Bestiaire sci-fi inadapté à l'univers médiéval-fantastique de SCOSWAMP | contenu |
-| 5 | Pas de persistance HP/XP entre les scènes | moteur |
+| # | Obstacle | Nature | État |
+|---|----------|--------|------|
+| 1 | **Budget mémoire** : la fusion statique déborde de 6 204 o dans la zone ProDOS | overlay requis | ✅ mesuré |
+| 2 | `set_video_mode()` dupliqué, avec deux comportements **incompatibles** | refactorisation | ✅ identifié |
+| 3 | Données monstres codées en dur, contraires à l'architecture pilotée par données | `MONSTERS.DAT` | à faire |
+| 4 | Bestiaire sci-fi inadapté à l'univers médiéval-fantastique de SCOSWAMP | contenu | à faire |
+| 5 | Pas de persistance HP/XP entre les scènes | moteur | à faire |
+
+> **Résultat de la mesure (étape 1)** : le binaire fusionné fait 21 343 o, sous
+> la limite de chargement — mais sa BSS s'étend jusqu'à `$A63C`, soit 6 204 o
+> au-dessus du plafond `$8E00`, en pleine zone ProDOS. Et `ld65` **ne signale
+> rien** : la taille de zone se calcule en négatif et le contrôle d'overflow est
+> neutralisé par un débordement non signé. La fusion statique est donc écartée
+> au profit d'un overlay. Détail complet dans [COMBAT/README.md](COMBAT/README.md).
 
 ---
 
@@ -168,15 +175,43 @@ Résumé des obstacles à lever :
 ### Carte mémoire
 
 ```
-$0000-$1FFF : Système ProDOS
+$0000-$1FFF : Système ProDOS (page zéro, pile 6502, buffers)
 $2000-$3FFF : HGR Page 1 (8 Ko image)
-$4000-$9FFF : Moteur + espace de travail (24 Ko disponibles)
-$A000-$BFFF : Pile/tas C
+$4000-$8DFF : Moteur : CODE + RODATA + DATA + BSS  (19 968 o utilisables)
+$8E00-$95FF : Pile C (__STACKSIZE__ = 2 Ko)
+$9600-$BFFF : ProDOS 8 — MLI, page globale ($BF00), buffers fichier (1 Ko/fichier)
 $C000-$FFFF : I/O et ROM
 ```
 
-**Note** : démarrage à `$4000` pour préserver HGR Page 1 (`$2000-$3FFF`).
-`check-project.sh` échoue si un moteur dépasse 24 576 octets.
+Démarrage à `$4000` pour préserver HGR Page 1 (`$2000-$3FFF`).
+
+**Le plafond est `$9600`, pas `$A000`.** cc65 définit `__HIMEM__ = $9600` pour la
+cible `apple2enh` : au-delà commence ProDOS 8, qu'un moteur trop gros écraserait
+silencieusement à la première ouverture de fichier.
+
+Deux contraintes distinctes, à ne pas confondre :
+
+| Contrainte | Limite | Vérifiée par |
+|------------|--------|--------------|
+| Taille du `.BIN` chargé | 22 016 o (`$9600-$4000`) | `check-project.sh` |
+| Empreinte totale **BSS comprise** | 19 968 o (`$8E00-$4000`) | fichier `.map` uniquement |
+
+Le `.BIN` **ne contient pas la BSS** (variables non initialisées), allouée au
+lancement. Un binaire sous les 22 016 o peut donc quand même déborder à
+l'exécution. Pour le vérifier :
+
+```bash
+cl65 ... -Wl -m,build.map -o SCOSWAMP.BIN ...
+sed -n '/Segment list/,/^$/p' build.map   # fin de BSS doit rester < $8E00
+```
+
+> **Piège `ld65`.** Si la BSS démarre déjà au-delà de `$8E00`, la taille de sa
+> zone se calcule en négatif, déborde en non signé, et le contrôle d'overflow
+> est neutralisé : **le link réussit sans le moindre avertissement**. Seule la
+> lecture du `.map` révèle le problème. Ce cas est réel — voir la mesure de
+> fusion dans [COMBAT/README.md](COMBAT/README.md).
+
+Marge actuelle de SCOSWAMP : BSS finit à `$8516`, soit 2 282 octets sous le plafond.
 
 ### Format des fichiers
 

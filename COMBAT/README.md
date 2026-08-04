@@ -147,36 +147,80 @@ Le code est structuré de manière modulaire :
 Cinq obstacles séparent le prototype d'un système de combat jouable depuis
 SCOSWAMP. Ils sont ordonnés : chacun dépend du précédent.
 
-### Étape 1 — Mesurer le budget mémoire *(bloquant, à faire en premier)*
+### Étape 1 — Budget mémoire : **mesuré, l'overlay est obligatoire**
 
-Le moteur dispose de la zone `$4000-$9FFF`, soit **24 576 octets**.
+Mesure effectuée avec cc65 2.19, `combat.c` privé de son `main()` et de son
+`set_video_mode()` (voir étape 2), lié avec `scoswamp.c + paths.c + memory_swap.c`.
+
+**La fusion statique ne tient pas.** Le lien réussit, mais le binaire produit
+est inutilisable.
+
+#### Ce que dit la taille du fichier (trompeur)
 
 ```
-SCOSWAMP.BIN   13 322 o
-COMBAT.BIN     14 490 o
-somme brute    27 812 o   ← dépasse de 3 236 o
+SCOSWAMP.BIN seul   13 388 o
+COMBAT.BIN seul     14 490 o
+somme brute         27 878 o
+MERGED.BIN réel     21 343 o   ← 6 535 o économisés (runtime cc65 dédoublonné)
 ```
 
-Cette somme est **trompeuse** : chaque binaire embarque sa propre copie du
-runtime cc65 (`stdio`, `conio`, `apple2enh`), comptée deux fois. La taille réelle
-d'un binaire fusionné sera nettement inférieure — mais elle est inconnue tant
-qu'on ne l'a pas mesurée.
+21 343 o passe sous les 22 016 o chargeables (`$9600 - $4000`). **On pourrait
+croire que ça tient. C'est faux** : le `.BIN` ne contient pas le segment BSS.
 
-**Action** : retirer le `main()` de `combat.c`, exposer `start_combat()` dans un
-`combat.h`, compiler `scoswamp.c + combat.c + paths.c` ensemble et relever la
-taille obtenue.
+#### Ce que dit le fichier `.map` (la vérité)
+
+| Build | Fin de BSS | Plafond `$8E00` | Verdict |
+|-------|-----------|-----------------|---------|
+| SCOSWAMP seul | `$8516` | | ✅ 2 282 o de marge |
+| SPACETRIP seul | `$79AC` | | ✅ |
+| COMBAT seul | `$7A3B` | | ✅ |
+| **Fusionné** | **`$A63C`** | | ❌ **dépasse de 6 204 o** |
+
+L'empreinte totale passe de 17 686 o (SCOSWAMP seul) à **26 172 o**, pour
+19 968 o disponibles (`$8E00 - $4000`). La BSS atterrit à `$92A6-$A63C`,
+c'est-à-dire **au-dessus de `$9600`, en plein territoire ProDOS 8** : MLI, page
+globale, buffers fichier. Le jeu se corromprait à la première ouverture de scène.
+
+#### Pourquoi `ld65` ne dit rien
+
+La zone BSS est définie ainsi dans `apple2enh.cfg` :
+
+```
+BSS: start = __ONCE_RUN__, size = __HIMEM__ - __STACKSIZE__ - __ONCE_RUN__;
+```
+
+Dans le build fusionné `__ONCE_RUN__` vaut `$92A6`, déjà au-delà du plafond
+`$8E00`. La taille se calcule donc en **négatif** (−1190), déborde en non signé
+vers ~4 Go, et le contrôle d'overflow est neutralisé. **Le link réussit sans le
+moindre avertissement.**
+
+Le contrôle fonctionne normalement quand la BSS démarre du bon côté : un test
+avec un tableau de 30 Ko produit bien `Segment 'BSS' overflows memory area 'BSS'
+by 10284 bytes`. Le piège ne se déclenche que dans ce cas précis — celui-ci.
+
+**À retenir : ne jamais conclure d'un link réussi que le binaire tient.**
+Toujours produire et lire le `.map`.
+
+#### Conséquence : charger COMBAT en overlay
+
+Il faut faire entrer ~8 486 o de code, données et BSS supplémentaires dans
+2 282 o de marge. Une réduction de 73 % n'est pas atteignable par simple
+optimisation : la fusion statique est écartée.
+
+La solution est l'**overlay**, prévue par cc65 via `apple2enh-overlay.cfg` :
+le code de combat est chargé depuis le disque au moment de la rencontre, dans
+une zone mémoire réutilisée, puis libérée au retour à la narration. C'est
+exactement la philosophie pilotée par données du projet, appliquée au code.
 
 ```bash
+# Produire systématiquement le .map et vérifier la fin de BSS
 cl65 -t apple2enh -O -Oirs -Wl -D,__EXEHDR__=0 -Wl -S,0x4000 \
-     -o /tmp/MERGED.BIN scoswamp.c combat.c paths.c memory_swap.c
-ls -l /tmp/MERGED.BIN   # doit rester < 24576
+     -Wl -m,build.map -o SCOSWAMP.BIN scoswamp.c paths.c memory_swap.c
+sed -n '/Segment list/,/^$/p' build.map   # fin de BSS doit rester < $8E00
 ```
 
-**Si le seuil est dépassé** : charger `COMBAT.BIN` en overlay depuis SCOSWAMP
-via `MLI` au moment de la rencontre, plutôt que de tout lier statiquement.
-C'est cohérent avec l'architecture pilotée par données du projet.
-
-`./tools/check-project.sh` échoue automatiquement si un moteur dépasse la limite.
+`./tools/check-project.sh` contrôle la taille du `.BIN` (≤ 22 016 o), ce qui est
+nécessaire mais pas suffisant : la vérification BSS passe par le `.map`.
 
 ### Étape 2 — Éliminer les duplications
 
@@ -190,10 +234,34 @@ C'est cohérent avec l'architecture pilotée par données du projet.
 | `MAX_PATH` | ligne 16 | ligne 14 |
 | `set_video_mode()` | ligne 69 | ligne 127 |
 
-Ces doublons provoqueront des erreurs de redéfinition à l'édition de liens.
+Confirmé à la compilation — c'est la **première** erreur rencontrée :
 
-**Action** : extraire un module commun (`SRC/apple2_video.c` / `.h`) contenant
-les constantes HGR et `set_video_mode()`, puis l'inclure depuis les trois moteurs.
+```
+ld65: Error: Duplicate external identifier: '_set_video_mode'
+```
+
+Seul `set_video_mode()` bloque le link : les autres sont des macros
+préprocesseur, invisibles à l'édition de liens (mais à unifier quand même,
+pour éviter qu'elles divergent).
+
+**Les deux implémentations ne sont pas interchangeables** — c'est le point
+important :
+
+| | `scoswamp.c` (l. 69) | `combat.c` (l. 127) |
+|---|---|---|
+| Méthode | `switch_to_text/hgr/mixed()` via `memory_swap` | écriture directe des soft switches |
+| Page texte 80 col. | **sauvegardée et restaurée** | perdue |
+| Mode mixte (2) | géré | absent |
+| État `app.video_mode` | mis à jour | non suivi |
+
+Garder celle de COMBAT casserait le memory swap de SCOSWAMP — donc l'affichage
+du texte après chaque retour de combat.
+
+**Action** : supprimer la version de `combat.c` et utiliser celle de
+`scoswamp.c`. À terme, extraire un module commun (`SRC/apple2_video.c` / `.h`)
+avec les constantes HGR et `set_video_mode()`, partagé par les trois moteurs.
+
+C'est la configuration dans laquelle la mesure de l'étape 1 a été faite.
 
 ### Étape 3 — Externaliser les données monstres
 
